@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Carte & Menus — BISTRO SÉRÉNITÉ</title>
+  <meta name="description" content="Découvrez l'intégralité de notre carte gastronomique, créations de saison et sélection de vins d'auteurs au Bistro Sérénité.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-utensils"></i> BISTRO SÉRÉNITÉ<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="about.html" class="nav-link">Notre Histoire</a>
+        <a href="menu.html" class="nav-link active">La Carte</a>
+        <a href="contact.html" class="nav-link">Réservations</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="contact.html" class="btn btn-primary">Réserver une Table</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>La Carte & Menu Dégustation</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>La Carte</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Menu Section -->
+  <section class="menu-section">
+    <div class="container">
+      <div class="filter-bar animate-on-scroll">
+        <button class="filter-btn active" data-filter="all">Toutes les spécialités</button>
+        <button class="filter-btn" data-filter="starter">Entrées Raffinées</button>
+        <button class="filter-btn" data-filter="main">Plats Signatures</button>
+        <button class="filter-btn" data-filter="dessert">Douceurs & Desserts</button>
+        <button class="filter-btn" data-filter="wine">Vins & Spiritueux</button>
+      </div>
+
+      <div class="menu-grid">
+        <!-- Item 1 -->
+        <div class="menu-card animate-on-scroll" data-category="starter">
+          <div class="menu-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80" alt="Carpaccio de Saint-Jacques" class="menu-img">
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h3>Carpaccio de Saint-Jacques Truffé</h3>
+              <span class="menu-price">26 €</span>
+            </div>
+            <p class="menu-desc">Saint-Jacques de la baie de Seine, émulsion d'agrumes bio et perles de truffe noire.</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="menu-card animate-on-scroll" data-category="main">
+          <div class="menu-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" alt="Tagliatelles à la Truffe" class="menu-img">
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h3>Tagliatelles à la Truffe Noire</h3>
+              <span class="menu-price">38 €</span>
+            </div>
+            <p class="menu-desc">Pâtes fraîches artisanales, crème de parmesan d'alpage 24 mois et copeaux généreux.</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="menu-card animate-on-scroll" data-category="main">
+          <div class="menu-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1514944288352-fffac99f0bdf?auto=format&fit=crop&w=600&q=80" alt="Magret de Canard" class="menu-img">
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h3>Magret de Canard Rôti au Miel</h3>
+              <span class="menu-price">42 €</span>
+            </div>
+            <p class="menu-desc">Rôti sur peau au romarin sauvage, déclinaison de légumes oubliés du potager.</p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="menu-card animate-on-scroll" data-category="main">
+          <div class="menu-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80" alt="Filet de Wagyu" class="menu-img">
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h3>Filet de Bœuf Wagyu Saisi</h3>
+              <span class="menu-price">65 €</span>
+            </div>
+            <p class="menu-desc">Bœuf Wagyu A5 persillé, purée à la moelle et réduction au vin de Bourgogne.</p>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="menu-card animate-on-scroll" data-category="dessert">
+          <div class="menu-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=600&q=80" alt="Fondant Chocolat" class="menu-img">
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h3>Fondant Cœur Coulant 70%</h3>
+              <span class="menu-price">18 €</span>
+            </div>
+            <p class="menu-desc">Chocolat Grand Cru d'Équateur, sorbet framboise fleur de sel et tuile croustillante.</p>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="menu-card animate-on-scroll" data-category="wine">
+          <div class="menu-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80" alt="Châteauneuf-du-Pape" class="menu-img">
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-header">
+              <h3>Châteauneuf-du-Pape Domaine Bio 2018</h3>
+              <span class="menu-price">95 € (75cl)</span>
+            </div>
+            <p class="menu-desc">Nectar d'exception aux notes de fruits noirs mûrs, d'épices douces et de garrigue.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-bistro">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-utensils"></i> BISTRO SÉRÉNITÉ<span>.</span>
+          </a>
+          <p>Restaurant gastronomique & bistro d'auteur. Une expérience gustative d'exception au cœur de la ville.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Découvrir</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">Notre Histoire</a></li>
+            <li><a href="menu.html">La Carte</a></li>
+            <li><a href="contact.html">Réservations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Heures d'Ouverture</h4>
+          <ul class="footer-links">
+            <li style="color: var(--text-secondary);">Mardi – Vendredi: 12h00 – 14h30 / 19h00 – 23h00</li>
+            <li style="color: var(--text-secondary);">Samedi – Dimanche: 12h00 – 23h30 non-stop</li>
+            <li style="color: var(--text-muted);">Lundi: Fermeture hebdomadaire</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Réservations</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Privatisation possible pour vos événements professionnels et familiaux.</p>
+          <a href="contact.html" class="btn btn-outline" style="width: 100%; justify-content: center;"><i class="fa-solid fa-phone"></i> +33 (0)1 42 68 00 00</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 BISTRO SÉRÉNITÉ. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

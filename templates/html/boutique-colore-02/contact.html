@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — SOLESTYLE Store</title>
+  <meta name="description" content="Une question sur votre commande ou nos sneakers éco-conçues ? Contactez le service client de SoleStyle.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-shoe-prints"></i> SOLESTYLE<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="boutique.html" class="nav-link">Boutique</a>
+        <a href="about.html" class="nav-link">La Marque</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-btn theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <a href="boutique.html" class="icon-btn" aria-label="Mon Panier">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-count">0</span>
+        </a>
+
+        <a href="boutique.html" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">Explorer</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>Contact & Service Client</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>Contact</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Grid Section -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Info Card -->
+        <div class="contact-card animate-on-scroll">
+          <div class="badge-tag">Service Client 7/7</div>
+          <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Restons en Contact</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 30px;">Une question sur une pointure, une commande ou nos retours gratuits ? Notre équipe vous répond en moins de 2 heures.</p>
+
+          <div style="display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start;">
+            <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1.2rem;"><i class="fa-solid fa-store"></i></div>
+            <div>
+              <h5 style="font-size: 1rem; margin-bottom: 2px;">Flagship Store</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">124 Rue du Faubourg Saint-Honoré, 75008 Paris</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start;">
+            <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1.2rem;"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <h5 style="font-size: 1rem; margin-bottom: 2px;">Support Téléphonique</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">0 800 900 800 (Numéro Gratuit)</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start;">
+            <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1.2rem;"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <h5 style="font-size: 1rem; margin-bottom: 2px;">Email Support</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">support@solestyle-store.fr</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div class="feature-icon" style="width: 44px; height: 44px; font-size: 1.2rem;"><i class="fa-solid fa-clock"></i></div>
+            <div>
+              <h5 style="font-size: 1rem; margin-bottom: 2px;">Horaires d'Ouverture</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Du Lundi au Samedi : 09h00 – 19h30</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="contact-form animate-on-scroll">
+          <h3 style="font-size: 1.8rem; margin-bottom: 24px;">Envoyer un Message</h3>
+          <form class="contact-form" style="padding: 0; border: none; box-shadow: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="name">Prénom & Nom *</label>
+                <input type="text" id="name" class="form-control" placeholder="Alex Martin" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Adresse Email *</label>
+                <input type="email" id="email" class="form-control" placeholder="alex@exemple.com" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Objet de la demande</label>
+              <select id="subject" class="form-control">
+                <option value="order">Suivi de commande</option>
+                <option value="return">Retour ou Échange</option>
+                <option value="size">Conseil pointure & taille</option>
+                <option value="other">Autre question</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" class="form-control" placeholder="Précisez votre numéro de commande si applicable..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              Envoyer le message <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-ecommerce">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-shoe-prints"></i> SOLESTYLE<span>.</span>
+          </a>
+          <p>Marque de sneakers et streetwear engagée pour la planète. Conception éco-responsable et matériaux durables.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Boutique</h4>
+          <ul class="footer-links">
+            <li><a href="boutique.html">Nouveautés</a></li>
+            <li><a href="boutique.html">Sneakers Homme</a></li>
+            <li><a href="boutique.html">Sneakers Femme</a></li>
+            <li><a href="boutique.html">Accessoires</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Informations</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Notre Histoire</a></li>
+            <li><a href="about.html">Engagements Éco</a></li>
+            <li><a href="contact.html">Contact & FAQ</a></li>
+            <li><a href="contact.html">Guide des Tailles</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Rejoignez la Communauté</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Inscrivez-vous pour bénéficier de 10% de réduction sur votre première commande.</p>
+          <form style="display: flex; gap: 8px;" onsubmit="event.preventDefault(); alert('Bienvenue dans le Stride Club ! Code promo: WELCOME10');">
+            <input type="email" placeholder="Votre email..." class="form-control" style="font-size: 0.85rem;" required>
+            <button type="submit" class="btn btn-primary" style="padding: 10px 16px;"><i class="fa-solid fa-arrow-right"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SOLESTYLE Store. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

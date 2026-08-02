@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOLESTYLE — Boutique Mode & Sneakers Tendance</title>
+  <meta name="description" content="Découvrez SoloStyle, votre destination sneakers et vêtements streetwear éco-responsables. Collection exclusive et livraison express 24h.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-shoe-prints"></i> SOLESTYLE<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link active">Accueil</a>
+        <a href="boutique.html" class="nav-link">Boutique</a>
+        <a href="about.html" class="nav-link">La Marque</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Theme Switcher Button -->
+        <button id="theme-toggle" class="icon-btn theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- Cart Button -->
+        <a href="boutique.html" class="icon-btn" aria-label="Mon Panier">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-count">0</span>
+        </a>
+
+        <a href="boutique.html" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">Explorer</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-text animate-on-scroll">
+        <div class="badge-tag"><i class="fa-solid fa-bolt"></i> Nouvelle Collection 2026</div>
+        <h1>Faites un Pas Vers <span>Votre Meilleur Style</span></h1>
+        <p>Découvrez notre sélection exclusive de sneakers haute performance et de vêtements streetwear conçus avec des matériaux durables et recyclés.</p>
+        <div class="hero-buttons">
+          <a href="boutique.html" class="btn btn-primary">Acheter Maintenant <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="about.html" class="btn btn-outline">Notre Engagement</a>
+        </div>
+      </div>
+
+      <div class="hero-image-box animate-on-scroll">
+        <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80" alt="Sneakers Runner Pro" class="hero-img">
+        <div class="floating-badge">
+          <div class="badge-icon"><i class="fa-solid fa-leaf"></i></div>
+          <div class="badge-info">
+            <h4>100% Éco-Conçu</h4>
+            <p>Matériaux recyclés & vegan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Value Features Bar -->
+  <section class="features-section">
+    <div class="container features-grid">
+      <div class="feature-box animate-on-scroll">
+        <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+        <div class="feature-text">
+          <h4>Livraison Express 24h</h4>
+          <p>Offerte dès 80€ d'achat</p>
+        </div>
+      </div>
+
+      <div class="feature-box animate-on-scroll">
+        <div class="feature-icon"><i class="fa-solid fa-rotate-left"></i></div>
+        <div class="feature-text">
+          <h4>Retours Gratuits</h4>
+          <p>30 jours pour changer d'avis</p>
+        </div>
+      </div>
+
+      <div class="feature-box animate-on-scroll">
+        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="feature-text">
+          <h4>Paiement 100% Sécurisé</h4>
+          <p>CB, Apple Pay & PayPal</p>
+        </div>
+      </div>
+
+      <div class="feature-box animate-on-scroll">
+        <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
+        <div class="feature-text">
+          <h4>Support H24 & 7/7</h4>
+          <p>Assistance client réactive</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="products-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="badge-tag">Sélection Tendance</div>
+        <h2>Produits Phares de la Saison</h2>
+        <p>Des modèles iconiques alliant confort absolu et design d'avant-garde.</p>
+      </div>
+
+      <div class="filter-bar animate-on-scroll">
+        <button class="filter-btn active" data-filter="all">Tous les produits</button>
+        <button class="filter-btn" data-filter="sneakers">Sneakers</button>
+        <button class="filter-btn" data-filter="running">Running</button>
+        <button class="filter-btn" data-filter="casual">Casual</button>
+      </div>
+
+      <div class="products-grid">
+        <!-- Product 1 -->
+        <div class="product-card animate-on-scroll" data-category="running">
+          <div class="product-img-wrapper">
+            <span class="tag-new">Nouveau</span>
+            <button class="wishlist-btn" aria-label="Ajouter aux favoris"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80" alt="Velocity Runner Pro" class="product-img">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Running Pro</span>
+            <h3 class="product-title">Velocity Runner Pro Red</h3>
+            <div class="product-rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star-half-stroke"></i>
+              <span style="color: var(--text-secondary); font-size: 0.8rem; margin-left: 4px;">(4.8)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">149,00 €</div>
+              <button class="add-cart-btn"><i class="fa-solid fa-cart-plus"></i> Ajouter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card animate-on-scroll" data-category="sneakers">
+          <div class="product-img-wrapper">
+            <button class="wishlist-btn" aria-label="Ajouter aux favoris"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80" alt="Streetwise Classic" class="product-img">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Sneakers Streetwear</span>
+            <h3 class="product-title">Streetwise Classic Pastel</h3>
+            <div class="product-rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <span style="color: var(--text-secondary); font-size: 0.8rem; margin-left: 4px;">(5.0)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">129,00 €</div>
+              <button class="add-cart-btn"><i class="fa-solid fa-cart-plus"></i> Ajouter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card animate-on-scroll" data-category="casual">
+          <div class="product-img-wrapper">
+            <span class="tag-new">Best Seller</span>
+            <button class="wishlist-btn" aria-label="Ajouter aux favoris"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80" alt="Court Dominator X" class="product-img">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Casual Daily</span>
+            <h3 class="product-title">Court Dominator White & Gold</h3>
+            <div class="product-rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
+              <span style="color: var(--text-secondary); font-size: 0.8rem; margin-left: 4px;">(4.2)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">115,00 €</div>
+              <button class="add-cart-btn"><i class="fa-solid fa-cart-plus"></i> Ajouter</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card animate-on-scroll" data-category="running">
+          <div class="product-img-wrapper">
+            <button class="wishlist-btn" aria-label="Ajouter aux favoris"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?auto=format&fit=crop&w=600&q=80" alt="Trail Blazer GTX" class="product-img">
+          </div>
+          <div class="product-info">
+            <span class="product-category">Outdoor / Trail</span>
+            <h3 class="product-title">Trail Blazer GTX Waterproof</h3>
+            <div class="product-rating">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <span style="color: var(--text-secondary); font-size: 0.8rem; margin-left: 4px;">(4.9)</span>
+            </div>
+            <div class="product-bottom">
+              <div class="product-price">169,00 €</div>
+              <button class="add-cart-btn"><i class="fa-solid fa-cart-plus"></i> Ajouter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-ecommerce">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-shoe-prints"></i> SOLESTYLE<span>.</span>
+          </a>
+          <p>Marque de sneakers et streetwear engagée pour la planète. Conception éco-responsable et matériaux durables.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Boutique</h4>
+          <ul class="footer-links">
+            <li><a href="boutique.html">Nouveautés</a></li>
+            <li><a href="boutique.html">Sneakers Homme</a></li>
+            <li><a href="boutique.html">Sneakers Femme</a></li>
+            <li><a href="boutique.html">Accessoires</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Informations</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Notre Histoire</a></li>
+            <li><a href="about.html">Engagements Éco</a></li>
+            <li><a href="contact.html">Contact & FAQ</a></li>
+            <li><a href="contact.html">Guide des Tailles</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Rejoignez la Communauté</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Inscrivez-vous pour bénéficier de 10% de réduction sur votre première commande.</p>
+          <form style="display: flex; gap: 8px;" onsubmit="event.preventDefault(); alert('Bienvenue dans le Stride Club ! Code promo: WELCOME10');">
+            <input type="email" placeholder="Votre email..." class="form-control" style="font-size: 0.85rem;" required>
+            <button type="submit" class="btn btn-primary" style="padding: 10px 16px;"><i class="fa-solid fa-arrow-right"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SOLESTYLE Store. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

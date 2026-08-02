@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conciergerie & Réservations — LE GRAND AZURE</title>
+  <meta name="description" content="Contactez la conciergerie du Grand Azure 5 étoiles pour réserver votre séjour, organiser un événement privé ou planifier vos transferts.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-crown"></i> GRAND AZURE<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="about.html" class="nav-link">L'Hôtel</a>
+        <a href="chambres.html" class="nav-link">Suites & Villas</a>
+        <a href="contact.html" class="nav-link active">Conciergerie</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-sun"></i>
+        </button>
+        <a href="contact.html" class="btn btn-gold">Réservation</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>Conciergerie & Réservation</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>Conciergerie</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Grid Section -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Concierge Info -->
+        <div class="concierge-card animate-on-scroll">
+          <div class="badge-gold">Service Clefs d'Or</div>
+          <h3>Conciergerie Dédiée 24/7</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 32px;">Notre équipe de concierges se tient à votre entière disposition pour orchestrer votre séjour dans les moindres détails.</p>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="contact-item-text">
+              <h5>Adresse Exclusive</h5>
+              <p>Presqu'île du Cap-Azur, 06300 Nice / Monaco</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa-solid fa-phone"></i></div>
+            <div class="contact-item-text">
+              <h5>Ligne Directe Concierge</h5>
+              <p>+33 (0)4 93 00 00 00</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="contact-item-text">
+              <h5>Email Conciergerie</h5>
+              <p>concierge@grandazure-resort.com</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon"><i class="fa-solid fa-helicopter"></i></div>
+            <div class="contact-item-text">
+              <h5>Transferts Héliport & Yachting</h5>
+              <p>Service d'accueil VIP dès l'arrivée à l'aéroport</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="contact-form animate-on-scroll">
+          <h3 style="font-size: 1.8rem; margin-bottom: 24px;">Demande de Séjour / Réservation</h3>
+          
+          <form class="contact-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="firstname">Prénom *</label>
+                <input type="text" id="firstname" class="form-control" placeholder="Jean" required>
+              </div>
+              <div class="form-group">
+                <label for="lastname">Nom *</label>
+                <input type="text" id="lastname" class="form-control" placeholder="Dupont" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="email">Adresse Email *</label>
+                <input type="email" id="email" class="form-control" placeholder="j.dupont@luxe.com" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="tel" id="phone" class="form-control" placeholder="+33 6 00 00 00 00">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="suite_choice">Hébergement Souhaité</label>
+              <select id="suite_choice" class="form-control">
+                <option value="ocean">Suite Deluxe Océan (850€ / nuit)</option>
+                <option value="presidential">Villa Présidentielle (2 400€ / nuit)</option>
+                <option value="penthouse">Penthouse Royale (1 600€ / nuit)</option>
+                <option value="jardin">Suite Prestige Jardin (720€ / nuit)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="special_requests">Demandes Particulières & Services VIP</label>
+              <textarea id="special_requests" class="form-control" placeholder="Transfert héliport, régimes alimentaires spécifiques, réservation de yacht..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-gold" style="width: 100%; justify-content: center;">
+              Transmettre la demande <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-luxury">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-crown"></i> GRAND AZURE<span>.</span>
+          </a>
+          <p>Hôtel Resort & Spa 5 Étoiles. Membre des plus prestigieuses collections d'hôtellerie de luxe au monde.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Explorer</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">L'Hôtel</a></li>
+            <li><a href="chambres.html">Suites & Villas</a></li>
+            <li><a href="contact.html">Conciergerie</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Expériences</h4>
+          <ul class="footer-links">
+            <li><a href="chambres.html">Restaurants Étoilés</a></li>
+            <li><a href="chambres.html">Spa & Massages</a></li>
+            <li><a href="chambres.html">Yacht & Private Jet</a></li>
+            <li><a href="chambres.html">Événements Privés</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Réservation Directe</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Contacter la conciergerie 24/7 pour toute demande spécifique.</p>
+          <a href="contact.html" class="btn btn-outline"><i class="fa-solid fa-phone"></i> +33 (0)4 93 00 00 00</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 LE GRAND AZURE Luxury Resort. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

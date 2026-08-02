@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Soins & Rituels — SERENITY SPA</title>
+  <meta name="description" content="Découvrez notre carte complète de soins du visage, massages thérapeutiques, wraps détoxifiants et rituels duo au Serenity Spa.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-spa"></i> SERENITY SPA<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="about.html" class="nav-link">Le Spa</a>
+        <a href="services.html" class="nav-link active">Soins & Rituels</a>
+        <a href="contact.html" class="nav-link">Rendez-vous</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="contact.html" class="btn btn-primary">Prendre RDV</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>Carte des Soins & Rituels</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>Soins & Rituels</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Treatments Services Grid -->
+  <section class="services-section">
+    <div class="container">
+      <div class="filter-bar animate-on-scroll">
+        <button class="filter-btn active" data-filter="all">Tous les rituels</button>
+        <button class="filter-btn" data-filter="massage">Massages Thérapeutiques</button>
+        <button class="filter-btn" data-filter="facial">Soins du Visage</button>
+        <button class="filter-btn" data-filter="body">Enveloppements & Corps</button>
+        <button class="filter-btn" data-filter="duo">Formules Duo</button>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card animate-on-scroll" data-category="massage">
+          <div class="service-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&w=600&q=80" alt="Massage Pierres Chaudes" class="service-img">
+          </div>
+          <div class="service-card-body">
+            <div class="service-card-header">
+              <h3>Massage Pierres Chaudes & Aromathérapie</h3>
+              <span class="service-price">110 €</span>
+            </div>
+            <p class="service-desc">Relâchement musculaire profond aux roches volcaniques chauffées et huiles essentielles bio (60 min).</p>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card animate-on-scroll" data-category="facial">
+          <div class="service-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80" alt="Soin Visage Éclat" class="service-img">
+          </div>
+          <div class="service-card-body">
+            <div class="service-card-header">
+              <h3>Soin Visage Éclat & Acide Hyaluronique</h3>
+              <span class="service-price">95 €</span>
+            </div>
+            <p class="service-desc">Nettoyage en profondeur, gommage doux et masque repulpant aux actifs naturels (50 min).</p>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card animate-on-scroll" data-category="body">
+          <div class="service-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=600&q=80" alt="Enveloppement Algues Détox" class="service-img">
+          </div>
+          <div class="service-card-body">
+            <div class="service-card-header">
+              <h3>Enveloppement Détox aux Algues Marines</h3>
+              <span class="service-price">125 €</span>
+            </div>
+            <p class="service-desc">Gommage au sel marin, enveloppement chaud aux algues de Bretagne et modelage hydratant (75 min).</p>
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card animate-on-scroll" data-category="duo">
+          <div class="service-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" alt="Rituel Duo Évasion" class="service-img">
+          </div>
+          <div class="service-card-body">
+            <div class="service-card-header">
+              <h3>Rituel Spa Duo & Bain Aromatique</h3>
+              <span class="service-price">220 €</span>
+            </div>
+            <p class="service-desc">Massage en cabine double, accès prioritaire au hammam privatif et tisane relaxante (90 min).</p>
+          </div>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="service-card animate-on-scroll" data-category="massage">
+          <div class="service-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=600&q=80" alt="Massage Ayurvédique" class="service-img">
+          </div>
+          <div class="service-card-body">
+            <div class="service-card-header">
+              <h3>Massage Ayurvédique Abhyanga</h3>
+              <span class="service-price">120 €</span>
+            </div>
+            <p class="service-desc">Soin rééquilibrant à l'huile de sésame chaude stimulant la circulation des énergies (60 min).</p>
+          </div>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="service-card animate-on-scroll" data-category="facial">
+          <div class="service-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1512290900673-70024fe74923?auto=format&fit=crop&w=600&q=80" alt="Soin Kobido" class="service-img">
+          </div>
+          <div class="service-card-body">
+            <div class="service-card-header">
+              <h3>Massage Facialiste Japonaise Kobido</h3>
+              <span class="service-price">135 €</span>
+            </div>
+            <p class="service-desc">Rituel ancestral liftant et lissant stimulants les muscles peauciers du visage (60 min).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-spa">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-spa"></i> SERENITY SPA<span>.</span>
+          </a>
+          <p>Centre de bien-être, soins holistiques & spa d'exception. Un havre de paix au service de votre sérénité.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">Le Spa</a></li>
+            <li><a href="services.html">Soins & Rituels</a></li>
+            <li><a href="contact.html">Rendez-vous</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Horaires du Spa</h4>
+          <ul class="footer-links">
+            <li style="color: var(--text-secondary);">Du Lundi au Samedi: 09h00 – 20h00</li>
+            <li style="color: var(--text-secondary);">Dimanche: 10h00 – 18h00</li>
+            <li style="color: var(--text-muted);">Uniquement sur rendez-vous</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Réservation Directe</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Consultez nos praticiens pour une formule personnalisée.</p>
+          <a href="contact.html" class="btn btn-outline" style="width: 100%; justify-content: center;"><i class="fa-solid fa-phone"></i> +33 (0)1 45 00 00 00</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SERENITY SPA & WELLNESS. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

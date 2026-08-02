@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services & Projets — MAXITECT Architecture</title>
+  <meta name="description" content="Découvrez nos prestations d'architecture corporate, design d'intérieur workplace, urbanisme et notre galerie de réalisations haut de gamme.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fa-solid fa-building-user"></i></div>
+        MAXITECT<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="about.html" class="nav-link">À Propos</a>
+        <a href="services.html" class="nav-link active">Services & Projets</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-primary">Prendre RDV</a>
+        <button class="mobile-toggle" aria-label="Toggle menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>Nos Services & Réalisations</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>Services & Projets</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Services -->
+  <section class="services-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="badge-tag">Expertises sur-mesure</div>
+        <h2>Ce Que Nous Concevons Pour Vous</h2>
+        <p>Du concept initial au suivi d'exécution, nous garantissons une maîtrise d’œuvre irréprochable.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon"><i class="fa-solid fa-building"></i></div>
+          <h3>Conception Architecturale</h3>
+          <p>Études de faisabilité, permis de construire et modélisation BIM pour bâtiments tertiaires et résidentiels haut de gamme.</p>
+          <ul style="color: var(--text-muted); font-size: 0.9rem; margin-top: 15px; padding-left: 20px;">
+            <li>Modélisation 3D et rendus photoréalistes</li>
+            <li>Certifications environnementales (BREEAM, LEED)</li>
+            <li>Optimisation des coûts et maîtrise d'ouvrage</li>
+          </ul>
+        </div>
+
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon"><i class="fa-solid fa-ruler-combined"></i></div>
+          <h3>Aménagement Intérieur Corporate</h3>
+          <p>Transformation des espaces de travail pour stimuler la productivité, la créativité et le confort des équipes.</p>
+          <ul style="color: var(--text-muted); font-size: 0.9rem; margin-top: 15px; padding-left: 20px;">
+            <li>Workplace Strategy & Space Planning</li>
+            <li>Conception de mobilier sur-mesure</li>
+            <li>Traitement acoustique et éclairage architectural</li>
+          </ul>
+        </div>
+
+        <div class="service-card animate-on-scroll">
+          <div class="service-icon"><i class="fa-solid fa-tree"></i></div>
+          <h3>Urbanisme & Environnement</h3>
+          <p>Aménagement du territoire, intégration paysagère et conception d'éco-quartiers adaptés aux défis futurs.</p>
+          <ul style="color: var(--text-muted); font-size: 0.9rem; margin-top: 15px; padding-left: 20px;">
+            <li>Master planning et études d'impact</li>
+            <li>Intégration de la biodiversité urbaine</li>
+            <li>Mobilités douces et gestion de l'eau</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Complete Filterable Portfolio -->
+  <section class="portfolio-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="badge-tag">Galerie Projets</div>
+        <h2>Découvrez Nos Derniers Projets</h2>
+      </div>
+
+      <div class="filter-buttons animate-on-scroll">
+        <button class="filter-btn active" data-filter="all">Tous les projets</button>
+        <button class="filter-btn" data-filter="architecture">Architecture</button>
+        <button class="filter-btn" data-filter="interior">Design Intérieur</button>
+        <button class="filter-btn" data-filter="urban">Urbanisme</button>
+      </div>
+
+      <div class="portfolio-grid animate-on-scroll">
+        <div class="portfolio-card" data-category="architecture">
+          <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=80" alt="Tour Lumina" class="portfolio-img">
+          <div class="portfolio-overlay">
+            <span class="portfolio-category">Architecture</span>
+            <h3 class="portfolio-title">Tour Lumina Financial</h3>
+            <p class="portfolio-desc">Complexe financier HQE de 45 étages en cœur de métropole.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="interior">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Workplace Apex" class="portfolio-img">
+          <div class="portfolio-overlay">
+            <span class="portfolio-category">Design Intérieur</span>
+            <h3 class="portfolio-title">Siège Apex Global</h3>
+            <p class="portfolio-desc">Aménagement flexible et collaboratif sur 12 000 m².</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="architecture">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Campus EcoTech" class="portfolio-img">
+          <div class="portfolio-overlay">
+            <span class="portfolio-category">Architecture</span>
+            <h3 class="portfolio-title">Campus R&D EcoTech</h3>
+            <p class="portfolio-desc">Bâtiment bioclimatique en structure bois et façades vitrées.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="urban">
+          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="Masterplan Riviera" class="portfolio-img">
+          <div class="portfolio-overlay">
+            <span class="portfolio-category">Urbanisme</span>
+            <h3 class="portfolio-title">Éco-quartier Riviera</h3>
+            <p class="portfolio-desc">Masterplan urbain intégrant logements, commerces et espaces verts.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="interior">
+          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" alt="Penthouse Modern" class="portfolio-img">
+          <div class="portfolio-overlay">
+            <span class="portfolio-category">Design Intérieur</span>
+            <h3 class="portfolio-title">Résidence Horizon</h3>
+            <p class="portfolio-desc">Architecture d'intérieur de luxe et domotique intégrée.</p>
+          </div>
+        </div>
+
+        <div class="portfolio-card" data-category="urban">
+          <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" alt="Parc Technologique" class="portfolio-img">
+          <div class="portfolio-overlay">
+            <span class="portfolio-category">Urbanisme</span>
+            <h3 class="portfolio-title">Parc Technologique Innovation</h3>
+            <p class="portfolio-desc">Requalification friche industrielle en hub d'innovation vert.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-corporate">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <div class="logo-icon"><i class="fa-solid fa-building-user"></i></div>
+            MAXITECT<span>.</span>
+          </a>
+          <p>Cabinet d'architecture et de design corporate d'exception. Conception de projets immobiliers tertiaires et résidentiels à forte valeur ajoutée.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">À Propos</a></li>
+            <li><a href="services.html">Services & Projets</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Expertises</h4>
+          <ul class="footer-links">
+            <li><a href="services.html">Architecture Tertiaire</a></li>
+            <li><a href="services.html">Interior Workplace</a></li>
+            <li><a href="services.html">Master Planning</a></li>
+            <li><a href="services.html">Conseil BIM & HQE</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-newsletter">
+          <h4 class="footer-title">Newsletter</h4>
+          <p>Recevez nos dernières publications et tendances architecturales.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Merci pour votre inscription !');">
+            <input type="email" placeholder="Votre email..." class="newsletter-input" required>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 MAXITECT Architecture. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "id": "cabinet-corporate-01",
+  "secteur": "cabinet-corporate",
+  "style": "corporate",
+  "nb_pages": 4,
+  "pages": [
+    "accueil",
+    "a-propos",
+    "services",
+    "contact"
+  ],
+  "description": "Template d'exception pour cabinet d'architecture, design d'intérieur et agence corporate. Design haut de gamme avec hero slider immersif, cartes de services interactives, portfolio de réalisations filtrable, compteurs de performances animés, témoignages carrousel et formulaire de contact fonctionnel.",
+  "composants": [
+    "navbar-fixed-glass",
+    "hero-slider-fullscreen",
+    "about-counter-stats",
+    "services-cards-grid",
+    "portfolio-filtrable",
+    "testimonials-slider",
+    "call-to-action-banner",
+    "contact-form-validation",
+    "footer-corporate-dark"
+  ],
+  "animations": [
+    "fade-in-up au scroll",
+    "compteurs d'expérience animés",
+    "zoom et overlay au survol des projets",
+    "transition fluide carrousel",
+    "hover micro-interactions sur les boutons"
+  ],
+  "responsive": true,
+  "dependances": [],
+  "licence": "MIT",
+  "source": "colorlib.com",
+  "html_path": "/templates/html/cabinet-corporate-01/"
+}

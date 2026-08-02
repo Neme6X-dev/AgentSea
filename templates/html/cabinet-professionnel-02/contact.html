@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prise de Rendez-vous & Contact — SERENITY SPA</title>
+  <meta name="description" content="Prenez rendez-vous en ligne avec nos praticiens certifiés au Serenity Spa pour un soin du visage, massage ou bilan holistique.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-spa"></i> SERENITY SPA<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="about.html" class="nav-link">Le Spa</a>
+        <a href="services.html" class="nav-link">Soins & Rituels</a>
+        <a href="contact.html" class="nav-link active">Rendez-vous</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="contact.html" class="btn btn-primary">Prendre RDV</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>Prise de Rendez-vous</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>Rendez-vous</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Appointment Grid -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Info Card -->
+        <div class="contact-info-card animate-on-scroll">
+          <div class="badge-tag">Accès & Réservation</div>
+          <h3 style="font-size: 1.8rem; margin-bottom: 16px;">Au Plaisir de Vous Accueillir</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 30px;">Merci de vous présenter 10 minutes avant l'heure fixée afin d'effectuer votre bilan d'accueil et profiter de l'espace tisannerie.</p>
+
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div>
+              <h5>Adresse de l'Institut</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">45 Boulevard Saint-Germain, 75005 Paris</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+            <div>
+              <h5>Téléphone Praticiens</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">+33 (0)1 45 00 00 00</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div>
+              <h5>Email Rendez-vous</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">rdv@serenity-spa-wellness.fr</p>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fa-solid fa-clock"></i></div>
+            <div>
+              <h5>Horaires de Consultation</h5>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Lundi à Samedi: 09h00 – 20h00</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointment Form -->
+        <div class="appointment-form animate-on-scroll">
+          <h3 style="font-size: 1.8rem; margin-bottom: 24px;">Formulaire de Consultation</h3>
+          
+          <form class="appointment-form" style="padding: 0; border: none; box-shadow: none;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="name">Prénom & Nom *</label>
+                <input type="text" id="name" class="form-control" placeholder="Camille Laurent" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Adresse Email *</label>
+                <input type="email" id="email" class="form-control" placeholder="camille@exemple.fr" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="phone">Téléphone *</label>
+                <input type="tel" id="phone" class="form-control" placeholder="+33 6 00 00 00 00" required>
+              </div>
+              <div class="form-group">
+                <label for="service_type">Soin Souhaité</label>
+                <select id="service_type" class="form-control">
+                  <option value="massage_pierres">Massage Pierres Chaudes (110€)</option>
+                  <option value="visage_eclat">Soin Visage Éclat (95€)</option>
+                  <option value="detox_algues">Enveloppement Détox (125€)</option>
+                  <option value="rituel_duo">Rituel Spa Duo (220€)</option>
+                  <option value="kobido">Massage Kobido (135€)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="date">Date Souhaitée *</label>
+                <input type="date" id="date" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="time">Heure Souhaitée *</label>
+                <select id="time" class="form-control">
+                  <option value="10:00">10:00</option>
+                  <option value="11:30">11:30</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:30">15:30</option>
+                  <option value="17:00" selected>17:00</option>
+                  <option value="18:30">18:30</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="notes">Antécédents ou Préférences Particulières</label>
+              <textarea id="notes" class="form-control" placeholder="Précisez d'éventuelles allergies, grossesse, zones de tension spécifiques..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+              Confirmer Ma Demande De RDV <i class="fa-solid fa-calendar-check"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-spa">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-spa"></i> SERENITY SPA<span>.</span>
+          </a>
+          <p>Centre de bien-être, soins holistiques & spa d'exception. Un havre de paix au service de votre sérénité.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">Le Spa</a></li>
+            <li><a href="services.html">Soins & Rituels</a></li>
+            <li><a href="contact.html">Rendez-vous</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Horaires du Spa</h4>
+          <ul class="footer-links">
+            <li style="color: var(--text-secondary);">Du Lundi au Samedi: 09h00 – 20h00</li>
+            <li style="color: var(--text-secondary);">Dimanche: 10h00 – 18h00</li>
+            <li style="color: var(--text-muted);">Uniquement sur rendez-vous</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Réservation Directe</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Consultez nos praticiens pour une formule personnalisée.</p>
+          <a href="contact.html" class="btn btn-outline" style="width: 100%; justify-content: center;"><i class="fa-solid fa-phone"></i> +33 (0)1 45 00 00 00</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SERENITY SPA & WELLNESS. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

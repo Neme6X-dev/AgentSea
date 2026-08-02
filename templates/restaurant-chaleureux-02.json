@@ -1,0 +1,34 @@
+{
+  "id": "restaurant-chaleureux-02",
+  "secteur": "restauration",
+  "style": "chaleureux",
+  "nb_pages": 4,
+  "pages": [
+    "accueil",
+    "a-propos",
+    "menu",
+    "contact"
+  ],
+  "description": "Template d'exception chaleureux et épuré pour bistro gastronomique, spa & lounge de bien-être haut de gamme. Intègre un sélecteur de thème Clair/Sombre persistant, une carte/menu interactive filtrable, un module de réservation en ligne et des animations fluides au scroll.",
+  "composants": [
+    "navbar-theme-toggle",
+    "hero-fullscreen-warm",
+    "story-about-card",
+    "menu-services-filterable",
+    "team-experts-grid",
+    "booking-table-form",
+    "testimonials-slider",
+    "footer-bistro-dark"
+  ],
+  "animations": [
+    "bascule fluide thème clair/sombre (Dark Mode)",
+    "fade-in-up au scroll",
+    "effet zoom et élévation sur les cartes de soins et menu",
+    "micro-interactions sur le formulaire de réservation"
+  ],
+  "responsive": true,
+  "dependances": [],
+  "licence": "MIT",
+  "source": "colorlib.com",
+  "html_path": "/templates/html/restaurant-chaleureux-02/"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "boutique-colore-02",
+  "secteur": "e-commerce",
+  "style": "colore",
+  "nb_pages": 4,
+  "pages": [
+    "accueil",
+    "a-propos",
+    "boutique",
+    "contact"
+  ],
+  "description": "Template e-commerce vibrant et moderne pour boutique de mode, sneakers et vêtements éco-responsables. Intègre un sélecteur de thème Clair/Sombre persistant, une grille de produits interactive avec filtres par catégorie, des badges de stock, un panier dynamique et des animations fluides au scroll.",
+  "composants": [
+    "navbar-theme-cart",
+    "hero-banner-vibrant",
+    "category-cards-slider",
+    "products-grid-filterable",
+    "brand-values-grid",
+    "promo-banner-cta",
+    "contact-support-form",
+    "footer-ecommerce-dark"
+  ],
+  "animations": [
+    "bascule fluide thème clair/sombre (Dark Mode)",
+    "fade-in-up au scroll",
+    "effet zoom et élévation au survol des produits",
+    "badge de panier réactif avec micro-animation",
+    "filtrage dynamique par catégorie et prix"
+  ],
+  "responsive": true,
+  "dependances": [],
+  "licence": "MIT",
+  "source": "colorlib.com",
+  "html_path": "/templates/html/boutique-colore-02/"
+}

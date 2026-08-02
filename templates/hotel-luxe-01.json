@@ -1,0 +1,35 @@
+{
+  "id": "hotel-luxe-01",
+  "secteur": "hotellerie-restauration",
+  "style": "elegant",
+  "nb_pages": 4,
+  "pages": [
+    "accueil",
+    "a-propos",
+    "chambres",
+    "contact"
+  ],
+  "description": "Template d'exception de haut luxe pour hôtel 5 étoiles, resort & spa. Intègre nativement un sélecteur de thème Clair/Sombre persistant avec variables CSS dynamiques, un module de réservation interactif, des compteurs d'expérience et des animations immersives au scroll.",
+  "composants": [
+    "navbar-theme-toggle",
+    "hero-carousel-luxury",
+    "booking-search-bar",
+    "rooms-grid-cards",
+    "amenities-features",
+    "testimonials-slider",
+    "contact-concierge-form",
+    "footer-luxury-gold"
+  ],
+  "animations": [
+    "bascule fluide thème clair/sombre (Dark Mode)",
+    "fade-in-up au scroll",
+    "effet zoom et élévation sur les cartes suites",
+    "compteurs dynamiques d'équipement",
+    "micro-interactions dorées au survol"
+  ],
+  "responsive": true,
+  "dependances": [],
+  "licence": "MIT",
+  "source": "colorlib.com",
+  "html_path": "/templates/html/hotel-luxe-01/"
+}

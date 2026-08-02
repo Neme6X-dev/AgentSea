@@ -1,0 +1,34 @@
+{
+  "id": "cabinet-professionnel-02",
+  "secteur": "cabinet-professionnel",
+  "style": "professionnel",
+  "nb_pages": 4,
+  "pages": [
+    "accueil",
+    "a-propos",
+    "services",
+    "contact"
+  ],
+  "description": "Template raffiné et épuré pour centre de bien-être, spa de luxe, cabinet de soins et institut de beauté. Propose un sélecteur de thème Clair/Sombre persistant, une carte des soins interactive avec filtres par catégorie, des forfaits d'exception, un module de prise de rendez-vous en ligne et des animations fluides au scroll.",
+  "composants": [
+    "navbar-theme-toggle",
+    "hero-serenite-banner",
+    "wellness-values-grid",
+    "treatments-services-filterable",
+    "therapists-team-cards",
+    "appointment-booking-form",
+    "testimonials-slider",
+    "footer-spa-dark"
+  ],
+  "animations": [
+    "bascule fluide thème clair/sombre (Dark Mode)",
+    "fade-in-up au scroll",
+    "effet zoom et élévation sur les cartes de soins",
+    "micro-interactions sur le formulaire de prise de rendez-vous"
+  ],
+  "responsive": true,
+  "dependances": [],
+  "licence": "MIT",
+  "source": "colorlib.com",
+  "html_path": "/templates/html/cabinet-professionnel-02/"
+}

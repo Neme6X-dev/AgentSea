@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LE GRAND AZURE — Hôtel Luxe, Resort & Spa 5★</title>
+  <meta name="description" content="Découvrez Le Grand Azure, sanctuaire d'exception et hôtel 5 étoiles offrant des suites d'exception, un spa d'auteur et une gastronomie étoilée.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-crown"></i> GRAND AZURE<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link active">Accueil</a>
+        <a href="about.html" class="nav-link">L'Hôtel</a>
+        <a href="chambres.html" class="nav-link">Suites & Villas</a>
+        <a href="contact.html" class="nav-link">Conciergerie</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-sun"></i>
+        </button>
+        <a href="contact.html" class="btn btn-gold">Réservation</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-bg-image"></div>
+    <div class="container hero-content animate-on-scroll">
+      <div class="badge-gold"><i class="fa-solid fa-star"></i> Resort & Spa 5 Étoiles</div>
+      <h1>L'Art de Vivre d'Exception et <span>l'Élégance Intemporelle</span></h1>
+      <p>Plongez au cœur d'un havre de paix mondialement reconnu. Suites panoramiques face à l'océan, haute gastronomie et rituels de soins sur-mesure.</p>
+
+      <!-- Booking Search Bar -->
+      <form class="booking-search-bar">
+        <div class="search-fields-row">
+          <div class="search-field">
+            <label for="checkin">Arrivée</label>
+            <input type="date" id="checkin" required>
+          </div>
+          <div class="search-field">
+            <label for="checkout">Départ</label>
+            <input type="date" id="checkout" required>
+          </div>
+          <div class="search-field">
+            <label for="roomtype">Type de Suite</label>
+            <select id="roomtype">
+              <option value="ocean">Suite Océan Deluxe</option>
+              <option value="presidential">Villa Présidentielle</option>
+              <option value="penthouse">Penthouse Panoramique</option>
+            </select>
+          </div>
+          <div class="search-field">
+            <label for="guests">Invités</label>
+            <select id="guests">
+              <option value="1">1 Personne</option>
+              <option value="2" selected>2 Personnes</option>
+              <option value="4">Famille (4 pers)</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-gold booking-submit-btn"><i class="fa-solid fa-magnifying-glass"></i> Vérifier la Disponibilité</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Rooms & Suites Preview -->
+  <section class="rooms-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="badge-gold">Nos Hébergements d'Exception</div>
+        <h2>Suites & Villas Signatures</h2>
+        <p>Chaque suite est pensée comme un cocon de sérénité, alliant matériaux nobles et technologie de pointe.</p>
+      </div>
+
+      <div class="rooms-grid">
+        <!-- Room 1 -->
+        <div class="room-card animate-on-scroll">
+          <div class="room-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80" alt="Suite Deluxe Océan" class="room-img">
+            <div class="room-price-badge">850€ / nuit</div>
+          </div>
+          <div class="room-details">
+            <h3>Suite Deluxe Océan</h3>
+            <p>Vue imprenable sur l'océan, terrasse privée avec jacuzzi et service de majordome dédié 24h/24.</p>
+            <div class="room-specs">
+              <span><i class="fa-solid fa-expand"></i> 85 m²</span>
+              <span><i class="fa-solid fa-user-group"></i> 2 Pers</span>
+              <span><i class="fa-solid fa-water"></i> Vue Océan</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room 2 -->
+        <div class="room-card animate-on-scroll">
+          <div class="room-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" alt="Villa Présidentielle" class="room-img">
+            <div class="room-price-badge">2 400€ / nuit</div>
+          </div>
+          <div class="room-details">
+            <h3>Villa Présidentielle Private Pool</h3>
+            <p>Piscine à débordement privée, accès direct à la plage et jardin tropical réservé.</p>
+            <div class="room-specs">
+              <span><i class="fa-solid fa-expand"></i> 220 m²</span>
+              <span><i class="fa-solid fa-user-group"></i> 4-6 Pers</span>
+              <span><i class="fa-solid fa-person-swimming"></i> Piscine Privée</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Room 3 -->
+        <div class="room-card animate-on-scroll">
+          <div class="room-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80" alt="Penthouse Royale" class="room-img">
+            <div class="room-price-badge">1 600€ / nuit</div>
+          </div>
+          <div class="room-details">
+            <h3>Penthouse Royale Horizon</h3>
+            <p>Vue à 360°, salon de réception majestueux et espace de soin spa privatif.</p>
+            <div class="room-specs">
+              <span><i class="fa-solid fa-expand"></i> 160 m²</span>
+              <span><i class="fa-solid fa-user-group"></i> 2-4 Pers</span>
+              <span><i class="fa-solid fa-spa"></i> Spa Intégré</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Luxury Amenities -->
+  <section class="amenities-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="badge-gold">Expériences Inoubliables</div>
+        <h2>Équipements & Services d'Élite</h2>
+      </div>
+
+      <div class="amenities-grid">
+        <div class="amenity-box animate-on-scroll">
+          <div class="amenity-icon"><i class="fa-solid fa-person-swimming"></i></div>
+          <h4>Piscine Infinity Panoramique</h4>
+          <p>Bassin chauffé surplombant la baie, bordé de cabanas privées et bar lounge suspendu.</p>
+        </div>
+
+        <div class="amenity-box animate-on-scroll">
+          <div class="amenity-icon"><i class="fa-solid fa-spa"></i></div>
+          <h4>Spa & Holistique Wellness</h4>
+          <p>Rituels holistiques de bien-être, hammam en marbre et soins personnalisés par nos thérapeutes.</p>
+        </div>
+
+        <div class="amenity-box animate-on-scroll">
+          <div class="amenity-icon"><i class="fa-solid fa-utensils"></i></div>
+          <h4>Gastronomie Étoilée</h4>
+          <p>Trois restaurants gastronomiques orchestrés par notre chef exécutif triplement étoilé au Guide Michelin.</p>
+        </div>
+
+        <div class="amenity-box animate-on-scroll">
+          <div class="amenity-icon"><i class="fa-solid fa-concierge-bell"></i></div>
+          <h4>Conciergerie Clefs d'Or</h4>
+          <p>Réservations de yachts, vols privés et itinéraires exclusifs gérés avec une discrétion absolue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-luxury">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-crown"></i> GRAND AZURE<span>.</span>
+          </a>
+          <p>Hôtel Resort & Spa 5 Étoiles. Membre des plus prestigieuses collections d'hôtellerie de luxe au monde.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Explorer</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">L'Hôtel</a></li>
+            <li><a href="chambres.html">Suites & Villas</a></li>
+            <li><a href="contact.html">Conciergerie</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Expériences</h4>
+          <ul class="footer-links">
+            <li><a href="chambres.html">Restaurants Étoilés</a></li>
+            <li><a href="chambres.html">Spa & Massages</a></li>
+            <li><a href="chambres.html">Yacht & Private Jet</a></li>
+            <li><a href="chambres.html">Événements Privés</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Réservation Directe</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Contacter la conciergerie 24/7 pour toute demande spécifique.</p>
+          <a href="contact.html" class="btn btn-outline"><i class="fa-solid fa-phone"></i> +33 (0)4 93 00 00 00</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 LE GRAND AZURE Luxury Resort. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

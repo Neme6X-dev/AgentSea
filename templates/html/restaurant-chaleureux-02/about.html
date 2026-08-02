@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notre Histoire — BISTRO SÉRÉNITÉ</title>
+  <meta name="description" content="Découvrez l'histoire culinaire du Bistro Sérénité, les équipes passionnées en cuisine et nos engagements en faveur des circuits courts.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-utensils"></i> BISTRO SÉRÉNITÉ<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="about.html" class="nav-link active">Notre Histoire</a>
+        <a href="menu.html" class="nav-link">La Carte</a>
+        <a href="contact.html" class="nav-link">Réservations</a>
+      </nav>
+
+      <div class="nav-controls">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <a href="contact.html" class="btn btn-primary">Réserver une Table</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>Notre Histoire & Valeurs</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>Notre Histoire</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="menu-section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;" class="animate-on-scroll">
+        <div>
+          <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" alt="La Brigade en Cuisine" style="border-radius: 16px; box-shadow: var(--shadow-lg);">
+        </div>
+
+        <div>
+          <div class="badge-tag">Du Verger à l'Assiette</div>
+          <h2 style="font-size: 2.8rem; margin-bottom: 20px;">L'Excellence du Produit Brut Sublimé avec Passion</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 18px;">Nous croyons que la grande cuisine commence par des ingrédients d'exception. C'est pourquoi nous travaillons en étroite collaboration avec des maraîchers, éleveurs et pêcheurs locaux passionnés.</p>
+          <p style="color: var(--text-secondary); margin-bottom: 28px;">Chaque saison apporte ses saveurs nouvelles que notre chef intègre avec virtuosité dans des créations équilibrées, généreuses et esthétiques.</p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-leaf"></i></div>
+              <div>
+                <h5>100% Bio & Saison</h5>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Approvisionnement quotidien</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fa-solid fa-award"></i></div>
+              <div>
+                <h5>Cuisine Faite Maison</h5>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Plats & desserts préparés minute</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Culinary Team -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="badge-tag">La Brigade</div>
+        <h2>Des Talents Dédiés à Votre Plaisir</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;" class="animate-on-scroll">
+        <div class="contact-info-card" style="text-align: center;">
+          <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=300&q=80" alt="Jean-Luc Dubois" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px auto; border: 3px solid var(--primary-accent);">
+          <h3>Jean-Luc Dubois</h3>
+          <p style="color: var(--primary-accent); font-weight: 600; margin-bottom: 10px;">Chef Exécutif & Fondateur</p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Formé auprès de grands maîtres étoilés, passionné de cuisine créative et authentique.</p>
+        </div>
+
+        <div class="contact-info-card" style="text-align: center;">
+          <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=300&q=80" alt="Elena Rostova" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px auto; border: 3px solid var(--primary-accent);">
+          <h3>Elena Rostova</h3>
+          <p style="color: var(--primary-accent); font-weight: 600; margin-bottom: 10px;">Chef Pâtissière</p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Créatrice d'entremets légers et de desserts raffinés mariant fruits de saison et chocolats rares.</p>
+        </div>
+
+        <div class="contact-info-card" style="text-align: center;">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80" alt="Marco Rossi" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px auto; border: 3px solid var(--primary-accent);">
+          <h3>Marco Rossi</h3>
+          <p style="color: var(--primary-accent); font-weight: 600; margin-bottom: 10px;">Chef Sommelier</p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Expert en accords mets & vins, sélectionnant avec soin des nectars d'auteurs indépendants.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-bistro">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-utensils"></i> BISTRO SÉRÉNITÉ<span>.</span>
+          </a>
+          <p>Restaurant gastronomique & bistro d'auteur. Une expérience gustative d'exception au cœur de la ville.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Découvrir</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">Notre Histoire</a></li>
+            <li><a href="menu.html">La Carte</a></li>
+            <li><a href="contact.html">Réservations</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Heures d'Ouverture</h4>
+          <ul class="footer-links">
+            <li style="color: var(--text-secondary);">Mardi – Vendredi: 12h00 – 14h30 / 19h00 – 23h00</li>
+            <li style="color: var(--text-secondary);">Samedi – Dimanche: 12h00 – 23h30 non-stop</li>
+            <li style="color: var(--text-muted);">Lundi: Fermeture hebdomadaire</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Réservations</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Privatisation possible pour vos événements professionnels et familiaux.</p>
+          <a href="contact.html" class="btn btn-outline" style="width: 100%; justify-content: center;"><i class="fa-solid fa-phone"></i> +33 (0)1 42 68 00 00</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 BISTRO SÉRÉNITÉ. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

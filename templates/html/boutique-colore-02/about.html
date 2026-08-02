@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Marque — SOLESTYLE Store</title>
+  <meta name="description" content="Découvrez l'histoire de SoleStyle, nos engagements pour la planète et les créateurs derrière nos collections de sneakers.">
+  
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="header-navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <i class="fa-solid fa-shoe-prints"></i> SOLESTYLE<span>.</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="boutique.html" class="nav-link">Boutique</a>
+        <a href="about.html" class="nav-link active">La Marque</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-btn theme-toggle-btn" aria-label="Changer le thème">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <a href="boutique.html" class="icon-btn" aria-label="Mon Panier">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-count">0</span>
+        </a>
+
+        <a href="boutique.html" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">Explorer</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="page-banner">
+    <div class="container animate-on-scroll">
+      <h1>Notre Histoire & Engagements</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Accueil</a>
+        <span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+        <span>La Marque</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Main -->
+  <section class="products-section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;" class="animate-on-scroll">
+        <div>
+          <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=800&q=80" alt="Atelier SoleStyle" style="border-radius: 20px; box-shadow: var(--shadow-lg);">
+        </div>
+
+        <div>
+          <div class="badge-tag">Chaque Pas Compte</div>
+          <h2 style="font-size: 2.8rem; margin-bottom: 20px;">Créer des Sneakers d'Avenir Sans Compromis sur le Style</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 18px;">Fondé en 2020, SoleStyle est né d'un constat simple : l'industrie de la chaussure produit des milliards de tonnes de déchets chaque année. Nous avons décidé de révolutionner le secteur.</p>
+          <p style="color: var(--text-secondary); margin-bottom: 28px;">Toutes nos sneakers sont conçues à partir de plastiques marins recyclés, d'EVA biosourcé et de coton biologique. Sans compromis sur l'amorti, la durabilité et l'esthétique streetwear.</p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="feature-box">
+              <div class="feature-icon"><i class="fa-solid fa-recycle"></i></div>
+              <div class="feature-text">
+                <h4>85% Recyclé</h4>
+                <p>Matières premières réutilisées</p>
+              </div>
+            </div>
+            <div class="feature-box">
+              <div class="feature-icon"><i class="fa-solid fa-seedling"></i></div>
+              <div class="feature-text">
+                <h4>Zero Empreinte</h4>
+                <p>Bilan carbone compensé</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div class="badge-tag">L'Équipe Fondatrice</div>
+        <h2>Les Esprits Derrière SoleStyle</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px;" class="animate-on-scroll">
+        <div class="product-card" style="text-align: center; padding: 30px;">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="James Chen" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px auto;">
+          <h3>James Chen</h3>
+          <p style="color: var(--primary-accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px;">Fondateur & Designer Chef</p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Passionné de streetwear et d'éco-conception depuis plus de 12 ans.</p>
+        </div>
+
+        <div class="product-card" style="text-align: center; padding: 30px;">
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Sarah Williams" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px auto;">
+          <h3>Sarah Williams</h3>
+          <p style="color: var(--primary-accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px;">Directrice Développement Durable</p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Ingénieure textile dédiée au sourcing de matériaux biosourcés innovants.</p>
+        </div>
+
+        <div class="product-card" style="text-align: center; padding: 30px;">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80" alt="Michael Park" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 20px auto;">
+          <h3>Michael Park</h3>
+          <p style="color: var(--primary-accent); font-weight: 700; font-size: 0.9rem; margin-bottom: 10px;">Responsable Expérience Client</p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Garant du bonheur et de la satisfaction de la communauté Stride.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-ecommerce">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo">
+            <i class="fa-solid fa-shoe-prints"></i> SOLESTYLE<span>.</span>
+          </a>
+          <p>Marque de sneakers et streetwear engagée pour la planète. Conception éco-responsable et matériaux durables.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Boutique</h4>
+          <ul class="footer-links">
+            <li><a href="boutique.html">Nouveautés</a></li>
+            <li><a href="boutique.html">Sneakers Homme</a></li>
+            <li><a href="boutique.html">Sneakers Femme</a></li>
+            <li><a href="boutique.html">Accessoires</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Informations</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">Notre Histoire</a></li>
+            <li><a href="about.html">Engagements Éco</a></li>
+            <li><a href="contact.html">Contact & FAQ</a></li>
+            <li><a href="contact.html">Guide des Tailles</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Rejoignez la Communauté</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">Inscrivez-vous pour bénéficier de 10% de réduction sur votre première commande.</p>
+          <form style="display: flex; gap: 8px;" onsubmit="event.preventDefault(); alert('Bienvenue dans le Stride Club ! Code promo: WELCOME10');">
+            <input type="email" placeholder="Votre email..." class="form-control" style="font-size: 0.85rem;" required>
+            <button type="submit" class="btn btn-primary" style="padding: 10px 16px;"><i class="fa-solid fa-arrow-right"></i></button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 SOLESTYLE Store. Tous droits réservés. Template Conforme — Licence MIT.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
