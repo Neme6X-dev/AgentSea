@@ -1,0 +1,493 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Jarvis AI Éditeur</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Guidelines -->
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-on-surface": "#2e3037",
+                "on-primary-fixed-variant": "#3b35a7",
+                "background": "#111319",
+                "surface-container-low": "#191b22",
+                "on-tertiary-fixed": "#111c2d",
+                "on-error-container": "#ffdad6",
+                "surface-container-highest": "#33343b",
+                "on-primary": "#231691",
+                "secondary-container": "#3131c0",
+                "inverse-surface": "#e2e2eb",
+                "on-tertiary": "#263143",
+                "on-surface-variant": "#c8c4d5",
+                "on-background": "#e2e2eb",
+                "on-secondary-fixed-variant": "#2f2ebe",
+                "surface-variant": "#33343b",
+                "surface": "#111319",
+                "surface-container-high": "#282a30",
+                "on-surface": "#e2e2eb",
+                "surface-dim": "#111319",
+                "secondary-fixed-dim": "#c0c1ff",
+                "on-secondary-fixed": "#07006c",
+                "tertiary-fixed": "#d8e3fb",
+                "primary-fixed-dim": "#c3c0ff",
+                "secondary-fixed": "#e1e0ff",
+                "tertiary-fixed-dim": "#bcc7de",
+                "primary": "#c3c0ff",
+                "error": "#ffb4ab",
+                "surface-container": "#1e1f26",
+                "surface-bright": "#373940",
+                "on-error": "#690005",
+                "on-tertiary-fixed-variant": "#3c475a",
+                "on-primary-container": "#a9a7ff",
+                "primary-container": "#3730a3",
+                "secondary": "#c0c1ff",
+                "surface-tint": "#c3c0ff",
+                "tertiary-container": "#384356",
+                "on-secondary": "#1000a9",
+                "tertiary": "#bcc7de",
+                "inverse-primary": "#544fc0",
+                "on-tertiary-container": "#a4b0c7",
+                "on-primary-fixed": "#0f0069",
+                "surface-container-lowest": "#0c0e14",
+                "outline": "#918f9e",
+                "error-container": "#93000a",
+                "outline-variant": "#464553",
+                "primary-fixed": "#e2dfff",
+                "on-secondary-container": "#b0b2ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "sm": "10px",
+                "lg": "24px",
+                "base": "4px",
+                "xl": "32px",
+                "xs": "6px",
+                "gutter": "16px",
+                "margin": "20px",
+                "md": "16px"
+        },
+        "fontFamily": {
+                "body-sm": [
+                        "Manrope"
+                ],
+                "label-md": [
+                        "Manrope"
+                ],
+                "body-lg": [
+                        "Manrope"
+                ],
+                "headline-md": [
+                        "Manrope"
+                ],
+                "headline-lg-mobile": [
+                        "Manrope"
+                ],
+                "headline-xl": [
+                        "Manrope"
+                ],
+                "body-md": [
+                        "Manrope"
+                ],
+                "headline-lg": [
+                        "Manrope"
+                ]
+        },
+        "fontSize": {
+                "body-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "17px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-lg": [
+                        "14.5px",
+                        {
+                                "lineHeight": "21px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "15px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "26px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "13px",
+                        {
+                                "lineHeight": "19px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "20px",
+                        {
+                                "lineHeight": "26px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        .glass-panel {
+            background: theme('colors.surface-container-low');
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: theme('colors.surface-container-high'); border-radius: theme('borderRadius.full'); }
+        ::-webkit-scrollbar-thumb:hover { background: theme('colors.outline-variant'); }
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        .ai-shimmer {
+            background: linear-gradient(to right, theme('colors.surface-container') 4%, theme('colors.surface-container-high') 25%, theme('colors.surface-container') 36%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        .glow-active {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+            border-color: theme('colors.outline-variant');
+        }
+        .deploy-pop {
+            transform-origin: top right;
+            transition: opacity 160ms ease-out, transform 160ms ease-out;
+        }
+    </style>
+</head>
+<body class="h-screen w-full overflow-hidden flex font-body-md text-body-md">
+<!-- Barre de navigation latérale (version étroite pour l'éditeur) -->
+<nav class="fixed left-0 top-0 h-full w-14 z-50 flex flex-col bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant/10 backdrop-blur-xl shadow-xl shadow-surface-container-lowest py-md justify-between items-center hidden md:flex" style="background-image: url('assets/screen.png'); background-size: cover; background-position: center center;">
+<!-- Section supérieure -->
+<div class="flex flex-col items-center w-full gap-sm">
+<!-- Marque -->
+<a class="w-7 h-7 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-[12px] font-bold tracking-tighter hover:brightness-110 transition-all border border-outline-variant/20" href="index.html">
+                J
+            </a>
+<!-- Onglets -->
+<div class="flex flex-col gap-1 w-full px-2 mt-sm">
+<a class="flex items-center justify-center w-full h-9 bg-surface-container-high text-on-surface rounded-lg font-bold transition-colors duration-150 ease-out hover:brightness-110 bg-surface-container-lowest/80 border border-outline-variant/30" href="projets.html" title="Projets">
+<span class="material-symbols-outlined text-on-surface text-lg" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+</a>
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="#" title="Ressources">
+<span class="material-symbols-outlined text-lg">inventory_2</span>
+</a>
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="parametres.html" title="Paramètres">
+<span class="material-symbols-outlined text-lg">settings</span>
+</a>
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="#" title="Aide">
+<span class="material-symbols-outlined text-lg">help</span>
+</a>
+</div>
+</div>
+<!-- Section inférieure -->
+<div class="flex flex-col items-center w-full gap-1 px-2">
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150 bg-surface-container-lowest/80 border border-outline-variant/30" href="parametres.html#profile" title="Compte">
+<span class="material-symbols-outlined text-lg text-on-surface">account_circle</span>
+</a>
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="connexion.html" title="Déconnexion">
+<span class="material-symbols-outlined text-lg">logout</span>
+</a>
+</div>
+</nav>
+<!-- Zone de travail principale -->
+<main class="flex-1 h-full flex flex-col md:flex-row ml-0 md:ml-14 overflow-hidden bg-background relative">
+<!-- Panneau gauche : Interface de chat IA -->
+<section class="w-full md:w-[340px] lg:w-[360px] h-full flex flex-col border-r border-outline-variant/10 glass-panel shrink-0 z-10">
+<!-- En-tête du chat -->
+<header class="h-11 flex items-center px-md border-b border-outline-variant/10 shrink-0">
+<div class="flex items-center gap-xs">
+<div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
+<span class="font-label-md text-label-md text-on-surface font-semibold tracking-wide">Agent IA Jarvis</span>
+</div>
+<div class="ml-auto flex gap-0.5">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-base">history</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+</div>
+</header>
+<!-- Historique des messages -->
+<div class="flex-1 overflow-y-auto p-md flex flex-col gap-md">
+<!-- Message système/IA -->
+<div class="flex gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant/30">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">auto_awesome</span>
+</div>
+<div class="flex flex-col gap-1.5 pt-0.5">
+<div class="text-on-surface text-body-md font-body-md leading-relaxed">
+                            J'ai configuré la structure de base pour votre nouveau site e-commerce. Quelle section souhaitez-vous construire en premier ?
+                        </div>
+<div class="flex flex-wrap gap-1.5 mt-1">
+<button class="px-2.5 py-1 rounded-full border border-outline-variant/30 text-label-md font-label-md text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors bg-surface-container-lowest">
+                                Section héro
+                            </button>
+<button class="px-2.5 py-1 rounded-full border border-outline-variant/30 text-label-md font-label-md text-on-surface-variant hover:border-outline-variant hover:text-on-surface transition-colors bg-surface-container-lowest">
+                                Grille de produits
+                            </button>
+</div>
+</div>
+</div>
+<!-- Message utilisateur -->
+<div class="flex gap-2 flex-row-reverse">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant/20">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">person</span>
+</div>
+<div class="flex flex-col gap-1 pt-0.5 bg-surface-container-high rounded-xl rounded-tr-sm p-2.5 max-w-[85%] border border-outline-variant/10">
+<div class="text-on-surface text-body-md font-body-md">
+                            Commençons par une section héro moderne et glassmorphique avec un grand titre en gras et deux boutons d'appel à l'action.
+                        </div>
+</div>
+</div>
+<!-- État de génération système/IA -->
+<div class="flex gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant/50 glow-active">
+<span class="material-symbols-outlined text-sm text-on-surface-variant animate-pulse" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex flex-col gap-1.5 pt-0.5 w-full max-w-[85%]">
+<div class="text-on-surface-variant text-label-md font-label-md animate-pulse">
+                            Construction de la section héro...
+                        </div>
+<!-- Squelette de génération -->
+<div class="h-14 rounded-lg ai-shimmer border border-outline-variant/10 w-full"></div>
+<div class="flex gap-1.5">
+<div class="h-6 rounded-md ai-shimmer border border-outline-variant/10 w-20"></div>
+<div class="h-6 rounded-md ai-shimmer border border-outline-variant/10 w-24"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Zone de saisie du chat -->
+<div class="p-md pt-0 mt-auto shrink-0 bg-gradient-to-t from-surface-container-low to-transparent">
+<div class="relative bg-surface-container-lowest rounded-lg border border-outline-variant/20 shadow-lg focus-within:glow-active transition-all duration-200">
+<textarea class="w-full bg-transparent border-none text-on-surface font-body-md text-body-md p-3 pr-10 resize-none h-20 placeholder:text-on-surface-variant/40 focus:ring-0 outline-none" placeholder="Décrivez ce que vous souhaitez construire ou modifier..."></textarea>
+<div class="absolute bottom-2 right-2 flex items-center gap-1">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-base">attach_file</span>
+</button>
+<button class="w-6 h-6 rounded-md bg-surface-container-high text-on-surface flex items-center justify-center hover:bg-surface-container-highest transition-colors shadow-md border border-outline-variant/20">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+<div class="text-center mt-1.5">
+<span class="text-[10px] text-on-surface-variant/50 font-label-md">L'IA Jarvis peut faire des erreurs. Vérifiez le code généré.</span>
+</div>
+</div>
+</section>
+<!-- Panneau droit : Aperçu en direct et barre d'outils -->
+<section class="flex-1 h-full flex flex-col relative overflow-hidden">
+<!-- Fond structurel subtil -->
+<div class="absolute inset-0 z-0">
+<img alt="Fond de l'espace de travail" class="w-full h-full object-cover opacity-30" src="assets/screen.png">
+<div class="absolute inset-0 bg-surface-container/70 backdrop-blur-3xl"></div>
+</div>
+<!-- Barre d'outils flottante -->
+<div class="absolute top-2.5 left-1/2 -translate-x-1/2 z-20 flex items-center p-0.5 rounded-full bg-surface-container-low/90 backdrop-blur-xl border border-outline-variant/20 shadow-xl">
+<div class="flex bg-surface-container-lowest rounded-full p-0.5 border border-outline-variant/10">
+<button class="px-3 py-1.5 rounded-full text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">code</span>
+                        Code
+                    </button>
+<button class="px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-md font-semibold text-label-md shadow-sm border border-outline-variant/10 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base">visibility</span>
+                        Aperçu
+                    </button>
+</div>
+<div class="w-px h-5 bg-outline-variant/20 mx-1.5"></div>
+<div class="flex items-center gap-0.5 pr-0.5">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-full hover:bg-surface-container-high" title="Vue bureau">
+<span class="material-symbols-outlined text-base">desktop_mac</span>
+</button>
+<button class="p-1.5 text-on-surface-variant/50 hover:text-on-surface transition-colors rounded-full hover:bg-surface-container-high" title="Vue mobile">
+<span class="material-symbols-outlined text-base">smartphone</span>
+</button>
+</div>
+<div class="w-px h-5 bg-outline-variant/20 mx-1.5"></div>
+<div class="relative">
+<button class="px-3.5 py-1.5 mr-0.5 rounded-full bg-surface-container-highest text-on-surface text-label-md font-label-md font-semibold hover:bg-surface-bright transition-all shadow-md border border-outline-variant/20 flex items-center gap-1.5" id="publish-btn" onclick="jarvisTogglePublish()">
+<span class="material-symbols-outlined text-base">publish</span>
+                    Publier
+                </button>
+<!-- Popover de déploiement Wayhost, ancré sur le bouton Publier -->
+<div class="deploy-pop hidden absolute top-11 right-0 w-64 glass-panel rounded-xl p-3.5 shadow-2xl border border-outline-variant/20 opacity-0 scale-95" id="deploy-pop">
+<div class="flex items-center gap-2 mb-2.5">
+<div class="w-7 h-7 rounded-lg bg-surface-container-high border border-outline-variant/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-base text-on-surface-variant">cloud</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface font-semibold">Déploiement Wayhost</div>
+<div class="font-label-md text-[10px] text-on-surface-variant" id="deploy-status-label">Compte non connecté</div>
+</div>
+</div>
+<div id="deploy-disconnected">
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2.5">Connectez votre compte Wayhost pour publier ce site automatiquement.</p>
+<button class="w-full bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors" onclick="jarvisConnectWayhost()">Connecter mon compte Wayhost</button>
+</div>
+<div class="hidden" id="deploy-connected">
+<div class="flex items-center justify-between mb-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-high/70 border border-outline-variant/15">
+<span class="font-label-md text-[10px] text-on-surface-variant">jean.sebastien@wayhost</span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+</div>
+<button class="w-full bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors flex items-center justify-center gap-1.5" id="deploy-btn" onclick="jarvisDeployNow()">
+<span class="material-symbols-outlined text-sm">rocket_launch</span> Déployer maintenant
+</button>
+<div class="hidden mt-1.5 text-center" id="deploy-success">
+<span class="font-label-md text-[10px] text-on-surface-variant">✓ En ligne : mon-projet.wayhost.app</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Conteneur du canevas d'aperçu -->
+<div class="flex-1 p-md pt-16 overflow-auto flex items-center justify-center relative z-10">
+<!-- Fenêtre de navigateur simulée pour l'aperçu -->
+<div class="w-full max-w-[980px] h-full max-h-[640px] bg-surface-dim rounded-xl border border-outline-variant/20 shadow-2xl flex flex-col overflow-hidden relative group">
+<!-- Barre de navigateur simulée -->
+<div class="h-8 bg-surface-container border-b border-outline-variant/10 flex items-center px-3 gap-2 shrink-0">
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-outline-variant/30"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant/30"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant/30"></div>
+</div>
+<div class="mx-auto px-4 py-0.5 rounded-md bg-surface-container-lowest text-[9px] text-on-surface-variant/50 font-label-md border border-outline-variant/5 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[11px]">lock</span>
+                            apercu.jarvis.ai/site-xyz-123
+                        </div>
+</div>
+<!-- Contenu de l'aperçu du site en direct (simulé) -->
+<div class="flex-1 bg-surface-container-lowest overflow-y-auto relative">
+<!-- Section héro simulée en cours de génération -->
+<div class="absolute inset-0">
+<img alt="Fond de l'aperçu" class="w-full h-full object-cover opacity-40 mix-blend-overlay" src="assets/screen.png">
+<div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-xl"></div>
+</div>
+<div class="relative z-10 max-w-2xl mx-auto px-6 pt-16 pb-10 flex flex-col items-center text-center">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/20 mb-5 backdrop-blur-md">
+<div class="w-1.5 h-1.5 rounded-full bg-outline-variant"></div>
+<span class="text-[10px] font-medium text-on-surface-variant">v2.0 En ligne</span>
+</div>
+<h1 class="text-2xl md:text-3xl font-bold tracking-tight text-on-surface mb-3 leading-tight font-headline-xl">
+                                Concevez à la vitesse de la <span class="text-transparent bg-clip-text bg-gradient-to-r from-on-surface-variant to-outline">pensée.</span>
+</h1>
+<p class="text-[13px] text-on-surface-variant max-w-md mb-6 font-body-lg">
+                                Créez des expériences web époustouflantes et performantes sans écrire une seule ligne de code.
+                            </p>
+<div class="flex gap-2.5">
+<div class="px-5 py-2 rounded-lg bg-surface-container-high text-on-surface text-[12px] font-medium hover:bg-surface-container-highest cursor-pointer transition-colors shadow-sm border border-outline-variant/20 font-label-md">
+                                    Commencer la construction
+                                </div>
+<div class="px-5 py-2 rounded-lg bg-transparent text-on-surface-variant text-[12px] font-medium hover:bg-surface-container-low cursor-pointer transition-colors border border-outline-variant/30 font-label-md">
+                                    Voir la galerie
+                                </div>
+</div>
+<!-- Superposition de sélection de l'éditeur (montre que c'est modifiable) -->
+<div class="absolute inset-0 border-2 border-outline-variant/0 hover:border-outline-variant/30 bg-surface-container-high/0 hover:bg-surface-container-high/5 transition-all cursor-default rounded-lg m-3 pointer-events-none group-hover:pointer-events-auto">
+<div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-surface-container-high text-on-surface border border-outline-variant/20 text-[10px] px-1.5 py-0.5 rounded shadow">Section héro</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Barre d'état -->
+<div class="h-7 border-t border-outline-variant/10 bg-surface-container flex items-center px-3 justify-between text-[10.5px] text-on-surface-variant/60 font-label-md shrink-0 relative z-10">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span> Synchronisation en direct active</span>
+<span class="">React + Tailwind</span>
+</div>
+<div class="">
+                    Dernière sauvegarde : à l'instant
+                </div>
+</div>
+</section>
+</main>
+
+<script>
+  function jarvisTogglePublish() {
+    const pop = document.getElementById('deploy-pop');
+    const opening = pop.classList.contains('hidden');
+    if (opening) {
+      pop.classList.remove('hidden');
+      requestAnimationFrame(function () {
+        pop.classList.remove('opacity-0', 'scale-95');
+      });
+    } else {
+      pop.classList.add('opacity-0', 'scale-95');
+      setTimeout(function () { pop.classList.add('hidden'); }, 160);
+    }
+  }
+  function jarvisConnectWayhost() {
+    document.getElementById('deploy-disconnected').classList.add('hidden');
+    document.getElementById('deploy-connected').classList.remove('hidden');
+    document.getElementById('deploy-status-label').textContent = 'Compte connecté';
+  }
+  function jarvisDeployNow() {
+    const btn = document.getElementById('deploy-btn');
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+    setTimeout(function () {
+      document.getElementById('deploy-success').classList.remove('hidden');
+    }, 900);
+  }
+  document.addEventListener('click', function (e) {
+    const pop = document.getElementById('deploy-pop');
+    const btn = document.getElementById('publish-btn');
+    if (!pop.contains(e.target) && !btn.contains(e.target) && !pop.classList.contains('hidden')) {
+      jarvisTogglePublish();
+    }
+  });
+</script>
+
+</body></html>

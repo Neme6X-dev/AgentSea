@@ -1,0 +1,342 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Jarvis — Connexion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-on-surface": "#2e3037",
+                "on-primary-fixed-variant": "#3b35a7",
+                "background": "#111319",
+                "surface-container-low": "#191b22",
+                "on-tertiary-fixed": "#111c2d",
+                "on-error-container": "#ffdad6",
+                "surface-container-highest": "#33343b",
+                "on-primary": "#231691",
+                "secondary-container": "#3131c0",
+                "inverse-surface": "#e2e2eb",
+                "on-tertiary": "#263143",
+                "on-surface-variant": "#c8c4d5",
+                "on-background": "#e2e2eb",
+                "on-secondary-fixed-variant": "#2f2ebe",
+                "surface-variant": "#33343b",
+                "surface": "#111319",
+                "surface-container-high": "#282a30",
+                "on-surface": "#e2e2eb",
+                "surface-dim": "#111319",
+                "secondary-fixed-dim": "#c0c1ff",
+                "on-secondary-fixed": "#07006c",
+                "tertiary-fixed": "#d8e3fb",
+                "primary-fixed-dim": "#c3c0ff",
+                "secondary-fixed": "#e1e0ff",
+                "tertiary-fixed-dim": "#bcc7de",
+                "primary": "#c3c0ff",
+                "error": "#ffb4ab",
+                "surface-container": "#1e1f26",
+                "surface-bright": "#373940",
+                "on-error": "#690005",
+                "on-tertiary-fixed-variant": "#3c475a",
+                "on-primary-container": "#a9a7ff",
+                "primary-container": "#3730a3",
+                "secondary": "#c0c1ff",
+                "surface-tint": "#c3c0ff",
+                "tertiary-container": "#384356",
+                "on-secondary": "#1000a9",
+                "tertiary": "#bcc7de",
+                "inverse-primary": "#544fc0",
+                "on-tertiary-container": "#a4b0c7",
+                "on-primary-fixed": "#0f0069",
+                "surface-container-lowest": "#0c0e14",
+                "outline": "#918f9e",
+                "error-container": "#93000a",
+                "outline-variant": "#464553",
+                "primary-fixed": "#e2dfff",
+                "on-secondary-container": "#b0b2ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px",
+                "2xl": "1rem"
+        },
+        "spacing": {
+                "sm": "10px",
+                "lg": "24px",
+                "base": "4px",
+                "xl": "32px",
+                "xs": "6px",
+                "gutter": "16px",
+                "margin": "20px",
+                "md": "16px"
+        },
+        "fontFamily": {
+                "body-sm": [
+                        "Manrope"
+                ],
+                "label-md": [
+                        "Manrope"
+                ],
+                "body-lg": [
+                        "Manrope"
+                ],
+                "headline-md": [
+                        "Manrope"
+                ],
+                "headline-lg-mobile": [
+                        "Manrope"
+                ],
+                "headline-xl": [
+                        "Manrope"
+                ],
+                "body-md": [
+                        "Manrope"
+                ],
+                "headline-lg": [
+                        "Manrope"
+                ]
+        },
+        "fontSize": {
+                "body-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "17px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-lg": [
+                        "14.5px",
+                        {
+                                "lineHeight": "21px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "15px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "26px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "13px",
+                        {
+                                "lineHeight": "19px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "20px",
+                        {
+                                "lineHeight": "26px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .glass-panel {
+            background: rgba(25, 27, 34, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .shimmer { position: relative; overflow: hidden; }
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 100% { left: 200%; } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 0.06s; }
+        .input-glow:focus {
+            box-shadow: 0 0 0 2px theme('colors.surface-bright');
+            border-color: theme('colors.outline');
+        }
+        .tab-panel { transition: opacity 160ms ease-out, transform 160ms ease-out; }
+        .tab-panel[hidden] { display: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex items-center justify-center overflow-hidden selection:bg-surface-container-highest selection:text-white">
+<!-- Image de fond (identique au reste du site) -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<img alt="Arrière-plan" class="absolute inset-0 w-full h-full object-cover" src="assets/screen.png">
+<div class="absolute inset-0 bg-background/25 backdrop-blur-xl"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background"></div>
+</div>
+
+<main class="relative z-10 w-full max-w-[400px] px-md">
+<div class="glass-panel rounded-2xl p-6 shadow-2xl animate-fade-in">
+<!-- Marque -->
+<div class="flex items-center gap-1.5 mb-5">
+<span class="material-symbols-outlined text-lg text-on-surface" style="font-variation-settings: 'FILL' 1;">change_history</span>
+<span class="font-headline-md text-headline-md tracking-tight text-on-surface">Jarvis</span>
+</div>
+
+<!-- Bascule Connexion / Inscription -->
+<div class="flex bg-surface-container-lowest rounded-full p-0.5 border border-outline-variant/10 mb-5">
+<button class="flex-1 py-1.5 rounded-full text-[11px] font-label-md font-semibold transition-colors" id="tab-btn-login" onclick="jarvisSwitchTab('login')">Connexion</button>
+<button class="flex-1 py-1.5 rounded-full text-[11px] font-label-md text-on-surface-variant transition-colors" id="tab-btn-signup" onclick="jarvisSwitchTab('signup')">Inscription</button>
+</div>
+
+<!-- Panneau Connexion -->
+<form class="tab-panel flex flex-col gap-3" id="panel-login" onsubmit="return jarvisAuthSubmit(event)">
+<div class="mb-1">
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 mb-0.5">Reprenez où vous en étiez.</p>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Connectez-vous à votre compte</h1>
+</div>
+
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">code</span> Continuer avec GitHub
+</button>
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">web</span> Continuer avec Google
+</button>
+
+<div class="flex items-center gap-2 my-0.5">
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+<span class="font-label-md text-[9px] text-on-surface-variant/50 uppercase tracking-widest">ou</span>
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+</div>
+
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="login-email">Adresse e-mail</label>
+<input autocomplete="email" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="login-email" placeholder="vous@exemple.com" type="email">
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="login-password">Mot de passe</label>
+<a class="font-label-md text-[10px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Oublié ?</a>
+</div>
+<input autocomplete="current-password" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="login-password" placeholder="••••••••" type="password">
+</div>
+
+<button class="mt-1 flex items-center justify-center gap-1.5 bg-on-surface text-background w-full py-2.5 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-variant hover:text-on-surface transition-colors shimmer border border-outline-variant/30" type="submit">
+Continuer
+</button>
+<p class="text-center font-label-md text-[9.5px] text-on-surface-variant/50 leading-relaxed">Aperçu produit : aucune vérification n'est effectuée.</p>
+</form>
+
+<!-- Panneau Inscription -->
+<form class="tab-panel hidden flex-col gap-3" hidden="" id="panel-signup" onsubmit="return jarvisAuthSubmit(event)">
+<div class="mb-1">
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 mb-0.5">Commencez à construire.</p>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Créez votre compte</h1>
+</div>
+
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">code</span> Continuer avec GitHub
+</button>
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">web</span> Continuer avec Google
+</button>
+
+<div class="flex items-center gap-2 my-0.5">
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+<span class="font-label-md text-[9px] text-on-surface-variant/50 uppercase tracking-widest">ou</span>
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+</div>
+
+<div class="grid grid-cols-2 gap-2">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-firstname">Prénom</label>
+<input autocomplete="given-name" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-firstname" placeholder="Jean" type="text">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-lastname">Nom</label>
+<input autocomplete="family-name" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-lastname" placeholder="Dupont" type="text">
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-email">Adresse e-mail</label>
+<input autocomplete="email" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-email" placeholder="vous@exemple.com" type="email">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-password">Mot de passe</label>
+<input autocomplete="new-password" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-password" placeholder="8 caractères minimum" type="password">
+</div>
+
+<button class="mt-1 flex items-center justify-center gap-1.5 bg-on-surface text-background w-full py-2.5 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-variant hover:text-on-surface transition-colors shimmer border border-outline-variant/30" type="submit">
+Créer mon compte
+</button>
+<p class="text-center font-label-md text-[9.5px] text-on-surface-variant/50 leading-relaxed">Aperçu produit : aucune vérification n'est effectuée.</p>
+</form>
+</div>
+
+<p class="text-center font-label-md text-[10.5px] text-on-surface-variant/50 mt-4">
+<a class="hover:text-on-surface-variant transition-colors" href="index.html">← Retour à l'accueil</a>
+</p>
+</main>
+
+<script>
+  function jarvisSwitchTab(tab) {
+    var login = document.getElementById('panel-login');
+    var signup = document.getElementById('panel-signup');
+    var btnLogin = document.getElementById('tab-btn-login');
+    var btnSignup = document.getElementById('tab-btn-signup');
+    var showLogin = tab === 'login';
+
+    login.hidden = !showLogin;
+    signup.hidden = showLogin;
+    login.classList.toggle('hidden', !showLogin);
+    login.classList.toggle('flex', showLogin);
+    signup.classList.toggle('hidden', showLogin);
+    signup.classList.toggle('flex', !showLogin);
+
+    btnLogin.classList.toggle('bg-surface-container-high', showLogin);
+    btnLogin.classList.toggle('text-on-surface', showLogin);
+    btnLogin.classList.toggle('text-on-surface-variant', !showLogin);
+    btnSignup.classList.toggle('bg-surface-container-high', !showLogin);
+    btnSignup.classList.toggle('text-on-surface', !showLogin);
+    btnSignup.classList.toggle('text-on-surface-variant', showLogin);
+  }
+  // Aperçu produit sans back-end : toute saisie est acceptée, aucune validation.
+  function jarvisAuthSubmit(event) {
+    event.preventDefault();
+    window.location.href = 'projets.html';
+    return false;
+  }
+
+  jarvisSwitchTab('login');
+</script>
+
+</body></html>
