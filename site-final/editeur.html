@@ -203,21 +203,35 @@
             transform-origin: top right;
             transition: opacity 160ms ease-out, transform 160ms ease-out;
         }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
+    <!-- Three.js (WebGL classique — pas WebGPU, pour un rendu fiable sur toute machine) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+        }
+    }
+    </script>
 </head>
 <body class="h-screen w-full overflow-hidden flex font-body-md text-body-md">
 <!-- Barre de navigation latérale (version étroite pour l'éditeur) -->
-<nav class="fixed left-0 top-0 h-full w-14 z-50 flex flex-col bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant/10 backdrop-blur-xl shadow-xl shadow-surface-container-lowest py-md justify-between items-center hidden md:flex" style="background-image: url('assets/screen.png'); background-size: cover; background-position: center center;">
+<nav class="fixed left-0 top-0 h-full w-14 z-50 flex flex-col bg-surface-container-low/90 dark:bg-surface-container-lowest/90 border-r border-white/5 backdrop-blur-2xl shadow-2xl shadow-black/50 py-md justify-between items-center hidden md:flex" style="background-image: url('assets/screen.png'); background-size: cover; background-position: center center; background-blend-mode: overlay;">
 <!-- Section supérieure -->
 <div class="flex flex-col items-center w-full gap-sm">
 <!-- Marque -->
-<a class="w-7 h-7 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant font-label-md text-[12px] font-bold tracking-tighter hover:brightness-110 transition-all border border-outline-variant/20" href="index.html">
-                J
-            </a>
+<a class="w-7 h-7 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant hover:brightness-110 transition-all border border-outline-variant/20" href="index.html">
+<img alt="Jarvis" class="w-4 h-4 object-contain" src="assets/jarvis-mark.png" style="filter: brightness(0) invert(1);">
+</a>
 <!-- Onglets -->
 <div class="flex flex-col gap-1 w-full px-2 mt-sm">
 <a class="flex items-center justify-center w-full h-9 bg-surface-container-high text-on-surface rounded-lg font-bold transition-colors duration-150 ease-out hover:brightness-110 bg-surface-container-lowest/80 border border-outline-variant/30" href="projets.html" title="Projets">
 <span class="material-symbols-outlined text-on-surface text-lg" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+</a>
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="agents.html" title="Agents">
+<span class="material-symbols-outlined text-lg">smart_toy</span>
 </a>
 <a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="#" title="Ressources">
 <span class="material-symbols-outlined text-lg">inventory_2</span>
@@ -292,11 +306,11 @@
 </div>
 </div>
 <!-- État de génération système/IA -->
-<div class="flex gap-2">
+<div class="flex gap-2" id="gen-status-block">
 <div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center shrink-0 border border-outline-variant/50 glow-active">
 <span class="material-symbols-outlined text-sm text-on-surface-variant animate-pulse" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
 </div>
-<div class="flex flex-col gap-1.5 pt-0.5 w-full max-w-[85%]">
+<div class="flex flex-col gap-1.5 pt-0.5 w-full max-w-[85%]" id="gen-status-content">
 <div class="text-on-surface-variant text-label-md font-label-md animate-pulse">
                             Construction de la section héro...
                         </div>
@@ -336,28 +350,42 @@
 </div>
 <!-- Barre d'outils flottante -->
 <div class="absolute top-2.5 left-1/2 -translate-x-1/2 z-20 flex items-center p-0.5 rounded-full bg-surface-container-low/90 backdrop-blur-xl border border-outline-variant/20 shadow-xl">
+<!-- État : génération en cours -->
+<div class="flex items-center gap-2 pl-3 pr-4 py-2" id="toolbar-generating">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+<span class="font-label-md text-label-md text-on-surface">Génération en cours…</span>
+</div>
+<!-- État : génération terminée -->
+<div class="hidden items-center" id="toolbar-done">
 <div class="flex bg-surface-container-lowest rounded-full p-0.5 border border-outline-variant/10">
-<button class="px-3 py-1.5 rounded-full text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5">
+<button class="preview-tab-btn px-3 py-1.5 rounded-full text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5 active:scale-95" data-tab="code" onclick="jarvisSetPreviewTab('code')">
 <span class="material-symbols-outlined text-base">code</span>
                         Code
                     </button>
-<button class="px-3 py-1.5 rounded-full bg-surface-container-high text-on-surface font-label-md font-semibold text-label-md shadow-sm border border-outline-variant/10 flex items-center gap-1.5">
+<button class="preview-tab-btn px-3 py-1.5 rounded-full text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5 active:scale-95" data-tab="apercu" onclick="jarvisSetPreviewTab('apercu')">
 <span class="material-symbols-outlined text-base">visibility</span>
                         Aperçu
+                    </button>
+<button class="preview-tab-btn px-3 py-1.5 rounded-full text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1.5 active:scale-95" data-tab="scene3d" onclick="jarvisSetPreviewTab('scene3d')">
+<span class="material-symbols-outlined text-base">view_in_ar</span>
+                        Scène 3D
                     </button>
 </div>
 <div class="w-px h-5 bg-outline-variant/20 mx-1.5"></div>
 <div class="flex items-center gap-0.5 pr-0.5">
-<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-full hover:bg-surface-container-high" title="Vue bureau">
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-full hover:bg-surface-container-high active:scale-95" title="Vue bureau">
 <span class="material-symbols-outlined text-base">desktop_mac</span>
 </button>
-<button class="p-1.5 text-on-surface-variant/50 hover:text-on-surface transition-colors rounded-full hover:bg-surface-container-high" title="Vue mobile">
+<button class="p-1.5 text-on-surface-variant/50 hover:text-on-surface transition-colors rounded-full hover:bg-surface-container-high active:scale-95" title="Vue mobile">
 <span class="material-symbols-outlined text-base">smartphone</span>
 </button>
 </div>
 <div class="w-px h-5 bg-outline-variant/20 mx-1.5"></div>
 <div class="relative">
-<button class="px-3.5 py-1.5 mr-0.5 rounded-full bg-surface-container-highest text-on-surface text-label-md font-label-md font-semibold hover:bg-surface-bright transition-all shadow-md border border-outline-variant/20 flex items-center gap-1.5" id="publish-btn" onclick="jarvisTogglePublish()">
+<button class="px-3.5 py-1.5 mr-0.5 rounded-full bg-surface-container-highest text-on-surface text-label-md font-label-md font-semibold hover:bg-surface-bright transition-all shadow-md border border-outline-variant/20 flex items-center gap-1.5 active:scale-95" id="publish-btn" onclick="jarvisTogglePublish()">
 <span class="material-symbols-outlined text-base">publish</span>
                     Publier
                 </button>
@@ -374,14 +402,14 @@
 </div>
 <div id="deploy-disconnected">
 <p class="font-body-sm text-body-sm text-on-surface-variant mb-2.5">Connectez votre compte Wayhost pour publier ce site automatiquement.</p>
-<button class="w-full bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors" onclick="jarvisConnectWayhost()">Connecter mon compte Wayhost</button>
+<button class="w-full bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors active:scale-[0.98]" onclick="jarvisConnectWayhost()">Connecter mon compte Wayhost</button>
 </div>
 <div class="hidden" id="deploy-connected">
 <div class="flex items-center justify-between mb-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-high/70 border border-outline-variant/15">
 <span class="font-label-md text-[10px] text-on-surface-variant">jean.sebastien@wayhost</span>
 <span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
 </div>
-<button class="w-full bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors flex items-center justify-center gap-1.5" id="deploy-btn" onclick="jarvisDeployNow()">
+<button class="w-full bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors flex items-center justify-center gap-1.5 active:scale-[0.98]" id="deploy-btn" onclick="jarvisDeployNow()">
 <span class="material-symbols-outlined text-sm">rocket_launch</span> Déployer maintenant
 </button>
 <div class="hidden mt-1.5 text-center" id="deploy-success">
@@ -391,10 +419,28 @@
 </div>
 </div>
 </div>
+</div>
 <!-- Conteneur du canevas d'aperçu -->
 <div class="flex-1 p-md pt-16 overflow-auto flex items-center justify-center relative z-10">
+<!-- Vue : Code -->
+<div class="hidden w-full max-w-[980px] h-full max-h-[640px] bg-surface-dim rounded-xl border border-outline-variant/20 shadow-2xl flex-col items-center justify-center gap-2 text-center px-md" id="view-code">
+<span class="material-symbols-outlined text-2xl text-on-surface-variant/40">code</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant/60 max-w-xs">L'éditeur de code apparaîtra ici une fois le site généré par le pipeline.</p>
+</div>
+<!-- Vue : Scène des agents (3D) -->
+<div class="flex w-full max-w-[980px] h-full max-h-[640px] flex-col gap-1.5" id="view-scene3d">
+<div class="flex-1 bg-surface-dim rounded-xl border border-outline-variant/20 shadow-2xl overflow-hidden relative" id="scene3d-container">
+<div class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-center px-md" id="scene3d-loading">
+<span class="material-symbols-outlined text-2xl text-on-surface-variant/40 animate-pulse">view_in_ar</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant/60">Chargement de la scène…</p>
+</div>
+</div>
+<p class="text-center font-label-md text-[10px] text-on-surface-variant/50">
+                        Scène 3D par Arturo Paracuellos (<a class="underline hover:text-on-surface-variant" href="https://unboring.net" rel="noopener" target="_blank">unboring.net</a>) — <a class="underline hover:text-on-surface-variant" href="https://creativecommons.org/licenses/by-nc/4.0/" rel="noopener" target="_blank">CC BY-NC 4.0</a>, usage non commercial.
+                    </p>
+</div>
 <!-- Fenêtre de navigateur simulée pour l'aperçu -->
-<div class="w-full max-w-[980px] h-full max-h-[640px] bg-surface-dim rounded-xl border border-outline-variant/20 shadow-2xl flex flex-col overflow-hidden relative group">
+<div class="hidden w-full max-w-[980px] h-full max-h-[640px] bg-surface-dim rounded-xl border border-outline-variant/20 shadow-2xl flex-col overflow-hidden relative group" id="view-apercu">
 <!-- Barre de navigateur simulée -->
 <div class="h-8 bg-surface-container border-b border-outline-variant/10 flex items-center px-3 gap-2 shrink-0">
 <div class="flex gap-1">
@@ -455,6 +501,70 @@
 </main>
 
 <script>
+  function jarvisSetPreviewTab(tab) {
+    const views = { code: 'view-code', apercu: 'view-apercu', scene3d: 'view-scene3d' };
+    Object.keys(views).forEach(function (key) {
+      const el = document.getElementById(views[key]);
+      const isActive = key === tab;
+      el.classList.toggle('hidden', !isActive);
+      el.classList.toggle('flex', isActive);
+    });
+    document.querySelectorAll('.preview-tab-btn').forEach(function (btn) {
+      const active = btn.dataset.tab === tab;
+      btn.classList.toggle('bg-surface-container-high', active);
+      btn.classList.toggle('text-on-surface', active);
+      btn.classList.toggle('font-semibold', active);
+      btn.classList.toggle('shadow-sm', active);
+      btn.classList.toggle('border', active);
+      btn.classList.toggle('border-outline-variant/10', active);
+      btn.classList.toggle('text-on-surface-variant', !active);
+    });
+    if (tab === 'scene3d') jarvisLoadScene();
+  }
+
+  // Charge la scène 3D une seule fois (rendu WebGL classique — voir
+  // assets/agents-scene.js — chargé comme module ES plus bas sur la page).
+  let jarvisSceneLoaded = false;
+  function jarvisLoadScene() {
+    if (jarvisSceneLoaded) return;
+    jarvisSceneLoaded = true;
+    if (window.jarvisStartScene3D) {
+      window.jarvisStartScene3D();
+    } else {
+      window.addEventListener('jarvis-scene3d-ready', function () { window.jarvisStartScene3D(); }, { once: true });
+    }
+  }
+
+  // Au chargement de l'éditeur : la génération démarre, on ne montre que la
+  // scène 3D (les agents au travail). Les onglets Code/Aperçu n'apparaissent
+  // qu'une fois la génération terminée.
+  function jarvisFinishGeneration() {
+    const generating = document.getElementById('toolbar-generating');
+    const done = document.getElementById('toolbar-done');
+    generating.classList.add('hidden');
+    done.classList.remove('hidden');
+    done.classList.add('flex');
+    done.style.opacity = '0';
+    done.style.transform = 'scale(0.94)';
+    requestAnimationFrame(function () {
+      done.style.transition = 'opacity 240ms cubic-bezier(0.23,1,0.32,1), transform 240ms cubic-bezier(0.23,1,0.32,1)';
+      done.style.opacity = '1';
+      done.style.transform = 'scale(1)';
+    });
+    jarvisSetPreviewTab('apercu');
+
+    const statusContent = document.getElementById('gen-status-content');
+    if (statusContent) {
+      statusContent.innerHTML =
+        '<div class="text-on-surface text-body-md font-body-md">✓ Section héro construite avec succès.</div>';
+      statusContent.classList.add('animate-fade-in');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    jarvisSetPreviewTab('scene3d');
+    setTimeout(jarvisFinishGeneration, 7000);
+  });
   function jarvisTogglePublish() {
     const pop = document.getElementById('deploy-pop');
     const opening = pop.classList.contains('hidden');
@@ -488,6 +598,30 @@
       jarvisTogglePublish();
     }
   });
+</script>
+
+<!-- Scène 3D : module ES chargé une fois, exposé au script classique ci-dessus -->
+<script type="module">
+  import { initAgentsScene } from './assets/agents-scene.js';
+
+  window.jarvisStartScene3D = async function () {
+    const container = document.getElementById('scene3d-container');
+    try {
+      await initAgentsScene(container);
+      const loading = document.getElementById('scene3d-loading');
+      if (loading) loading.remove();
+    } catch (err) {
+      console.error('Scène 3D : échec du chargement', err);
+      const loading = document.getElementById('scene3d-loading');
+      if (loading) {
+        loading.innerHTML =
+          '<span class="material-symbols-outlined text-2xl text-on-surface-variant/40">error_outline</span>' +
+          '<p class="font-body-sm text-body-sm text-on-surface-variant/60 max-w-xs">Impossible de charger la scène 3D dans ce navigateur.</p>';
+      }
+    }
+  };
+
+  window.dispatchEvent(new Event('jarvis-scene3d-ready'));
 </script>
 
 </body></html>
