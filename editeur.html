@@ -8,170 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <!-- Material Symbols -->
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Config from Guidelines -->
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-                "inverse-on-surface": "#2e3037",
-                "on-primary-fixed-variant": "#3b35a7",
-                "background": "#111319",
-                "surface-container-low": "#191b22",
-                "on-tertiary-fixed": "#111c2d",
-                "on-error-container": "#ffdad6",
-                "surface-container-highest": "#33343b",
-                "on-primary": "#231691",
-                "secondary-container": "#3131c0",
-                "inverse-surface": "#e2e2eb",
-                "on-tertiary": "#263143",
-                "on-surface-variant": "#c8c4d5",
-                "on-background": "#e2e2eb",
-                "on-secondary-fixed-variant": "#2f2ebe",
-                "surface-variant": "#33343b",
-                "surface": "#111319",
-                "surface-container-high": "#282a30",
-                "on-surface": "#e2e2eb",
-                "surface-dim": "#111319",
-                "secondary-fixed-dim": "#c0c1ff",
-                "on-secondary-fixed": "#07006c",
-                "tertiary-fixed": "#d8e3fb",
-                "primary-fixed-dim": "#c3c0ff",
-                "secondary-fixed": "#e1e0ff",
-                "tertiary-fixed-dim": "#bcc7de",
-                "primary": "#c3c0ff",
-                "error": "#ffb4ab",
-                "surface-container": "#1e1f26",
-                "surface-bright": "#373940",
-                "on-error": "#690005",
-                "on-tertiary-fixed-variant": "#3c475a",
-                "on-primary-container": "#a9a7ff",
-                "primary-container": "#3730a3",
-                "secondary": "#c0c1ff",
-                "surface-tint": "#c3c0ff",
-                "tertiary-container": "#384356",
-                "on-secondary": "#1000a9",
-                "tertiary": "#bcc7de",
-                "inverse-primary": "#544fc0",
-                "on-tertiary-container": "#a4b0c7",
-                "on-primary-fixed": "#0f0069",
-                "surface-container-lowest": "#0c0e14",
-                "outline": "#918f9e",
-                "error-container": "#93000a",
-                "outline-variant": "#464553",
-                "primary-fixed": "#e2dfff",
-                "on-secondary-container": "#b0b2ff"
-        },
-        "borderRadius": {
-                "DEFAULT": "0.25rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-        },
-        "spacing": {
-                "sm": "10px",
-                "lg": "24px",
-                "base": "4px",
-                "xl": "32px",
-                "xs": "6px",
-                "gutter": "16px",
-                "margin": "20px",
-                "md": "16px"
-        },
-        "fontFamily": {
-                "body-sm": [
-                        "Manrope"
-                ],
-                "label-md": [
-                        "Manrope"
-                ],
-                "body-lg": [
-                        "Manrope"
-                ],
-                "headline-md": [
-                        "Manrope"
-                ],
-                "headline-lg-mobile": [
-                        "Manrope"
-                ],
-                "headline-xl": [
-                        "Manrope"
-                ],
-                "body-md": [
-                        "Manrope"
-                ],
-                "headline-lg": [
-                        "Manrope"
-                ]
-        },
-        "fontSize": {
-                "body-sm": [
-                        "12px",
-                        {
-                                "lineHeight": "17px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "label-md": [
-                        "12px",
-                        {
-                                "lineHeight": "16px",
-                                "letterSpacing": "0em",
-                                "fontWeight": "500"
-                        }
-                ],
-                "body-lg": [
-                        "14.5px",
-                        {
-                                "lineHeight": "21px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "headline-md": [
-                        "15px",
-                        {
-                                "lineHeight": "20px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-lg-mobile": [
-                        "18px",
-                        {
-                                "lineHeight": "24px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-xl": [
-                        "26px",
-                        {
-                                "lineHeight": "32px",
-                                "letterSpacing": "-0.02em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-md": [
-                        "13px",
-                        {
-                                "lineHeight": "19px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "headline-lg": [
-                        "20px",
-                        {
-                                "lineHeight": "26px",
-                                "letterSpacing": "-0.01em",
-                                "fontWeight": "600"
-                        }
-                ]
-        }
-},
-    },
-  }
-</script>
 <style>
         body {
             background-color: theme('colors.background');
@@ -206,24 +42,19 @@
         .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
     </style>
-    <!-- Three.js (WebGL classique — pas WebGPU, pour un rendu fiable sur toute machine) -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-        }
-    }
-    </script>
+    <!-- Three.js (WebGL classique — pas WebGPU, pour un rendu fiable sur toute machine)
+         vient désormais de npm et passe par le bundler : l'importmap qui pointait sur
+         jsdelivr@0.170 est retirée, elle aurait fait cohabiter deux copies de three. -->
+<script type="module" src="/src/pages/editeur.js"></script>
 </head>
 <body class="h-screen w-full overflow-hidden flex font-body-md text-body-md">
 <!-- Barre de navigation latérale (version étroite pour l'éditeur) -->
-<nav class="fixed left-0 top-0 h-full w-14 z-50 flex flex-col bg-surface-container-low/90 dark:bg-surface-container-lowest/90 border-r border-white/5 backdrop-blur-2xl shadow-2xl shadow-black/50 py-md justify-between items-center hidden md:flex" style="background-image: url('assets/screen.png'); background-size: cover; background-position: center center; background-blend-mode: overlay;">
+<nav class="fixed left-0 top-0 h-full w-14 z-50 flex flex-col bg-surface-container-low/90 dark:bg-surface-container-lowest/90 border-r border-white/5 backdrop-blur-2xl shadow-2xl shadow-black/50 py-md justify-between items-center hidden md:flex" style="background-image: url('/assets/screen.png'); background-size: cover; background-position: center center; background-blend-mode: overlay;">
 <!-- Section supérieure -->
 <div class="flex flex-col items-center w-full gap-sm">
 <!-- Marque -->
 <a class="w-7 h-7 flex items-center justify-center rounded-lg bg-surface-container-high text-on-surface-variant hover:brightness-110 transition-all border border-outline-variant/20" href="index.html">
-<img alt="Jarvis" class="w-4 h-4 object-contain" src="assets/jarvis-mark.png" style="filter: brightness(0) invert(1);">
+<img alt="Jarvis" class="w-4 h-4 object-contain" src="/assets/jarvis-mark.png" style="filter: brightness(0) invert(1);">
 </a>
 <!-- Onglets -->
 <div class="flex flex-col gap-1 w-full px-2 mt-sm">
@@ -345,7 +176,7 @@
 <section class="flex-1 h-full flex flex-col relative overflow-hidden">
 <!-- Fond structurel subtil -->
 <div class="absolute inset-0 z-0">
-<img alt="Fond de l'espace de travail" class="w-full h-full object-cover opacity-30" src="assets/screen.png">
+<img alt="Fond de l'espace de travail" class="w-full h-full object-cover opacity-30" src="/assets/screen.png">
 <div class="absolute inset-0 bg-surface-container/70 backdrop-blur-3xl"></div>
 </div>
 <!-- Barre d'outils flottante -->
@@ -457,7 +288,7 @@
 <div class="flex-1 bg-surface-container-lowest overflow-y-auto relative">
 <!-- Section héro simulée en cours de génération -->
 <div class="absolute inset-0">
-<img alt="Fond de l'aperçu" class="w-full h-full object-cover opacity-40 mix-blend-overlay" src="assets/screen.png">
+<img alt="Fond de l'aperçu" class="w-full h-full object-cover opacity-40 mix-blend-overlay" src="/assets/screen.png">
 <div class="absolute inset-0 bg-surface-container-lowest/80 backdrop-blur-xl"></div>
 </div>
 <div class="relative z-10 max-w-2xl mx-auto px-6 pt-16 pb-10 flex flex-col items-center text-center">
@@ -523,7 +354,7 @@
   }
 
   // Charge la scène 3D une seule fois (rendu WebGL classique — voir
-  // assets/agents-scene.js — chargé comme module ES plus bas sur la page).
+  // src/scene/agents-scene.js — chargé comme module ES plus bas sur la page).
   let jarvisSceneLoaded = false;
   function jarvisLoadScene() {
     if (jarvisSceneLoaded) return;
@@ -609,7 +440,7 @@
 
 <!-- Scène 3D : module ES chargé une fois, exposé au script classique ci-dessus -->
 <script type="module">
-  import { initAgentsScene } from './assets/agents-scene.js';
+  import { initAgentsScene } from '/src/scene/agents-scene.js';
 
   window.jarvisStartScene3D = async function () {
     const container = document.getElementById('scene3d-container');

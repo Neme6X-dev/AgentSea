@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Polices chargées via <link> dans chaque page (Google Fonts). Les familles du
+   thème s'y réfèrent par leur nom : Manrope pour tout le dashboard, JetBrains
+   Mono pour les extraits de code de la page Paramètres. */

@@ -2,186 +2,12 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Jarvis Paramètres</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-                "inverse-on-surface": "#2e3037",
-                "on-primary-fixed-variant": "#3b35a7",
-                "background": "#111319",
-                "surface-container-low": "#191b22",
-                "on-tertiary-fixed": "#111c2d",
-                "on-error-container": "#ffdad6",
-                "surface-container-highest": "#33343b",
-                "on-primary": "#231691",
-                "secondary-container": "#3131c0",
-                "inverse-surface": "#e2e2eb",
-                "on-tertiary": "#263143",
-                "on-surface-variant": "#c8c4d5",
-                "on-background": "#e2e2eb",
-                "on-secondary-fixed-variant": "#2f2ebe",
-                "surface-variant": "#33343b",
-                "surface": "#111319",
-                "surface-container-high": "#282a30",
-                "on-surface": "#e2e2eb",
-                "surface-dim": "#111319",
-                "secondary-fixed-dim": "#c0c1ff",
-                "on-secondary-fixed": "#07006c",
-                "tertiary-fixed": "#d8e3fb",
-                "primary-fixed-dim": "#c3c0ff",
-                "secondary-fixed": "#e1e0ff",
-                "tertiary-fixed-dim": "#bcc7de",
-                "primary": "#c3c0ff",
-                "error": "#ffb4ab",
-                "surface-container": "#1e1f26",
-                "surface-bright": "#373940",
-                "on-error": "#690005",
-                "on-tertiary-fixed-variant": "#3c475a",
-                "on-primary-container": "#a9a7ff",
-                "primary-container": "#3730a3",
-                "secondary": "#c0c1ff",
-                "surface-tint": "#c3c0ff",
-                "tertiary-container": "#384356",
-                "on-secondary": "#1000a9",
-                "tertiary": "#bcc7de",
-                "inverse-primary": "#544fc0",
-                "on-tertiary-container": "#a4b0c7",
-                "on-primary-fixed": "#0f0069",
-                "surface-container-lowest": "#0c0e14",
-                "outline": "#918f9e",
-                "error-container": "#93000a",
-                "outline-variant": "#464553",
-                "primary-fixed": "#e2dfff",
-                "on-secondary-container": "#b0b2ff"
-        },
-        "borderRadius": {
-                "DEFAULT": "0.25rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px",
-                "2xl": "1rem"
-        },
-        "spacing": {
-                "sm": "10px",
-                "lg": "24px",
-                "base": "4px",
-                "xl": "32px",
-                "xs": "6px",
-                "gutter": "16px",
-                "margin": "20px",
-                "md": "16px",
-                "container-max": "1200px"
-        },
-        "fontFamily": {
-                "body-sm": [
-                        "Manrope"
-                ],
-                "label-md": [
-                        "Manrope"
-                ],
-                "body-lg": [
-                        "Manrope"
-                ],
-                "headline-md": [
-                        "Manrope"
-                ],
-                "headline-lg-mobile": [
-                        "Manrope"
-                ],
-                "headline-xl": [
-                        "Manrope"
-                ],
-                "body-md": [
-                        "Manrope"
-                ],
-                "headline-lg": [
-                        "Manrope"
-                ],
-                "code": [
-                        "JetBrains Mono"
-                ]
-        },
-        "fontSize": {
-                "body-sm": [
-                        "12px",
-                        {
-                                "lineHeight": "17px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "label-md": [
-                        "12px",
-                        {
-                                "lineHeight": "16px",
-                                "letterSpacing": "0em",
-                                "fontWeight": "500"
-                        }
-                ],
-                "body-lg": [
-                        "14.5px",
-                        {
-                                "lineHeight": "21px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "headline-md": [
-                        "15px",
-                        {
-                                "lineHeight": "20px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-lg-mobile": [
-                        "18px",
-                        {
-                                "lineHeight": "24px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-xl": [
-                        "26px",
-                        {
-                                "lineHeight": "32px",
-                                "letterSpacing": "-0.02em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-md": [
-                        "13px",
-                        {
-                                "lineHeight": "19px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "headline-lg": [
-                        "20px",
-                        {
-                                "lineHeight": "26px",
-                                "letterSpacing": "-0.01em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "code": [
-                        "11px",
-                        {
-                                "lineHeight": "15px",
-                                "fontWeight": "400"
-                        }
-                ]
-        }
-},
-    },
-  }
-</script>
 <style>
         body {
             background-color: theme('colors.background');
-            background-image: url('assets/screen.png');
+            background-image: url('/assets/screen.png');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -229,8 +55,9 @@
             document.documentElement.classList.add('nav-collapsed');
         }
     </script>
+<script type="module" src="/src/main.js"></script>
 </head>
-<body class="antialiased min-h-screen flex" style="background-image: url('assets/screen.png'); background-size: cover; background-position: center center; background-attachment: fixed;">
+<body class="antialiased min-h-screen flex" style="background-image: url('/assets/screen.png'); background-size: cover; background-position: center center; background-attachment: fixed;">
 <!-- Barre de navigation latérale -->
 <nav class="app-nav fixed left-0 top-0 h-full w-14 md:w-60 z-50 flex flex-col border-r border-white/5 py-md justify-between">
 <!-- Bouton de rétraction, ancré au bord droit de la nav -->
@@ -240,7 +67,7 @@
 <div class="px-2.5 flex flex-col gap-md">
 <!-- Marque -->
 <a class="flex items-center gap-xs px-1" href="index.html">
-<img alt="Jarvis" class="logo-mark w-6 h-6 object-contain shrink-0" src="assets/jarvis-mark.png">
+<img alt="Jarvis" class="logo-mark w-6 h-6 object-contain shrink-0" src="/assets/jarvis-mark.png">
 <div class="nav-label hidden md:block">
 <div class="font-headline-md text-[15px] font-bold tracking-tighter text-on-surface leading-none">Jarvis</div>
 <div class="font-label-md text-label-md text-on-surface-variant mt-0.5">Constructeur IA</div>
@@ -327,7 +154,7 @@
 <div class="flex flex-col md:flex-row gap-md items-start mb-md">
 <div class="relative group">
 <div class="w-16 h-16 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden flex items-center justify-center">
-<img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" data-alt="Un avatar de près et de haute qualité d'un développeur professionnel dans un environnement technologique sombre." src="assets/screen.png">
+<img class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" data-alt="Un avatar de près et de haute qualité d'un développeur professionnel dans un environnement technologique sombre." src="/assets/screen.png">
 </div>
 <button class="absolute bottom-0 right-0 bg-surface-container-highest text-on-surface border border-outline-variant rounded-full p-1 hover:bg-surface-bright transition-colors shadow-sm">
 <span class="material-symbols-outlined text-xs">edit</span>

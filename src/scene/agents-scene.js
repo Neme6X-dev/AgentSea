@@ -22,8 +22,13 @@ import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createPipeline } from './agents-pipeline.js';
 
-const MODELS_BASE = 'assets/models/';
-const DRACO_BASE = 'assets/draco/';
+// Chemin absolu : les modèles vivent dans public/ et sont copiés tels quels à la
+// racine du build. En relatif ils dépendraient de l'URL de la page qui monte la scène.
+//
+// Le décodeur Draco, lui, n'est plus vendored : DRACOLoader pointe par défaut sur
+// celui livré avec three, que le bundler résout et émet. Une copie manuelle dans
+// public/ n'aurait fait que dupliquer ces fichiers et se désynchroniser de three.
+const MODELS_BASE = '/assets/models/';
 
 // Chaque agent a une position de base fixe (POI cohérent avec son rôle) et un
 // clip d'animation par état. Aucune position n'est recalculée au fil du temps.
@@ -220,9 +225,7 @@ export async function initAgentsScene(container) {
   scene.add(dirLight);
 
   const loader = new GLTFLoader();
-  const draco = new DRACOLoader();
-  draco.setDecoderPath(DRACO_BASE);
-  loader.setDRACOLoader(draco);
+  loader.setDRACOLoader(new DRACOLoader());
 
   const [officeGltf, characterGltf] = await Promise.all([
     loader.loadAsync(MODELS_BASE + 'office.glb'),

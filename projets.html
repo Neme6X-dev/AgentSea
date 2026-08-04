@@ -2,173 +2,10 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Jarvis AI - Tableau de bord des projets</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-                "surface-container-low": "#191b22",
-                "on-primary-fixed-variant": "#3b35a7",
-                "background": "#111319",
-                "surface-tint": "#c3c0ff",
-                "primary": "#c3c0ff",
-                "on-tertiary": "#263143",
-                "on-surface-variant": "#c8c4d5",
-                "inverse-primary": "#544fc0",
-                "on-secondary-fixed-variant": "#2f2ebe",
-                "error-container": "#93000a",
-                "on-tertiary-container": "#a4b0c7",
-                "tertiary": "#bcc7de",
-                "surface": "#111319",
-                "secondary-fixed": "#e1e0ff",
-                "on-error": "#690005",
-                "inverse-surface": "#e2e2eb",
-                "error": "#ffb4ab",
-                "on-primary-fixed": "#0f0069",
-                "secondary-fixed-dim": "#c0c1ff",
-                "tertiary-fixed": "#d8e3fb",
-                "primary-fixed-dim": "#c3c0ff",
-                "outline": "#918f9e",
-                "outline-variant": "#464553",
-                "on-tertiary-fixed-variant": "#3c475a",
-                "on-error-container": "#ffdad6",
-                "secondary": "#c0c1ff",
-                "surface-container-lowest": "#0c0e14",
-                "on-primary": "#231691",
-                "on-secondary-fixed": "#07006c",
-                "on-background": "#e2e2eb",
-                "secondary-container": "#3131c0",
-                "on-primary-container": "#a9a7ff",
-                "on-tertiary-fixed": "#111c2d",
-                "on-secondary-container": "#b0b2ff",
-                "surface-variant": "#33343b",
-                "tertiary-fixed-dim": "#bcc7de",
-                "surface-bright": "#373940",
-                "primary-container": "#3730a3",
-                "tertiary-container": "#384356",
-                "surface-container-high": "#282a30",
-                "on-surface": "#e2e2eb",
-                "primary-fixed": "#e2dfff",
-                "inverse-on-surface": "#2e3037",
-                "surface-dim": "#111319",
-                "surface-container-highest": "#33343b",
-                "surface-container": "#1e1f26",
-                "on-secondary": "#1000a9"
-        },
-        "borderRadius": {
-                "DEFAULT": "0.25rem",
-                "lg": "0.5rem",
-                "xl": "0.75rem",
-                "full": "9999px"
-        },
-        "spacing": {
-                "sm": "10px",
-                "lg": "24px",
-                "md": "16px",
-                "margin": "20px",
-                "xs": "6px",
-                "gutter": "16px",
-                "xl": "32px",
-                "base": "4px",
-                "container-max": "1200px"
-        },
-        "fontFamily": {
-                "label-md": [
-                        "Manrope"
-                ],
-                "headline-lg-mobile": [
-                        "Manrope"
-                ],
-                "headline-lg": [
-                        "Manrope"
-                ],
-                "body-md": [
-                        "Manrope"
-                ],
-                "headline-xl": [
-                        "Manrope"
-                ],
-                "headline-md": [
-                        "Manrope"
-                ],
-                "body-sm": [
-                        "Manrope"
-                ],
-                "body-lg": [
-                        "Manrope"
-                ]
-        },
-        "fontSize": {
-                "label-md": [
-                        "12px",
-                        {
-                                "lineHeight": "16px",
-                                "letterSpacing": "0em",
-                                "fontWeight": "500"
-                        }
-                ],
-                "headline-lg-mobile": [
-                        "18px",
-                        {
-                                "lineHeight": "24px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-lg": [
-                        "20px",
-                        {
-                                "lineHeight": "26px",
-                                "letterSpacing": "-0.01em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-md": [
-                        "13px",
-                        {
-                                "lineHeight": "19px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "headline-xl": [
-                        "26px",
-                        {
-                                "lineHeight": "32px",
-                                "letterSpacing": "-0.02em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "headline-md": [
-                        "15px",
-                        {
-                                "lineHeight": "20px",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-sm": [
-                        "12px",
-                        {
-                                "lineHeight": "17px",
-                                "fontWeight": "400"
-                        }
-                ],
-                "body-lg": [
-                        "14.5px",
-                        {
-                                "lineHeight": "21px",
-                                "fontWeight": "400"
-                        }
-                ]
-        }
-},
-    },
-  }
-</script>
 <style>
         .nav-item { height: 32px; }
         .logo-mark { filter: brightness(0) invert(1); }
@@ -193,6 +30,7 @@
             document.documentElement.classList.add('nav-collapsed');
         }
     </script>
+<script type="module" src="/src/main.js"></script>
 </head>
 <body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden">
 <!-- Barre de navigation latérale -->
@@ -204,7 +42,7 @@
 <!-- En-tête -->
 <div class="px-2.5 flex flex-col items-center md:items-start mb-md">
 <a class="flex items-center gap-xs w-full justify-center md:justify-start" href="index.html">
-<img alt="Jarvis" class="logo-mark w-6 h-6 object-contain shrink-0" src="assets/jarvis-mark.png">
+<img alt="Jarvis" class="logo-mark w-6 h-6 object-contain shrink-0" src="/assets/jarvis-mark.png">
 <div class="nav-label hidden md:flex flex-col">
 <h1 class="font-headline-md text-[15px] font-extrabold tracking-tighter text-on-surface leading-none">Jarvis</h1>
 <span class="font-label-md text-[10px] text-on-surface-variant">Constructeur IA</span>
@@ -254,7 +92,7 @@
 <!-- Zone de contenu principale -->
 <main class="app-main flex-1 ml-14 md:ml-60 relative min-h-screen">
 <!-- Fond d'en-tête subtil -->
-<div class="absolute top-0 left-0 w-full h-[280px] bg-[url('assets/screen.png')] bg-cover bg-center opacity-15 pointer-events-none" style="mask-image: linear-gradient(rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);"></div>
+<div class="absolute top-0 left-0 w-full h-[280px] bg-[url('/assets/screen.png')] bg-cover bg-center opacity-15 pointer-events-none" style="mask-image: linear-gradient(rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);"></div>
 <div class="p-md md:p-lg max-w-container-max mx-auto w-full relative z-10">
 <!-- Barre supérieure / En-tête -->
 <header class="flex flex-col md:flex-row md:items-center justify-between mb-md gap-sm">
@@ -287,7 +125,7 @@
 <!-- Carte projet 1 -->
 <a class="bg-surface-container border border-outline-variant/20 hover:border-outline-variant hover:bg-surface-container-high rounded-xl p-1.5 flex flex-col group cursor-pointer transition-all duration-300" href="editeur.html">
 <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-1.5 bg-surface-container-high">
-<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Une interface de tableau de bord SaaS moderne et élégante avec un thème sombre, des accents lumineux violet et bleu néon." style="background-image: url('assets/screen.png')"></div>
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Une interface de tableau de bord SaaS moderne et élégante avec un thème sombre, des accents lumineux violet et bleu néon." style="background-image: url('/assets/screen.png')"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-1.5">
 <span class="bg-surface text-on-surface border border-outline-variant/30 px-1.5 py-0.5 rounded text-[10px] font-label-md flex items-center gap-1">
 <span class="material-symbols-outlined text-xs">edit</span> Modifier
@@ -309,7 +147,7 @@
 <!-- Carte projet 2 -->
 <a class="bg-surface-container border border-outline-variant/20 hover:border-outline-variant hover:bg-surface-container-high rounded-xl p-1.5 flex flex-col group cursor-pointer transition-all duration-300" href="editeur.html">
 <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-1.5 bg-surface-container-high">
-<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Une page d'accueil de boutique e-commerce minimaliste et épurée sur un thème sombre." style="background-image: url('assets/screen.png')"></div>
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Une page d'accueil de boutique e-commerce minimaliste et épurée sur un thème sombre." style="background-image: url('/assets/screen.png')"></div>
 <div class="absolute top-1.5 right-1.5 flex items-center gap-1 bg-surface-container/90 px-1.5 py-0.5 rounded-md border border-outline-variant/30">
 <span class="w-1 h-1 rounded-full bg-primary animate-pulse"></span>
 <span class="text-[9px] font-label-md text-primary font-bold tracking-wider uppercase">Génération IA</span>
@@ -335,7 +173,7 @@
 <!-- Carte projet 3 -->
 <a class="bg-surface-container border border-outline-variant/20 hover:border-outline-variant hover:bg-surface-container-high rounded-xl p-1.5 flex flex-col group cursor-pointer transition-all duration-300" href="editeur.html">
 <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-1.5 bg-surface-container-high">
-<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0" data-alt="Un design de site portfolio moderne pour une agence créative." style="background-image: url('assets/screen.png')"></div>
+<div class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105 filter grayscale group-hover:grayscale-0" data-alt="Un design de site portfolio moderne pour une agence créative." style="background-image: url('/assets/screen.png')"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-1.5">
 <span class="bg-surface text-on-surface border border-outline-variant/30 px-1.5 py-0.5 rounded text-[10px] font-label-md flex items-center gap-1">
 <span class="material-symbols-outlined text-xs">edit</span> Modifier
