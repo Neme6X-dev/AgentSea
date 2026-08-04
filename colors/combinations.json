@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "name": "Stormy morning",
+    "colors": [
+      "#6A89A7",
+      "#BDDDFC",
+      "#88BDF2",
+      "#384959"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Mossy hollow",
+    "colors": [
+      "#636B2F",
+      "#BAC095",
+      "#D4DE95",
+      "#D4DE95"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Blue eclipse",
+    "colors": [
+      "#272757",
+      "#272757",
+      "#505081",
+      "#0F0E47"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Lush Forest",
+    "colors": [
+      "#2E6F40",
+      "#CFFFDC",
+      "#68BA7F",
+      "#253D2C"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Chili spice",
+    "colors": [
+      "#CD1C18",
+      "#FFA896",
+      "#9B1313",
+      "#38000A"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Chocolate truffle",
+    "colors": [
+      "#713600",
+      "#C05800",
+      "#FDFBD4",
+      "#38240D"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Ink wash",
+    "colors": [
+      "#4A4A4A",
+      "#CBCBCB",
+      "#FFFFE3",
+      "#6D8196"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Golden taupe",
+    "colors": [
+      "#D4AF37",
+      "#BDB76B",
+      "#FDFBD4",
+      "#CE8946"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Wisteria bloom",
+    "colors": [
+      "#D3D3FF",
+      "#9400D3",
+      "#D8BFD8",
+      "#ED80E9"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Burnt sienna",
+    "colors": [
+      "#E35336",
+      "#F5F5DC",
+      "#F4A460",
+      "#A0522D"
+    ]
+  },
+  {
+    "id": 11,
+    "name": "Blooming romance",
+    "colors": [
+      "#660033",
+      "#E673AC",
+      "#469110",
+      "#00520A"
+    ]
+  }
+]
