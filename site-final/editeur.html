@@ -233,13 +233,13 @@
 <a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="agents.html" title="Agents">
 <span class="material-symbols-outlined text-lg">smart_toy</span>
 </a>
-<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="#" title="Ressources">
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="ressources.html" title="Ressources">
 <span class="material-symbols-outlined text-lg">inventory_2</span>
 </a>
 <a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="parametres.html" title="Paramètres">
 <span class="material-symbols-outlined text-lg">settings</span>
 </a>
-<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="#" title="Aide">
+<a class="flex items-center justify-center w-full h-9 text-on-surface-variant/60 hover:text-on-surface dark:text-on-surface-variant transition-colors hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg duration-150" href="aide.html" title="Aide">
 <span class="material-symbols-outlined text-lg">help</span>
 </a>
 </div>
@@ -553,6 +553,13 @@
     });
     jarvisSetPreviewTab('apercu');
 
+    // Génération terminée : la scène 3D reflète l'état réel — tous les agents
+    // passent en « terminé » (fondu propre géré par la scène), plutôt que de
+    // continuer à boucler.
+    if (window.jarvisAgentsScene && window.jarvisAgentsScene.pipeline) {
+      window.jarvisAgentsScene.pipeline.complete();
+    }
+
     const statusContent = document.getElementById('gen-status-content');
     if (statusContent) {
       statusContent.innerHTML =
@@ -607,7 +614,9 @@
   window.jarvisStartScene3D = async function () {
     const container = document.getElementById('scene3d-container');
     try {
-      await initAgentsScene(container);
+      // La scène expose son pipeline : on le garde pour le synchroniser avec la
+      // fin de génération (les agents passent alors tous en état « terminé »).
+      window.jarvisAgentsScene = await initAgentsScene(container);
       const loading = document.getElementById('scene3d-loading');
       if (loading) loading.remove();
     } catch (err) {

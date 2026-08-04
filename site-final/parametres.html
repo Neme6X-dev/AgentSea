@@ -214,6 +214,15 @@
         html.nav-collapsed .nav-label { display: none !important; }
         .nav-toggle-icon { transition: transform 200ms ease-out; }
         html.nav-collapsed .nav-toggle-icon { transform: rotate(180deg); }
+
+        /* Interrupteur de préférence (même langage visuel que le reste du produit) */
+        .pref-switch { width: 34px; height: 20px; border-radius: 9999px; background: rgba(255,255,255,0.12); position: relative; transition: background-color 150ms ease; flex-shrink: 0; cursor: pointer; }
+        .pref-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 9999px; background: #cfcfe0; transition: transform 150ms cubic-bezier(0.23,1,0.32,1); }
+        .pref-switch.on { background: #544fc0; }
+        .pref-switch.on::after { transform: translateX(14px); background: #fff; }
+        .segment-group { display: flex; background: theme('colors.surface-container-lowest'); border-radius: 0.5rem; padding: 2px; border: 1px solid theme('colors.outline-variant' / 10%); }
+        .segment-btn { flex: 1; padding: 6px 0; border-radius: 0.375rem; font-size: 11px; font-weight: 500; color: theme('colors.on-surface-variant'); transition: background-color 150ms ease, color 150ms ease; }
+        .segment-btn.active { background: theme('colors.surface-container-high'); color: theme('colors.on-surface'); }
     </style>
     <script>
         if (localStorage.getItem('jarvisNavCollapsed') === '1') {
@@ -263,7 +272,7 @@
 <span class="material-symbols-outlined text-base">smart_toy</span>
 <span class="nav-label hidden md:block font-label-md text-label-md">Agents</span>
 </a>
-<a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="#">
+<a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="ressources.html">
 <span class="material-symbols-outlined text-base">inventory_2</span>
 <span class="nav-label hidden md:block font-label-md text-label-md">Ressources</span>
 </a>
@@ -271,7 +280,7 @@
 <span class="material-symbols-outlined text-base">settings</span>
 <span class="nav-label hidden md:block font-label-md text-label-md">Paramètres</span>
 </a>
-<a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="#">
+<a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="aide.html">
 <span class="material-symbols-outlined text-base">help</span>
 <span class="nav-label hidden md:block font-label-md text-label-md">Aide</span>
 </a>
@@ -300,9 +309,11 @@
 <div class="lg:col-span-3">
 <div class="sticky top-md flex flex-col gap-0.5 glass-panel p-1.5 rounded-xl">
 <a class="font-label-md text-label-md py-1.5 px-sm rounded-lg bg-surface-container-high text-on-surface font-medium" href="#profile">Détails du profil</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#preferences">Préférences</a>
 <a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#api">Clés API</a>
-<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#billing">Facturation & Forfaits</a>
-<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#team">Membres de l'équipe</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#billing">Abonnement & Facturation</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#notifications">Notifications</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-error/90 hover:bg-error-container/20 transition-colors" href="#danger">Zone dangereuse</a>
 </div>
 </div>
 <!-- Contenu des paramètres -->
@@ -337,10 +348,49 @@
 <label class="font-label-md text-label-md text-on-surface-variant">Adresse e-mail</label>
 <input class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" type="email" value="doliveirajeansebastien@gmail.com">
 </div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Mot de passe</label>
+<div class="flex flex-col sm:flex-row gap-2">
+<input class="flex-1 bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" readonly type="password" value="motdepasse-actuel">
+<button class="shrink-0 bg-surface-container-high text-on-surface border border-outline-variant/30 py-2 px-md rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors flex items-center justify-center gap-1.5"><span class="material-symbols-outlined text-base">lock_reset</span> Changer le mot de passe</button>
+</div>
+</div>
 </div>
 </div>
 <div class="flex justify-end pt-sm border-t border-outline-variant/30">
 <button class="bg-surface-container-highest text-on-surface py-2 px-md rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors border border-outline-variant/30">Enregistrer les modifications</button>
+</div>
+</section>
+<!-- Section Préférences -->
+<section class="glass-panel rounded-2xl p-md" id="preferences">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Préférences</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Langue de l'interface et apparence de votre espace de travail.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Langue de l'interface</label>
+<select class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all">
+<option>Français</option>
+<option>English</option>
+<option>Español</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Thème</label>
+<div class="segment-group" id="theme-segment">
+<button class="segment-btn active" type="button" onclick="jarvisPickSegment(this)">Sombre</button>
+<button class="segment-btn" type="button" onclick="jarvisPickSegment(this)">Clair</button>
+<button class="segment-btn" type="button" onclick="jarvisPickSegment(this)">Système</button>
+</div>
+</div>
+</div>
+<div class="mt-md pt-sm border-t border-outline-variant/30 flex items-center justify-between gap-md">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Format de date régional</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Adapte l'affichage des dates à votre région.</div>
+</div>
+<div class="pref-switch on" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
 </div>
 </section>
 <!-- Section Clés API -->
@@ -395,7 +445,7 @@
 <!-- Section Facturation -->
 <section class="glass-panel rounded-2xl p-md" id="billing">
 <div class="mb-sm">
-<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Facturation & Forfaits</h2>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Abonnement & Facturation</h2>
 <p class="font-body-sm text-body-sm text-on-surface-variant">Gérez votre abonnement et vos méthodes de paiement.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
@@ -431,6 +481,66 @@
 </div>
 </div>
 </section>
+<!-- Section Notifications -->
+<section class="glass-panel rounded-2xl p-md" id="notifications">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Notifications</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Choisissez ce dont Jarvis vous informe.</p>
+</div>
+<div class="flex flex-col divide-y divide-outline-variant/15">
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Génération terminée</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Un e-mail quand vos 6 agents ont fini de construire une landing page.</div>
+</div>
+<div class="pref-switch on" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Échec ou avertissement d'un agent</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Soyez alerté si l'agent Qualité & Sécurité signale un blocage.</div>
+</div>
+<div class="pref-switch on" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Résumé hebdomadaire</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Un récapitulatif de vos projets et de votre consommation.</div>
+</div>
+<div class="pref-switch" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Nouveautés produit</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Annonces de fonctionnalités et bonnes pratiques.</div>
+</div>
+<div class="pref-switch" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+</div>
+</section>
+<!-- Section Zone dangereuse -->
+<section class="glass-panel rounded-2xl p-md border border-error/30" id="danger">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-error mb-0.5">Zone dangereuse</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ces actions sont définitives et ne peuvent pas être annulées.</p>
+</div>
+<div class="flex flex-col divide-y divide-outline-variant/15">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Supprimer tous les projets</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Efface définitivement vos landing pages générées.</div>
+</div>
+<button class="shrink-0 bg-transparent border border-error/40 text-error py-2 px-md rounded-lg font-label-md text-label-md hover:bg-error-container/20 transition-colors">Supprimer les projets</button>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Supprimer le compte</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Supprime votre compte, vos projets et vos clés API.</div>
+</div>
+<button class="shrink-0 bg-error text-on-error py-2 px-md rounded-lg font-label-md text-label-md font-semibold hover:opacity-90 transition-opacity">Supprimer mon compte</button>
+</div>
+</div>
+</section>
 </div>
 </div>
 </main>
@@ -438,6 +548,11 @@
   function jarvisToggleNav() {
     const collapsed = document.documentElement.classList.toggle('nav-collapsed');
     localStorage.setItem('jarvisNavCollapsed', collapsed ? '1' : '0');
+  }
+  function jarvisPickSegment(btn) {
+    const group = btn.closest('.segment-group');
+    group.querySelectorAll('.segment-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
   }
 </script>
 </body></html>

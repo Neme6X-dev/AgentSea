@@ -1,0 +1,405 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Jarvis — Aide</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-on-surface": "#2e3037",
+                "on-primary-fixed-variant": "#3b35a7",
+                "background": "#111319",
+                "surface-container-low": "#191b22",
+                "on-tertiary-fixed": "#111c2d",
+                "on-error-container": "#ffdad6",
+                "surface-container-highest": "#33343b",
+                "on-primary": "#231691",
+                "secondary-container": "#3131c0",
+                "inverse-surface": "#e2e2eb",
+                "on-tertiary": "#263143",
+                "on-surface-variant": "#c8c4d5",
+                "on-background": "#e2e2eb",
+                "on-secondary-fixed-variant": "#2f2ebe",
+                "surface-variant": "#33343b",
+                "surface": "#111319",
+                "surface-container-high": "#282a30",
+                "on-surface": "#e2e2eb",
+                "surface-dim": "#111319",
+                "secondary-fixed-dim": "#c0c1ff",
+                "on-secondary-fixed": "#07006c",
+                "tertiary-fixed": "#d8e3fb",
+                "primary-fixed-dim": "#c3c0ff",
+                "secondary-fixed": "#e1e0ff",
+                "tertiary-fixed-dim": "#bcc7de",
+                "primary": "#c3c0ff",
+                "error": "#ffb4ab",
+                "surface-container": "#1e1f26",
+                "surface-bright": "#373940",
+                "on-error": "#690005",
+                "on-tertiary-fixed-variant": "#3c475a",
+                "on-primary-container": "#a9a7ff",
+                "primary-container": "#3730a3",
+                "secondary": "#c0c1ff",
+                "surface-tint": "#c3c0ff",
+                "tertiary-container": "#384356",
+                "on-secondary": "#1000a9",
+                "tertiary": "#bcc7de",
+                "inverse-primary": "#544fc0",
+                "on-tertiary-container": "#a4b0c7",
+                "on-primary-fixed": "#0f0069",
+                "surface-container-lowest": "#0c0e14",
+                "outline": "#918f9e",
+                "error-container": "#93000a",
+                "outline-variant": "#464553",
+                "primary-fixed": "#e2dfff",
+                "on-secondary-container": "#b0b2ff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px",
+                "2xl": "1rem"
+        },
+        "spacing": {
+                "sm": "10px",
+                "lg": "24px",
+                "base": "4px",
+                "xl": "32px",
+                "xs": "6px",
+                "gutter": "16px",
+                "margin": "20px",
+                "md": "16px",
+                "container-max": "1200px"
+        },
+        "fontFamily": {
+                "body-sm": [
+                        "Manrope"
+                ],
+                "label-md": [
+                        "Manrope"
+                ],
+                "body-lg": [
+                        "Manrope"
+                ],
+                "headline-md": [
+                        "Manrope"
+                ],
+                "headline-lg-mobile": [
+                        "Manrope"
+                ],
+                "headline-xl": [
+                        "Manrope"
+                ],
+                "body-md": [
+                        "Manrope"
+                ],
+                "headline-lg": [
+                        "Manrope"
+                ]
+        },
+        "fontSize": {
+                "body-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "17px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-lg": [
+                        "14.5px",
+                        {
+                                "lineHeight": "21px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-md": [
+                        "15px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "26px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "13px",
+                        {
+                                "lineHeight": "19px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "20px",
+                        {
+                                "lineHeight": "26px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .nav-item { height: 32px; }
+        .logo-mark { filter: brightness(0) invert(1); }
+
+        /* Nav vitrée, épaisse et rétractable */
+        .app-nav {
+            background: rgba(20, 21, 28, 0.55);
+            backdrop-filter: blur(28px) saturate(140%);
+            -webkit-backdrop-filter: blur(28px) saturate(140%);
+            box-shadow: 1px 0 0 rgba(255,255,255,0.06), 8px 0 30px -10px rgba(0,0,0,0.6);
+            transition: width 220ms cubic-bezier(0.23,1,0.32,1);
+        }
+        .app-main { transition: margin-left 220ms cubic-bezier(0.23,1,0.32,1); }
+        html.nav-collapsed .app-nav { width: 3.5rem !important; }
+        html.nav-collapsed .app-main { margin-left: 3.5rem !important; }
+        html.nav-collapsed .nav-label { display: none !important; }
+        .nav-toggle-icon { transition: transform 200ms ease-out; }
+        html.nav-collapsed .nav-toggle-icon { transform: rotate(180deg); }
+
+        /* Fond assombri : espace de travail plus "pro", distinct des pages vitrine */
+        .workspace-bg { background: radial-gradient(ellipse 120% 60% at 50% -10%, rgba(83,79,192,0.16), transparent 60%), #0a0b0f; }
+        .workspace-scrim { background: linear-gradient(180deg, rgba(10,11,15,0.75), rgba(10,11,15,0.92)); }
+
+        .glass-panel {
+            background: rgba(24, 25, 32, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .input-glow {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.09);
+            transition: border-color .15s ease, box-shadow .15s ease;
+        }
+        .input-glow:focus { outline: none; border-color: #7c76e0; box-shadow: 0 0 0 3px rgba(124,118,224,0.18); }
+
+        /* Carte agent : statique, s'ouvre dans une fenêtre de configuration */
+        .agent-card { transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 0.05s; }
+        .delay-150 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.15s; }
+        .delay-250 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.25s; }
+        .delay-350 { animation-delay: 0.3s; }
+        .agent-card:hover { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.02); transform: translateY(-2px); box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5); }
+        .agent-card:active { transform: scale(0.99); }
+        .agent-desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+
+        /* Segmented control (niveau de raisonnement) */
+        .segment-btn { transition: background-color 150ms ease, color 150ms ease; }
+
+        input[type="range"] { accent-color: #b3aeff; }
+
+        /* Modal de configuration */
+        #agent-modal-backdrop { background: rgba(6, 7, 10, 0.6); backdrop-filter: blur(4px); }
+        .modal-panel { transition: opacity 180ms cubic-bezier(0.23,1,0.32,1), transform 180ms cubic-bezier(0.23,1,0.32,1); }
+    </style>
+    <script>
+        if (localStorage.getItem('jarvisNavCollapsed') === '1') {
+            document.documentElement.classList.add('nav-collapsed');
+        }
+    </script>
+</head>
+<body class="workspace-bg text-on-background font-body-md antialiased min-h-screen flex overflow-x-hidden">
+
+<!-- Fond assombri -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<img alt="Arrière-plan" class="absolute inset-0 w-full h-full object-cover opacity-30" src="assets/screen.png">
+<div class="absolute inset-0 workspace-scrim"></div>
+</div>
+
+<!-- Barre de navigation latérale -->
+<nav class="app-nav fixed left-0 top-0 h-full w-14 md:w-60 z-50 flex flex-col border-r border-white/5 py-md justify-between">
+<button class="hidden md:flex absolute top-4 -right-3 w-6 h-6 items-center justify-center rounded-full bg-surface-container-high border border-outline-variant/30 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest shadow-md transition-colors z-10" onclick="jarvisToggleNav()" title="Réduire / élargir la navigation">
+<span class="material-symbols-outlined nav-toggle-icon text-[15px]">chevron_left</span>
+</button>
+<div class="flex flex-col gap-md px-2.5">
+<a class="flex items-center gap-1.5 px-1.5 min-w-0" href="index.html">
+<img alt="Jarvis" class="logo-mark w-5 h-5 object-contain shrink-0" src="assets/jarvis-mark.png">
+<span class="nav-label font-headline-md text-headline-md tracking-tight text-on-surface hidden md:block truncate">Jarvis</span>
+</a>
+<button class="nav-label nav-item flex items-center justify-center gap-xs px-sm bg-surface-container-highest text-on-surface rounded-lg font-label-md text-label-md transition-transform duration-150 ease-out hover:scale-[0.97] hover:bg-surface-bright w-full group border border-outline-variant/30 hidden md:flex" onclick="window.location.href='index.html'">
+<span class="material-symbols-outlined text-base group-hover:rotate-90 transition-transform duration-300">add</span>
+<span>Nouvelle application</span>
+</button>
+<ul class="flex flex-col gap-0.5 w-full">
+<li><a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant/80 hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="index.html"><span class="material-symbols-outlined text-base">auto_awesome</span><span class="nav-label hidden md:block font-label-md text-label-md">Accueil</span></a></li>
+<li><a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant/80 hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="projets.html"><span class="material-symbols-outlined text-base">folder_open</span><span class="nav-label hidden md:block font-label-md text-label-md">Projets</span></a></li>
+<li><a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant/80 hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="agents.html"><span class="material-symbols-outlined text-base">smart_toy</span><span class="nav-label hidden md:block font-label-md text-label-md">Agents</span></a></li>
+<li><a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant/80 hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="ressources.html"><span class="material-symbols-outlined text-base">inventory_2</span><span class="nav-label hidden md:block font-label-md text-label-md">Ressources</span></a></li>
+<li><a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant/80 hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150" href="parametres.html"><span class="material-symbols-outlined text-base">settings</span><span class="nav-label hidden md:block font-label-md text-label-md">Paramètres</span></a></li>
+<li><a class="nav-item flex items-center gap-xs px-sm bg-surface-container text-on-surface rounded-lg font-semibold transition-colors duration-150 ease-out" href="aide.html"><span class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">help</span><span class="nav-label hidden md:block font-label-md text-label-md">Aide</span></a></li>
+</ul>
+</div>
+<div class="px-2.5 w-full flex flex-col gap-0.5">
+<a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant/80 hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150 w-full" href="parametres.html#profile">
+<span class="material-symbols-outlined text-base">account_circle</span>
+<span class="nav-label hidden md:block font-label-md text-label-md">Compte</span>
+</a>
+<a class="nav-item flex items-center gap-xs px-sm text-on-surface-variant/80 hover:text-on-surface transition-colors hover:bg-surface-container rounded-lg duration-150 w-full" href="connexion.html">
+<span class="material-symbols-outlined text-base">logout</span>
+<span class="nav-label hidden md:block font-label-md text-label-md">Déconnexion</span>
+</a>
+</div>
+</nav>
+
+<main class="app-main flex-1 ml-14 md:ml-60 relative z-10 p-md md:p-lg max-w-container-max mx-auto w-full">
+
+<header class="mb-lg animate-fade-in">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-1">Centre d'aide</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">Tout pour générer, éditer et publier vos landing pages avec les 6 agents Jarvis.</p>
+</header>
+
+<!-- Recherche -->
+<div class="glass-panel rounded-xl p-1.5 mb-lg animate-fade-in delay-100 max-w-2xl">
+<div class="flex items-center gap-2 px-2.5">
+<span class="material-symbols-outlined text-on-surface-variant/60 text-lg">search</span>
+<input id="faq-search" oninput="jarvisFilterFaq(this.value)" class="w-full bg-transparent border-none py-2.5 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/40 focus:ring-0 outline-none" placeholder="Rechercher une question (ex. agent, prompt, publier…)">
+</div>
+</div>
+
+<!-- Catégories rapides -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-xl animate-fade-in delay-150">
+<a href="#faq-demarrer" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mb-2 block">rocket_launch</span>
+<div class="font-headline-md text-headline-md text-on-surface mb-0.5">Démarrer</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70">Votre première génération.</p>
+</a>
+<a href="#faq-agents" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mb-2 block">smart_toy</span>
+<div class="font-headline-md text-headline-md text-on-surface mb-0.5">Les 6 agents</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70">Qui fait quoi dans le pipeline.</p>
+</a>
+<a href="#faq-edition" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mb-2 block">edit</span>
+<div class="font-headline-md text-headline-md text-on-surface mb-0.5">Éditer & publier</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70">Retoucher puis mettre en ligne.</p>
+</a>
+<a href="#faq-forfait" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant mb-2 block">credit_card</span>
+<div class="font-headline-md text-headline-md text-on-surface mb-0.5">Forfait</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70">Limites et facturation.</p>
+</a>
+</div>
+
+<!-- FAQ -->
+<div class="max-w-3xl flex flex-col gap-lg" id="faq-root">
+
+<section id="faq-demarrer" class="animate-fade-in delay-200">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Démarrer</h2>
+<div class="flex flex-col gap-2">
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="comment générer ma première landing page ? depuis l'accueil, décrivez le site voulu en une phrase (objectif, audience, style), puis lancez la génération. l'orchestrateur transforme votre demande en spec, et les 6 agents construisent la page étape par étape. vous suivez leur travail en direct dans la scène 3d de l'éditeur."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Comment générer ma première landing page ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Depuis l'accueil, décrivez le site voulu en une phrase (objectif, audience, style), puis lancez la génération. L'orchestrateur transforme votre demande en spec, et les 6 agents construisent la page étape par étape. Vous suivez leur travail en direct dans la scène 3D de l'éditeur.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="que dois-je écrire dans le prompt ? indiquez le but de la page (ex. capter des inscriptions), pour qui, le ton, et 1 à 2 sections clés attendues. plus la demande est précise, plus le résultat est fidèle. le guide « bien rédiger un prompt » de la page ressources détaille la méthode."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Que dois-je écrire dans le prompt ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Indiquez le but de la page (ex. capter des inscriptions), pour qui, le ton, et 1 à 2 sections clés attendues. Plus la demande est précise, plus le résultat est fidèle. Le guide « Bien rédiger un prompt » de la page Ressources détaille la méthode.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="combien de temps prend une génération ? la plupart des landing pages sont produites en moins d'une minute. le pipeline s'exécute en série : chaque agent s'active à son tour, ce que la scène 3d reflète (un agent au travail, les autres en attente)."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Combien de temps prend une génération ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">La plupart des landing pages sont produites en moins d'une minute. Le pipeline s'exécute en série : chaque agent s'active à son tour, ce que la scène 3D reflète (un agent au travail, les autres en attente).</div></div>
+</div>
+</section>
+
+<section id="faq-agents" class="animate-fade-in delay-200">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Les 6 agents</h2>
+<div class="flex flex-col gap-2">
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="quels sont les 6 agents et à quoi servent-ils ? orchestration lit le prompt et répartit le travail ; conception & design choisit template et charte ; contenu rédige textes, seo et cta ; gestion & build organise les étapes et écrit le code ; qualité & sécurité valide rendu, accessibilité et sécurité ; déploiement publie sur wayhost et rédige la documentation."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Quels sont les 6 agents et à quoi servent-ils ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Orchestration lit le prompt et répartit le travail ; Conception & Design choisit template et charte ; Contenu rédige textes, SEO et CTA ; Gestion & Build organise les étapes et écrit le code ; Qualité & Sécurité valide rendu, accessibilité et sécurité ; Déploiement publie sur Wayhost et rédige la documentation.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="puis-je désactiver un agent ? non. les 6 agents sont toujours actifs : chacun couvre une étape indispensable du pipeline. vous pouvez en revanche configurer chaque agent (modèle ia, niveau de raisonnement, créativité, mémoire, instructions) depuis la page agents."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Puis-je désactiver un agent ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Non. Les 6 agents sont toujours actifs : chacun couvre une étape indispensable du pipeline. Vous pouvez en revanche configurer chaque agent (modèle IA, niveau de raisonnement, créativité, mémoire, instructions) depuis la page Agents.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="comment configurer un agent ? ouvrez la page agents et cliquez sur la carte d'un agent : la fenêtre de configuration permet d'ajuster son modèle, son niveau de raisonnement, sa créativité et ses instructions personnalisées."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Comment configurer un agent ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Ouvrez la page Agents et cliquez sur la carte d'un agent : la fenêtre de configuration permet d'ajuster son modèle, son niveau de raisonnement, sa créativité et ses instructions personnalisées.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="les agents travaillent-ils en parallèle ? le pipeline est séquentiel : les agents s'activent l'un après l'autre selon l'avancement réel. c'est ce que montre la scène 3d — un seul agent travaille à la fois, les autres attendent leur tour puis passent en état « terminé »."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Les agents travaillent-ils en parallèle ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Le pipeline est séquentiel : les agents s'activent l'un après l'autre selon l'avancement réel. C'est ce que montre la scène 3D — un seul agent travaille à la fois, les autres attendent leur tour puis passent en état « terminé ».</div></div>
+</div>
+</section>
+
+<section id="faq-edition" class="animate-fade-in delay-200">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Édition & publication</h2>
+<div class="flex flex-col gap-2">
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="comment modifier la page générée ? dans l'éditeur, décrivez la modification dans le chat (ex. « rends le héro plus sombre », « ajoute une section tarifs »). l'aperçu se met à jour ; vous pouvez alterner entre les onglets aperçu, code et scène 3d."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Comment modifier la page générée ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Dans l'éditeur, décrivez la modification dans le chat (ex. « rends le héro plus sombre », « ajoute une section tarifs »). L'aperçu se met à jour ; vous pouvez alterner entre les onglets Aperçu, Code et Scène 3D.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="comment publier mon site ? cliquez sur « publier » puis connectez votre compte wayhost. une fois connecté, « déployer maintenant » met la page en ligne et vous renvoie son url."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Comment publier mon site ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Cliquez sur « Publier » puis connectez votre compte Wayhost. Une fois connecté, « Déployer maintenant » met la page en ligne et vous renvoie son URL.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="puis-je récupérer le code ? oui. l'onglet code de l'éditeur affiche le site généré (react + tailwind), que vous pouvez copier et réutiliser dans votre propre environnement."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Puis-je récupérer le code ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Oui. L'onglet Code de l'éditeur affiche le site généré (React + Tailwind), que vous pouvez copier et réutiliser dans votre propre environnement.</div></div>
+</div>
+</section>
+
+<section id="faq-forfait" class="animate-fade-in delay-200">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Forfait & limites</h2>
+<div class="flex flex-col gap-2">
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="quelles sont les limites de mon forfait ? le forfait constructeur pro inclut des générations illimitées et 5 projets actifs. le nombre de projets actifs et les options de facturation se gèrent depuis paramètres › abonnement & facturation."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Quelles sont les limites de mon forfait ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Le forfait Constructeur Pro inclut des générations illimitées et 5 projets actifs. Le nombre de projets actifs et les options de facturation se gèrent depuis Paramètres › Abonnement & Facturation.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="comment changer de forfait ou de moyen de paiement ? rendez-vous dans paramètres › abonnement & facturation : vous y trouvez le résumé de votre forfait, le bouton « gérer le forfait » et la mise à jour du moyen de paiement."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Comment changer de forfait ou de moyen de paiement ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Rendez-vous dans Paramètres › Abonnement & Facturation : vous y trouvez le résumé de votre forfait, le bouton « Gérer le forfait » et la mise à jour du moyen de paiement.</div></div>
+<div class="faq-item glass-panel rounded-xl border border-outline-variant/15 overflow-hidden" data-q="comment supprimer mon compte ou mes projets ? dans paramètres › zone dangereuse. attention : ces actions sont définitives et effacent vos landing pages, projets et clés api."><button type="button" class="faq-q w-full flex items-center justify-between gap-md text-left px-md py-sm hover:bg-surface-container/40 transition-colors" onclick="jarvisToggleFaq(this)"><span class="font-label-md text-body-md text-on-surface">Comment supprimer mon compte ou mes projets ?</span><span class="material-symbols-outlined text-on-surface-variant faq-chevron transition-transform shrink-0">expand_more</span></button><div class="faq-a hidden px-md pb-md pt-0 font-body-sm text-body-sm text-on-surface-variant/85 leading-relaxed">Dans Paramètres › Zone dangereuse. Attention : ces actions sont définitives et effacent vos landing pages, projets et clés API.</div></div>
+</div>
+</section>
+
+<p id="faq-empty" class="hidden font-body-md text-body-md text-on-surface-variant/60 py-md">Aucune question ne correspond à votre recherche.</p>
+</div>
+
+<!-- Contact -->
+<div class="glass-panel rounded-2xl p-md mt-xl max-w-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-md animate-fade-in delay-250">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Vous ne trouvez pas votre réponse ?</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant/70">Notre équipe support répond sous 24 h ouvrées.</p>
+</div>
+<div class="flex gap-2 shrink-0">
+<a href="ressources.html" class="bg-surface-container-high text-on-surface border border-outline-variant/30 py-2 px-md rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors flex items-center gap-1.5"><span class="material-symbols-outlined text-base">menu_book</span> Ressources</a>
+<a href="mailto:support@jarvis.ai" class="bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 px-md rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors flex items-center gap-1.5"><span class="material-symbols-outlined text-base">mail</span> Contacter le support</a>
+</div>
+</div>
+
+</main>
+
+<script>
+  function jarvisToggleNav() {
+    const collapsed = document.documentElement.classList.toggle('nav-collapsed');
+    localStorage.setItem('jarvisNavCollapsed', collapsed ? '1' : '0');
+  }
+  function jarvisToggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const ans = item.querySelector('.faq-a');
+    const chev = item.querySelector('.faq-chevron');
+    const open = !ans.classList.contains('hidden');
+    ans.classList.toggle('hidden', open);
+    chev.style.transform = open ? '' : 'rotate(180deg)';
+  }
+  function jarvisFilterFaq(q) {
+    q = (q || '').trim().toLowerCase();
+    let visible = 0;
+    document.querySelectorAll('.faq-item').forEach(function (el) {
+      const match = !q || (el.dataset.q || '').includes(q);
+      el.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    document.querySelectorAll('#faq-root section').forEach(function (sec) {
+      const any = sec.querySelector('.faq-item:not(.hidden)');
+      sec.classList.toggle('hidden', !any);
+    });
+    document.getElementById('faq-empty').classList.toggle('hidden', visible !== 0);
+  }
+</script>
+
+</body></html>
