@@ -1,0 +1,8 @@
+{
+  "description": "eval() dans un <script> inline du HTML (pas de script.js).",
+  "vulnerable": true,
+  "must_detect": [
+    "js.eval"
+  ],
+  "must_not_detect": []
+}

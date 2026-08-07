@@ -1,0 +1,8 @@
+{
+  "description": "La chaîne « javascript: » apparaît dans un paragraphe affiché.",
+  "vulnerable": false,
+  "must_detect": [],
+  "must_not_detect": [
+    "html.javascript_url"
+  ]
+}

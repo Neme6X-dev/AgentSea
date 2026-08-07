@@ -1,0 +1,10 @@
+:root { --c-primary: #1d4ed8; --c-bg: #ffffff; --c-text: #0f172a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, sans-serif; color: var(--c-text); background: var(--c-bg); line-height: 1.6; }
+.site-header { display: flex; justify-content: space-between; padding: 1rem 2rem; background: var(--c-primary); color: #fff; }
+.site-header a { color: #fff; text-decoration: none; margin-left: 1rem; }
+.hero { padding: 6rem 2rem; text-align: center; }
+section { padding: 4rem 2rem; max-width: 960px; margin: 0 auto; }
+footer { text-align: center; padding: 2rem; background: #f1f5f9; }
+@media (max-width: 640px) { .site-header { flex-direction: column; } }
+.hero { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23f1f5f9'/%3E%3C/svg%3E"); }

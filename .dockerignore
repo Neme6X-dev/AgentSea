@@ -1,0 +1,54 @@
+# Contexte de construction des images, à la racine du monorepo.
+#
+# Docker ne lit que le `.dockerignore` de la **racine du contexte**. Depuis que
+# l'image de l'API se construit depuis la racine (pour embarquer
+# `packages/templates/catalog`), c'est ce fichier qui fait foi — `apps/api/.dockerignore`
+# ne serait plus jamais lu.
+#
+# Rôle : réduire le contexte envoyé au démon, et surtout empêcher les secrets d'y entrer.
+
+# Secrets et configuration locale
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+
+# Environnements virtuels et caches Python
+**/.venv/
+**/venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+
+# Node : réinstallé dans l'image de construction du front
+**/node_modules/
+**/dist/
+**/.vite/
+
+# Historique et métadonnées
+.git/
+.gitignore
+**/.gitlab-ci.yml
+.claude/
+
+# Données d'exécution : montées en volume, jamais construites dans l'image
+apps/api/data/
+apps/api/sites/
+
+# Développement et documentation, inutiles à l'exécution
+apps/api/tests/
+apps/api/evals/
+docs/
+**/*.md
+apps/api/requirements-dev.txt
+apps/api/run.sh
+
+# Ressources lourdes du front (modèles 3D) : elles n'entrent pas dans l'image de l'API.
+# L'image du front, elle, se construit depuis `apps/web` avec son propre .dockerignore.
+apps/web/public/assets/

@@ -1,0 +1,8 @@
+{
+  "description": "Lien target=\"_blank\" sans rel=\"noopener\" (tabnabbing).",
+  "vulnerable": true,
+  "must_detect": [
+    "html.target_blank_no_noopener"
+  ],
+  "must_not_detect": []
+}

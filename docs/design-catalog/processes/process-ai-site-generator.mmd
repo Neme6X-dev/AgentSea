@@ -1,0 +1,16 @@
+%% Process: AI site generator hackathon path (ITNET §7)
+flowchart LR
+    classDef event fill:#ff9800,stroke:#e65100,color:#000
+    classDef command fill:#2196f3,stroke:#0d47a1,color:#fff
+    classDef actor fill:#ffeb3b,stroke:#f57f17,color:#000
+    classDef hotspot fill:#f44336,stroke:#b71c1c,color:#fff
+
+    User[User describes site]:::actor --> Gen[AI generates site code]:::command
+    Gen --> Distrust[Never trust by default]:::event
+    Distrust --> Commit[Commit to repo / MR]:::command
+    Commit --> Pipe[DevSecOps pipeline]:::command
+    Pipe --> Build[Build hardened image]:::command
+    Build --> Deploy[Deploy if gates green]:::command
+    Deploy --> Headers[Enforce HTTPS / HSTS headers]:::command
+    Headers --> Live[Site available + monitored]:::event
+    Live -.question.- Hot["? Wayhost Hosting Cloud vs VPS+Docker"]:::hotspot

@@ -1,0 +1,8 @@
+{
+  "description": "Handler onclick inline dans le HTML (surface XSS).",
+  "vulnerable": true,
+  "must_detect": [
+    "html.inline_event_handler"
+  ],
+  "must_not_detect": []
+}

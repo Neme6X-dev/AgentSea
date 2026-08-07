@@ -1,0 +1,8 @@
+{
+  "description": "eval() dans script.js — cas de contrôle, déjà couvert par le SAST.",
+  "vulnerable": true,
+  "must_detect": [
+    "js.eval"
+  ],
+  "must_not_detect": []
+}

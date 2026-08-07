@@ -1,0 +1,175 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link rel="stylesheet" href="/src/styles/tailwind.css">
+<title>Jarvis — Connexion</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        .glass-panel {
+            background: rgba(25, 27, 34, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .shimmer { position: relative; overflow: hidden; }
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 100% { left: 200%; } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 0.06s; }
+        .input-glow:focus {
+            box-shadow: 0 0 0 2px theme('colors.surface-bright');
+            border-color: theme('colors.outline');
+        }
+        .tab-panel { transition: opacity 160ms ease-out, transform 160ms ease-out; }
+        .tab-panel[hidden] { display: none; }
+    </style>
+<script type="module" src="/src/pages/connexion.js"></script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex items-center justify-center overflow-hidden selection:bg-surface-container-highest selection:text-white">
+<!-- Image de fond (identique au reste du site) -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<img alt="Arrière-plan" class="absolute inset-0 w-full h-full object-cover" src="/assets/screen.png">
+<div class="absolute inset-0 bg-background/25 backdrop-blur-xl"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background"></div>
+</div>
+
+<main class="relative z-10 w-full max-w-[400px] px-md">
+<div class="glass-panel rounded-2xl p-6 shadow-2xl animate-fade-in">
+<!-- Marque -->
+<div class="flex items-center gap-1.5 mb-5">
+<img alt="Jarvis" class="w-5 h-5 object-contain" src="/assets/jarvis-mark.png" style="filter: brightness(0) invert(1);">
+<span class="font-headline-md text-headline-md tracking-tight text-on-surface">Jarvis</span>
+</div>
+
+<!-- Bascule Connexion / Inscription -->
+<div class="flex bg-surface-container-lowest rounded-full p-0.5 border border-outline-variant/10 mb-5">
+<button class="flex-1 py-1.5 rounded-full text-[11px] font-label-md font-semibold transition-colors" id="tab-btn-login" onclick="jarvisSwitchTab('login')">Connexion</button>
+<button class="flex-1 py-1.5 rounded-full text-[11px] font-label-md text-on-surface-variant transition-colors" id="tab-btn-signup" onclick="jarvisSwitchTab('signup')">Inscription</button>
+</div>
+
+<!-- Panneau Connexion -->
+<form class="tab-panel flex flex-col gap-3" id="panel-login">
+<div class="mb-1">
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 mb-0.5">Reprenez où vous en étiez.</p>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Connectez-vous à votre compte</h1>
+</div>
+
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">code</span> Continuer avec GitHub
+</button>
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">web</span> Continuer avec Google
+</button>
+
+<div class="flex items-center gap-2 my-0.5">
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+<span class="font-label-md text-[9px] text-on-surface-variant/50 uppercase tracking-widest">ou</span>
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+</div>
+
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="login-email">Adresse e-mail</label>
+<input autocomplete="email" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="login-email" placeholder="vous@exemple.com" type="email">
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="login-password">Mot de passe</label>
+<a class="font-label-md text-[10px] text-on-surface-variant hover:text-on-surface transition-colors" href="#">Oublié ?</a>
+</div>
+<input autocomplete="current-password" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="login-password" placeholder="••••••••" type="password">
+</div>
+
+<button class="mt-1 flex items-center justify-center gap-1.5 bg-on-surface text-background w-full py-2.5 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-variant hover:text-on-surface transition-colors shimmer border border-outline-variant/30" type="submit">
+Continuer
+</button>
+<p class="text-center font-label-md text-[9.5px] text-on-surface-variant/50 leading-relaxed">Vos identifiants sont vérifiés par le backend Jarvis.</p>
+</form>
+
+<!-- Panneau Inscription -->
+<form class="tab-panel hidden flex-col gap-3" hidden="" id="panel-signup">
+<div class="mb-1">
+<p class="font-body-sm text-body-sm text-on-surface-variant/70 mb-0.5">Commencez à construire.</p>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Créez votre compte</h1>
+</div>
+
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">code</span> Continuer avec GitHub
+</button>
+<button class="flex items-center justify-center gap-2 w-full py-2 rounded-lg border border-outline-variant/25 bg-surface-container-lowest hover:bg-surface-container transition-colors font-label-md text-[11.5px] text-on-surface" type="button">
+<span class="material-symbols-outlined text-sm">web</span> Continuer avec Google
+</button>
+
+<div class="flex items-center gap-2 my-0.5">
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+<span class="font-label-md text-[9px] text-on-surface-variant/50 uppercase tracking-widest">ou</span>
+<div class="flex-1 h-px bg-outline-variant/20"></div>
+</div>
+
+<div class="grid grid-cols-2 gap-2">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-firstname">Prénom</label>
+<input autocomplete="given-name" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-firstname" placeholder="Jean" type="text">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-lastname">Nom</label>
+<input autocomplete="family-name" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-lastname" placeholder="Dupont" type="text">
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-email">Adresse e-mail</label>
+<input autocomplete="email" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-email" placeholder="vous@exemple.com" type="email">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-[10px] text-on-surface-variant" for="signup-password">Mot de passe</label>
+<input autocomplete="new-password" class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="signup-password" placeholder="8 caractères minimum" type="password">
+</div>
+
+<button class="mt-1 flex items-center justify-center gap-1.5 bg-on-surface text-background w-full py-2.5 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-variant hover:text-on-surface transition-colors shimmer border border-outline-variant/30" type="submit">
+Créer mon compte
+</button>
+<p class="text-center font-label-md text-[9.5px] text-on-surface-variant/50 leading-relaxed">8 caractères minimum. Compte créé sur le backend Jarvis.</p>
+</form>
+</div>
+
+<p class="text-center font-label-md text-[10.5px] text-on-surface-variant/50 mt-4">
+<a class="hover:text-on-surface-variant transition-colors" href="index.html">← Retour à l'accueil</a>
+</p>
+</main>
+
+<script>
+  function jarvisSwitchTab(tab) {
+    var login = document.getElementById('panel-login');
+    var signup = document.getElementById('panel-signup');
+    var btnLogin = document.getElementById('tab-btn-login');
+    var btnSignup = document.getElementById('tab-btn-signup');
+    var showLogin = tab === 'login';
+
+    login.hidden = !showLogin;
+    signup.hidden = showLogin;
+    login.classList.toggle('hidden', !showLogin);
+    login.classList.toggle('flex', showLogin);
+    signup.classList.toggle('hidden', showLogin);
+    signup.classList.toggle('flex', !showLogin);
+
+    btnLogin.classList.toggle('bg-surface-container-high', showLogin);
+    btnLogin.classList.toggle('text-on-surface', showLogin);
+    btnLogin.classList.toggle('text-on-surface-variant', !showLogin);
+    btnSignup.classList.toggle('bg-surface-container-high', !showLogin);
+    btnSignup.classList.toggle('text-on-surface', !showLogin);
+    btnSignup.classList.toggle('text-on-surface-variant', showLogin);
+  }
+  // Aperçu produit sans back-end : toute saisie est acceptée, aucune validation.
+  jarvisSwitchTab('login');
+</script>
+
+</body></html>

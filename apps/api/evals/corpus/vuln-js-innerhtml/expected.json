@@ -1,0 +1,8 @@
+{
+  "description": "Assignation innerHTML à partir d'une valeur non échappée.",
+  "vulnerable": true,
+  "must_detect": [
+    "js.inner_html"
+  ],
+  "must_not_detect": []
+}

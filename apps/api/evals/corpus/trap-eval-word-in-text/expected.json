@@ -1,0 +1,9 @@
+{
+  "description": "Le mot « eval() » apparaît dans un texte affiché, pas dans du code.",
+  "vulnerable": false,
+  "must_detect": [],
+  "must_not_detect": [
+    "js.eval",
+    "js.new_function"
+  ]
+}

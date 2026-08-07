@@ -1,0 +1,42 @@
+%% Process: Secure CI/CD gate + critical vuln decision (ITNET §5)
+flowchart TD
+    classDef event fill:#ff9800,stroke:#e65100,color:#000
+    classDef command fill:#2196f3,stroke:#0d47a1,color:#fff
+    classDef system fill:#9c27b0,stroke:#4a148c,color:#fff
+    classDef aggregate fill:#4caf50,stroke:#1b5e20,color:#fff
+    classDef gate fill:#eceff1,stroke:#455a64,color:#000
+
+    Start([Commit / MR]) --> S1[1. Code analysis]:::command
+    S1 --> Secrets[Gitleaks / Secret Detection]:::system
+    S1 --> SAST[Semgrep / SonarQube]:::system
+    Secrets --> Decision{Critical finding?}
+    SAST --> Decision
+
+    Decision -->|Yes| Block1[Block pipeline]:::event
+    Block1 --> Alert[Notify Discord + DefectDojo]:::event
+    Alert --> Fix[Team remediates]:::command
+    Fix --> Start
+
+    Decision -->|No| S2[2. Dependency SCA]:::command
+    S2 --> SCA[Trivy / Dependency-Check]:::system
+    SCA --> Decision2{Critical CVE?}
+    Decision2 -->|Yes| Block1
+    Decision2 -->|No| S3[3. Container security]:::command
+
+    S3 --> Build[Docker multi-stage build]:::command
+    Build --> ImgScan[Trivy image + SBOM]:::system
+    ImgScan --> Decision3{Critical CVE / policy fail?}
+    Decision3 -->|Yes| Block1
+    Decision3 -->|No| S4[4. Infrastructure verify]:::command
+
+    S4 --> IaC[Checkov / tfsec + kube-score / Kyverno]:::system
+    IaC --> Decision4{Policy fail?}
+    Decision4 -->|Yes| Block1
+    Decision4 -->|No| S5[5. Secure deploy]:::command
+
+    S5 --> GitOps[GitOps sync to env]:::system
+    GitOps --> DAST[OWASP ZAP / Nuclei]:::system
+    DAST --> Decision5{Critical DAST?}
+    Decision5 -->|Yes| Rollback[Rollback + alert]:::event
+    Decision5 -->|No| Pass[Deploy authorized]:::event
+    Pass --> Evidence[Retain artifacts as proof]:::aggregate

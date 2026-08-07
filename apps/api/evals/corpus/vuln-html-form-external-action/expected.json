@@ -1,0 +1,8 @@
+{
+  "description": "Formulaire postant vers un domaine tiers en http://.",
+  "vulnerable": true,
+  "must_detect": [
+    "html.form_external_action"
+  ],
+  "must_not_detect": []
+}

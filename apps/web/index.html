@@ -1,0 +1,102 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link rel="stylesheet" href="/src/styles/tailwind.css">
+<title>Jarvis AI Builder - Accueil</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- L'habillage (nav vitrée, animations, panneaux) vit dans src/styles/tailwind.css :
+     il était recopié à l'identique dans six pages. -->
+    <script>
+        /* Doit s'exécuter avant le premier rendu, sinon la barre s'affiche dépliée
+           puis saute. Un module ES est toujours différé — d'où ce script inline. */
+        if (localStorage.getItem('jarvisNavCollapsed') === '1') {
+            document.documentElement.classList.add('nav-collapsed');
+        }
+    </script>
+<script type="module" src="/src/pages/index.js"></script>
+</head>
+<!-- `overflow-hidden` a été retiré du corps de page : sur un téléphone, il rendait
+     inatteignable tout ce qui dépassait de la hauteur de l'écran — c'est-à-dire les
+     suggestions, sous le champ de saisie, dès que le clavier s'ouvrait. -->
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-x-hidden selection:bg-surface-container-highest selection:text-white">
+<!-- Image de fond -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<img alt="Arrière-plan" class="absolute inset-0 w-full h-full object-cover" src="/assets/screen.png">
+<!-- Voile volontairement léger : `parametres.html` montre l'image sans aucun voile, on
+     s'en approche tout en gardant de quoi détacher le texte du prompt. Le dégradé ne
+     va plus jusqu'à l'opaque en bas, sans quoi la moitié de l'image disparaissait. -->
+<div class="absolute inset-0 bg-background/15 backdrop-blur-md"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background/70"></div>
+</div>
+<!-- Nav, barre supérieure mobile et voile du tiroir : montés par
+     src/lib/app-shell.js (voir src/pages/index.js). -->
+<!-- Zone principale -->
+<main class="app-main min-w-0 relative z-10 flex flex-col items-center justify-center px-md py-lg min-h-screen">
+<div class="w-full max-w-2xl min-w-0 flex flex-col items-center">
+<!-- Titre principal -->
+<div class="w-full text-center animate-fade-in mb-10">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-1">
+                    Créez quelque chose d'<span class="text-on-surface-variant">extraordinaire.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                    Créez des applications et des sites web en discutant avec l'IA.
+                </p>
+</div>
+<!-- Barre de saisie — geste central de la plateforme. Elle respire davantage que le
+     reste de la page : c'est le seul endroit où l'utilisateur écrit vraiment, et un
+     champ à l'étroit pousse à formuler court, donc à décrire son projet moins bien. -->
+<form class="w-full max-w-2xl animate-fade-in delay-100 relative group mb-lg" id="prompt-form">
+<div class="relative glass-panel rounded-2xl p-2 flex flex-col gap-2 transition-all duration-300 focus-within:ring-1 focus-within:ring-outline-variant bg-background/35 backdrop-blur-3xl border-white/10">
+<div class="flex items-start gap-3 px-4 pt-3 pb-1">
+<span class="material-symbols-outlined text-on-surface-variant text-xl mt-0.5">magic_button</span>
+<textarea class="w-full bg-transparent border-none text-on-surface font-body-md text-body-md resize-none focus:ring-0 placeholder:text-on-surface-variant/50 min-h-[64px] py-1" id="prompt-input" placeholder="Décrivez votre projet — par exemple « une boutique de tissus à Cotonou, commande par WhatsApp »" rows="3"></textarea>
+</div>
+<div class="flex items-center justify-between px-3 pb-1">
+<div class="flex items-center gap-1 text-on-surface-variant/60">
+<button class="p-2 hover:text-on-surface hover:bg-surface-container-highest rounded-full transition-colors" title="Joindre un fichier" type="button">
+<span class="material-symbols-outlined text-base">attach_file</span>
+</button>
+<button class="p-2 hover:text-on-surface hover:bg-surface-container-highest rounded-full transition-colors" title="Dicter votre demande" type="button">
+<span class="material-symbols-outlined text-base">mic</span>
+</button>
+</div>
+<button class="flex items-center gap-2 bg-on-surface text-background px-5 py-2.5 rounded-full font-label-md text-label-md font-semibold hover:bg-surface-variant hover:text-on-surface transition-colors shimmer border border-outline-variant/30" type="submit">
+<span class="">Créer</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</form>
+<!-- Suggestions rapides.
+     Les exemples décrivent des commerces réels du marché — boutique, restaurant,
+     cabinet, artisan — et non des « tableaux de bord SaaS ». Une suggestion sert à
+     montrer à l'utilisateur que la plateforme comprend *son* métier ; lui proposer
+     un cas d'usage de la Silicon Valley produit l'effet inverse. -->
+<!-- Suggestions rapides.
+     Les exemples décrivent des commerces réels du marché — boutique, restaurant,
+     cabinet, artisan — et non des « tableaux de bord SaaS ». Une suggestion sert à
+     montrer à l'utilisateur que la plateforme comprend *son* métier ; lui proposer
+     un cas d'usage de la Silicon Valley produit l'effet inverse.
+
+     Le texte voyage en `data-prompt` et non dans un `onclick` : « domaines
+     d'intervention » contient une apostrophe qui fermait la chaîne JavaScript au
+     milieu de l'attribut, et le bouton « Cabinet » ne faisait rien.
+
+     Le rail défile horizontalement plutôt que de passer à la ligne : sur un
+     téléphone, cinq pastilles empilées repoussent le champ de saisie hors de
+     l'écran, alors que c'est lui le geste central de la page. -->
+<div class="w-full -mx-md px-md sm:mx-0 sm:px-0 mt-6 animate-fade-in delay-200">
+<div class="flex flex-nowrap items-center gap-2 overflow-x-auto pb-2 sm:justify-center [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+<span class="font-label-md text-label-md text-on-surface-variant/60 mr-1 shrink-0">Essayez :</span>
+<button class="jarvis-suggestion shrink-0 px-3.5 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:text-on-surface hover:border-outline hover:bg-surface-container-highest transition-all font-label-md text-label-md flex items-center gap-2 whitespace-nowrap" data-prompt="Une boutique de tissus et pagnes à Cotonou, avec catalogue par catégorie, prix en FCFA et commande par WhatsApp." type="button"><span class="material-symbols-outlined text-sm">storefront</span>Boutique</button>
+<button class="jarvis-suggestion shrink-0 px-3.5 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:text-on-surface hover:border-outline hover:bg-surface-container-highest transition-all font-label-md text-label-md flex items-center gap-2 whitespace-nowrap" data-prompt="Un restaurant de cuisine africaine avec la carte, les prix en FCFA, les horaires et la réservation par WhatsApp." type="button"><span class="material-symbols-outlined text-sm">restaurant</span>Restaurant</button>
+<button class="jarvis-suggestion shrink-0 px-3.5 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:text-on-surface hover:border-outline hover:bg-surface-container-highest transition-all font-label-md text-label-md flex items-center gap-2 whitespace-nowrap" data-prompt="Un cabinet de conseil juridique : présentation des associés, domaines d'intervention, prise de rendez-vous." type="button"><span class="material-symbols-outlined text-sm">work</span>Cabinet</button>
+<button class="jarvis-suggestion shrink-0 px-3.5 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:text-on-surface hover:border-outline hover:bg-surface-container-highest transition-all font-label-md text-label-md flex items-center gap-2 whitespace-nowrap" data-prompt="Un artisan menuisier : galerie de réalisations, devis gratuit, contact WhatsApp et paiement mobile money." type="button"><span class="material-symbols-outlined text-sm">handyman</span>Artisan</button>
+<button class="jarvis-suggestion shrink-0 px-3.5 py-2 rounded-full border border-outline-variant/50 text-on-surface-variant hover:text-on-surface hover:border-outline hover:bg-surface-container-highest transition-all font-label-md text-label-md flex items-center gap-2 whitespace-nowrap" data-prompt="Un salon de coiffure et beauté : prestations avec tarifs, galerie photos, réservation en ligne." type="button"><span class="material-symbols-outlined text-sm">content_cut</span>Salon</button>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

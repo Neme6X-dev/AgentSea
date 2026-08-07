@@ -1,0 +1,28 @@
+%% Process: Progressive delivery — KVM1 RAM-safe (1 vCPU / 4GB)
+flowchart TD
+    Ready[Gates passed + image in GitLab Registry] --> Strategy{Risk vs RAM?}
+
+    Strategy -->|Default on KVM1| Rolling[Rolling recreate one container]
+    Strategy -->|Major cutover| BG[Sequential blue-green]
+    Strategy -->|Optional short soak| Canary[Light canary ≤512MB]
+
+    Rolling --> Pull[docker compose pull :sha]
+    Pull --> Up[up -d app + healthcheck]
+    Up -->|Fail| RB1[Redeploy previous digest]
+    Up -->|Pass| Prune[docker image prune -f]
+    Prune --> Done[Stable — single app in RAM]
+
+    BG --> StartBlue[Start BLUE with mem_limit]
+    StartBlue --> Health[Health OK?]
+    Health -->|No| Abort[Stop BLUE keep GREEN]
+    Health -->|Yes| Flip[Caddy flip upstream]
+    Flip --> StopGreen[Stop GREEN immediately]
+    StopGreen --> Done
+
+    Canary --> Tiny[Start canary mem_limit 256-512m]
+    Tiny --> Weight[Route 5-10% ≤5 min]
+    Weight --> CV{Errors / latency OK?}
+    CV -->|No| Kill[Kill canary keep stable]
+    CV -->|Yes| Promote[Replace stable with canary image]
+    Promote --> Done
+    Kill --> Done

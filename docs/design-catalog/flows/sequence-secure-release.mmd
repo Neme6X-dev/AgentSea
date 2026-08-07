@@ -1,0 +1,36 @@
+sequenceDiagram
+    actor Dev as Developer
+    participant GL as GitLab
+    participant Tpl as ci-templates
+    participant Scan as Security scanners
+    participant Dojo as DefectDojo
+    participant Reg as GitLab Registry
+    participant VPS as Wayhost VPS
+    participant Edge as Caddy TLS
+    participant Obs as Healthcheck / Wayhost panel
+    participant Hook as Discord
+
+    Dev->>GL: push feature/* / MR
+    GL->>Tpl: include security/build/deploy jobs
+    Tpl->>Scan: secrets, SAST, SCA
+    alt Critical finding
+        Scan-->>Dojo: import findings
+        Scan-->>Hook: critical alert
+        Scan-->>GL: fail job (block)
+        Dev->>GL: fix + push
+    else Clean
+        Tpl->>Reg: build & push :sha + SBOM
+        Tpl->>Scan: Trivy image + IaC/compose policy
+        Scan-->>GL: pass
+        GL->>VPS: SSH docker compose pull :sha + rolling up
+        VPS->>Edge: route to healthy app
+        Tpl->>Scan: DAST vs DAST_TARGET_URL (Wayhost)
+        Scan-->>Dojo: DAST results
+        Obs-->>VPS: health / panel signals
+        alt Health fail after deploy
+            Obs-->>VPS: redeploy previous digest
+            VPS-->>Hook: rollback alert
+        else Healthy
+            VPS->>VPS: docker image prune -f
+        end
+    end

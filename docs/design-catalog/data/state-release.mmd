@@ -1,0 +1,13 @@
+stateDiagram-v2
+    [*] --> Pending: GitOps desire new version
+    Pending --> Canary2: weight 2%
+    Canary2 --> Canary25: CV pass
+    Canary2 --> RolledBack: CV fail / error budget
+    Canary25 --> Canary50: CV pass
+    Canary25 --> RolledBack: CV fail
+    Canary50 --> Canary100: CV pass
+    Canary50 --> RolledBack: CV fail
+    Canary100 --> Stable: soak window ok
+    Canary100 --> RolledBack: late regression
+    RolledBack --> Stable: previous revision restored
+    Stable --> [*]

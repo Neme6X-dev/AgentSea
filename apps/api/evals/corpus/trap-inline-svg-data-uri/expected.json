@@ -1,0 +1,11 @@
+{
+  "description": "SVG inline en data: URI dans le CSS et une image — usage légitime et recommandé.",
+  "vulnerable": false,
+  "must_detect": [],
+  "must_not_detect": [
+    "css.external_resource",
+    "html.data_html_uri",
+    "html.img_no_alt",
+    "html.insecure_http_link"
+  ]
+}

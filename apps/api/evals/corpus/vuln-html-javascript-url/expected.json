@@ -1,0 +1,8 @@
+{
+  "description": "Lien href=\"javascript:\" exécutant du code.",
+  "vulnerable": true,
+  "must_detect": [
+    "html.javascript_url"
+  ],
+  "must_not_detect": []
+}

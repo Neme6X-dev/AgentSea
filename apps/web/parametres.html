@@ -1,0 +1,532 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link rel="stylesheet" href="/src/styles/tailwind.css">
+<title>Jarvis Paramètres</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        body {
+            background-color: theme('colors.background');
+            background-image: url('/assets/screen.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: theme('colors.on-background');
+            font-family: 'Manrope', sans-serif;
+        }
+
+        /* Interrupteur de préférence (même langage visuel que le reste du produit) */
+        .pref-switch { width: 34px; height: 20px; border-radius: 9999px; background: rgba(255,255,255,0.12); position: relative; transition: background-color 150ms ease; flex-shrink: 0; cursor: pointer; }
+        .pref-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 9999px; background: #cfcfe0; transition: transform 150ms cubic-bezier(0.23,1,0.32,1); }
+        .pref-switch.on { background: #544fc0; }
+        .pref-switch.on::after { transform: translateX(14px); background: #fff; }
+        .segment-group { display: flex; background: theme('colors.surface-container-lowest'); border-radius: 0.5rem; padding: 2px; border: 1px solid theme('colors.outline-variant' / 10%); }
+        .segment-btn.active { background: theme('colors.surface-container-high'); color: theme('colors.on-surface'); }
+        /* Sélecteur d'hébergeur */
+        .hosting-card:hover { background: theme('colors.surface-container' / 60%); }
+        .hosting-card.selected { border-color: theme('colors.primary' / 60%); background: theme('colors.surface-container-high' / 70%); }
+        .hosting-radio { width: 16px; height: 16px; border-radius: 9999px; border: 2px solid rgba(255,255,255,0.28); flex-shrink: 0; position: relative; transition: border-color 150ms ease; }
+        .hosting-card.selected .hosting-radio { border-color: #544fc0; }
+        .hosting-card.selected .hosting-radio::after { content: ''; position: absolute; inset: 2px; border-radius: 9999px; background: #544fc0; }
+        /* Option verrouillée : lisible, mais visiblement hors de portée. */
+        .hosting-card[data-plan="paid"] { opacity: 0.72; }
+        .hosting-card[data-plan="paid"]:hover { opacity: 1; }
+    
+    </style>
+    <script>
+        if (localStorage.getItem('jarvisNavCollapsed') === '1') {
+            document.documentElement.classList.add('nav-collapsed');
+        }
+    </script>
+<script type="module" src="/src/pages/parametres.js"></script>
+</head>
+<body class="antialiased min-h-screen overflow-x-hidden" style="background-image: url('/assets/screen.png'); background-size: cover; background-position: center center; background-attachment: fixed;">
+<!-- Barre de navigation latérale -->
+<!-- Nav, barre supérieure mobile et voile du tiroir : montés par
+     src/lib/app-shell.js. -->
+<!-- Contenu principal -->
+<main class="app-main flex-1 min-w-0 p-md md:p-lg">
+<!-- `max-w-container-max mx-auto` séparé de `.app-main` : posé directement dessus, ça
+     centre le contenu sur toute la largeur de l'écran au lieu de l'espace à droite de
+     la barre latérale fixe, et la page déborde à droite sous 1536 px (256 + 1280). Voir
+     le même correctif sur agents.html/aide.html/ressources.html. -->
+<div class="max-w-container-max mx-auto w-full">
+<header class="mb-md">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-1">Paramètres</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Gérez votre compte, vos préférences API et vos informations de facturation.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-md">
+<!-- Barre latérale de navigation des paramètres -->
+<div class="lg:col-span-3">
+<div class="sticky top-md flex flex-col gap-0.5 glass-panel p-1.5 rounded-xl">
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg bg-surface-container-high text-on-surface font-medium" href="#profile">Détails du profil</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#preferences">Préférences</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#hosting">Hébergement</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#api">Clés API</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#ai-model">Agent codeur</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#billing">Abonnement & Facturation</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" href="#notifications">Notifications</a>
+<a class="font-label-md text-label-md py-1.5 px-sm rounded-lg text-error/90 hover:bg-error-container/20 transition-colors" href="#danger">Zone dangereuse</a>
+</div>
+</div>
+<!-- Contenu des paramètres -->
+<div class="lg:col-span-9 flex flex-col gap-md">
+<!-- Section Profil -->
+<section class="glass-panel rounded-2xl p-md" id="profile">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Détails du profil</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Mettez à jour vos informations personnelles et la façon dont les autres vous voient sur la plateforme.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-md items-start mb-md">
+<div class="relative group">
+<div class="w-16 h-16 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden flex items-center justify-center">
+<span class="font-headline-md text-headline-md text-on-surface-variant" id="profile-avatar-initials">?</span>
+</div>
+<button class="absolute bottom-0 right-0 bg-surface-container-highest text-on-surface border border-outline-variant rounded-full p-1 hover:bg-surface-bright transition-colors shadow-sm">
+<span class="material-symbols-outlined text-xs">edit</span>
+</button>
+</div>
+<div class="flex-1 w-full space-y-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Prénom</label>
+<input class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="profile-firstname" type="text">
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Nom</label>
+<input class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="profile-lastname" type="text">
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Adresse e-mail</label>
+<input class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="profile-email" type="email" readonly>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-on-surface-variant">Mot de passe</label>
+<!-- `flex-wrap` : passé au format bureau, le bouton (largeur fixe, `shrink-0`) ne
+     tenait plus à côté du champ une fois la barre latérale décomptée de la largeur
+     réelle disponible (~1024 px de fenêtre, mais bien moins une fois la nav et la
+     grille deux colonnes retirées) — la ligne débordait plutôt que de céder. -->
+<div class="flex flex-col sm:flex-row sm:flex-wrap gap-2">
+<input class="flex-1 bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" placeholder="••••••••••••" readonly type="password">
+<button class="shrink-0 bg-surface-container-high text-on-surface border border-outline-variant/30 py-2 px-md rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors flex items-center justify-center gap-1.5"><span class="material-symbols-outlined text-lg">lock_reset</span> Changer le mot de passe</button>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-end pt-sm border-t border-outline-variant/30">
+<button class="bg-surface-container-highest text-on-surface py-2 px-md rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors border border-outline-variant/30">Enregistrer les modifications</button>
+</div>
+</section>
+<!-- Section Préférences -->
+<section class="glass-panel rounded-2xl p-md" id="preferences">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Préférences</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Langue de l'interface et apparence de votre espace de travail.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Langue de l'interface</label>
+<select class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all">
+<option>Français</option>
+<option>English</option>
+<option>Español</option>
+</select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant">Thème</label>
+<div class="segment-group" id="theme-segment">
+<button class="segment-btn active" type="button" onclick="jarvisPickSegment(this)">Sombre</button>
+<button class="segment-btn" type="button" onclick="jarvisPickSegment(this)">Clair</button>
+<button class="segment-btn" type="button" onclick="jarvisPickSegment(this)">Système</button>
+</div>
+</div>
+</div>
+<div class="mt-md pt-sm border-t border-outline-variant/30 flex items-center justify-between gap-md">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Format de date régional</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Adapte l'affichage des dates à votre région.</div>
+</div>
+<div class="pref-switch on" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+</section>
+<!-- Section Hébergement -->
+<section class="glass-panel rounded-2xl p-md" id="hosting">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Hébergement</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Choisissez où vos sites générés sont mis en ligne. Wayhost est inclus dans votre offre.</p>
+</div>
+<div class="flex flex-col gap-2" id="hosting-options">
+<!-- Wayhost — inclus, sélectionné par défaut -->
+<label class="hosting-card selected flex items-center gap-3 p-3 rounded-xl border border-outline-variant/30 bg-surface-container-lowest cursor-pointer transition-colors" data-plan="included" data-provider="wayhost">
+<span class="hosting-radio"></span>
+<span class="w-9 h-9 rounded-lg bg-white/95 flex items-center justify-center shrink-0 overflow-hidden">
+<!-- Marque Wayhost, dessinée en SVG : aucune ressource externe à charger. -->
+<svg viewBox="0 0 40 40" class="w-6 h-6" aria-hidden="true">
+<path d="M4 12h5.4l3.1 11.2L15.8 12h4.6l3.3 11.2L26.8 12H32l-5.6 17h-5l-3.2-10.6L15 29h-5L4 12z" fill="#1b4dd8"></path>
+<circle cx="33" cy="26" r="2.6" fill="#f0a020"></circle>
+</svg>
+</span>
+<span class="flex-1 min-w-0">
+<span class="flex items-center gap-2 flex-wrap">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Wayhost</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-[9px] font-label-md text-on-surface-variant border border-outline-variant/20">Inclus</span>
+</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant/70">VPS de la plateforme · HTTPS automatique · déploiement immédiat.</span>
+</span>
+</label>
+
+<!-- Alternatives : réservées à une offre supérieure -->
+<label class="hosting-card flex items-center gap-3 p-3 rounded-xl border border-outline-variant/20 bg-surface-container-lowest/50 cursor-pointer transition-colors" data-plan="paid" data-provider="Netlify">
+<span class="hosting-radio"></span>
+<span class="w-9 h-9 rounded-lg bg-white/95 flex items-center justify-center shrink-0">
+<svg viewBox="0 0 40 40" class="w-6 h-6" aria-hidden="true">
+<path d="M20 4l16 16-16 16L4 20 20 4z" fill="#05bdba"></path>
+<path d="M20 13l7 7-7 7-7-7 7-7z" fill="#fff"></path>
+</svg>
+</span>
+<span class="flex-1 min-w-0">
+<span class="flex items-center gap-2 flex-wrap">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Netlify</span>
+<span class="px-1.5 py-0.5 rounded-full bg-primary/20 text-[9px] font-label-md text-on-surface border border-primary/30">Offre Pro</span>
+</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant/70">CDN mondial · domaines personnalisés illimités.</span>
+</span>
+<span class="material-symbols-outlined text-base text-on-surface-variant/60">lock</span>
+</label>
+
+<label class="hosting-card flex items-center gap-3 p-3 rounded-xl border border-outline-variant/20 bg-surface-container-lowest/50 cursor-pointer transition-colors" data-plan="paid" data-provider="Vercel">
+<span class="hosting-radio"></span>
+<span class="w-9 h-9 rounded-lg bg-white/95 flex items-center justify-center shrink-0">
+<svg viewBox="0 0 40 40" class="w-6 h-6" aria-hidden="true">
+<path d="M20 7l14 24H6L20 7z" fill="#000"></path>
+</svg>
+</span>
+<span class="flex-1 min-w-0">
+<span class="flex items-center gap-2 flex-wrap">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Vercel</span>
+<span class="px-1.5 py-0.5 rounded-full bg-primary/20 text-[9px] font-label-md text-on-surface border border-primary/30">Offre Pro</span>
+</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant/70">Aperçus par branche · analytics intégrés.</span>
+</span>
+<span class="material-symbols-outlined text-base text-on-surface-variant/60">lock</span>
+</label>
+
+<label class="hosting-card flex items-center gap-3 p-3 rounded-xl border border-outline-variant/20 bg-surface-container-lowest/50 cursor-pointer transition-colors" data-plan="paid" data-provider="OVHcloud">
+<span class="hosting-radio"></span>
+<span class="w-9 h-9 rounded-lg bg-white/95 flex items-center justify-center shrink-0">
+<svg viewBox="0 0 40 40" class="w-6 h-6" aria-hidden="true">
+<path d="M6 24l9-14h10l-5 8h6l-9 12H7l5-6H6z" fill="#123f6d"></path>
+</svg>
+</span>
+<span class="flex-1 min-w-0">
+<span class="flex items-center gap-2 flex-wrap">
+<span class="font-label-md text-label-md text-on-surface font-semibold">OVHcloud</span>
+<span class="px-1.5 py-0.5 rounded-full bg-primary/20 text-[9px] font-label-md text-on-surface border border-primary/30">Offre Pro</span>
+</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant/70">Hébergement souverain, données en France.</span>
+</span>
+<span class="material-symbols-outlined text-base text-on-surface-variant/60">lock</span>
+</label>
+</div>
+
+<!-- Invitation à passer au palier supérieur, révélée au clic sur une option verrouillée -->
+<div class="hidden mt-md p-3 rounded-xl border border-primary/30 bg-primary/10" id="hosting-upsell">
+<div class="flex items-start gap-2.5">
+<span class="material-symbols-outlined text-base text-on-surface mt-0.5">workspace_premium</span>
+<div class="flex-1">
+<div class="font-label-md text-label-md text-on-surface font-semibold mb-0.5">
+                                    Changer d'hébergeur nécessite l'offre Pro
+                                </div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80 mb-2" id="hosting-upsell-text">
+                                    Déployez vos sites chez le fournisseur de votre choix, avec vos propres domaines.
+                                </p>
+<div class="flex items-center gap-2 flex-wrap">
+<button class="bg-on-surface text-background py-1.5 px-3 rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-variant hover:text-on-surface transition-colors" type="button" onclick="window.location.href='#billing'">
+                                        Passer à l'offre Pro — 19 €/mois
+                                    </button>
+<button class="py-1.5 px-3 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" type="button" onclick="jarvisDismissUpsell()">
+                                        Plus tard
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<p class="mt-sm font-body-sm text-body-sm text-on-surface-variant/60">
+                        Vos sites déjà en ligne ne sont pas déplacés lors d'un changement d'hébergeur.
+                    </p>
+</section>
+<!-- Section Clés API -->
+<section class="glass-panel rounded-2xl p-md" id="api">
+<div class="mb-sm flex justify-between items-end flex-wrap gap-2">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Clés API</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gérez vos clés secrètes pour accéder au moteur de construction IA Jarvis.</p>
+</div>
+<button class="bg-surface-container-highest text-on-surface border border-outline-variant/30 py-2 px-sm rounded-lg font-label-md text-label-md flex items-center gap-1.5 hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-lg">rotate_left</span>
+                            Générer une clé
+                        </button>
+</div>
+<div class="space-y-2">
+<!-- Élément de clé -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center p-sm rounded-lg border border-outline-variant/30 bg-surface/50 hover:border-outline-variant transition-colors gap-2">
+<!-- `min-w-0` : sans lui, la clé (chaîne insécable) imposait sa largeur au lieu de
+     se contenter de celle de la colonne, et poussait la page en défilement
+     horizontal sous 360 px. `break-all` sur la clé fait le reste : elle se coupe
+     plutôt que déborder. -->
+<div class="flex items-center gap-sm min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-lg">key</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface flex items-center gap-2">Clé de production <span class="text-[9px] bg-surface-container-highest text-on-surface px-1.5 py-0.5 rounded-full uppercase tracking-wider">Active</span></div>
+<div class="font-code text-code text-on-surface-variant/80 mt-0.5 break-all">jrv_prod_*********************8x9p</div>
+</div>
+</div>
+<div class="flex items-center gap-1 w-full md:w-auto justify-end">
+<span class="font-label-md text-label-md text-on-surface-variant/70 mr-sm text-[10px]">Créée le 12 oct. 2023</span>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg hover:bg-surface-container-highest"><span class="material-symbols-outlined text-lg">content_copy</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg hover:bg-surface-container-highest"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+<!-- Élément de clé -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center p-sm rounded-lg border border-outline-variant/30 bg-surface/50 hover:border-outline-variant transition-colors gap-2">
+<div class="flex items-center gap-sm min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-lg">key</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface flex items-center gap-2">Clé de développement <span class="text-[9px] bg-surface-container text-on-surface-variant px-1.5 py-0.5 rounded-full uppercase tracking-wider border border-outline-variant/30">Test</span></div>
+<div class="font-code text-code text-on-surface-variant/80 mt-0.5 break-all">jrv_test_*********************2a4c</div>
+</div>
+</div>
+<div class="flex items-center gap-1 w-full md:w-auto justify-end">
+<span class="font-label-md text-label-md text-on-surface-variant/70 mr-sm text-[10px]">Créée le 4 nov. 2023</span>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg hover:bg-surface-container-highest"><span class="material-symbols-outlined text-lg">content_copy</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface transition-colors rounded-lg hover:bg-surface-container-highest"><span class="material-symbols-outlined text-lg">delete</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section Agent codeur : clé API et modèle apportés par l'utilisateur.
+     Purement visuel — stocké dans ce navigateur (localStorage), aucun appel backend. -->
+<section class="glass-panel rounded-2xl p-md" id="ai-model">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Agent codeur</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Utilisez votre propre clé API et choisissez le modèle qui génère le code de vos sites.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="own-api-key">Clé API Gemini</label>
+<div class="relative">
+<input class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 pr-10 font-code text-code text-on-surface focus:outline-none input-glow transition-all" id="own-api-key" placeholder="AIzaSy…" type="password">
+<button class="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-on-surface-variant hover:text-on-surface transition-colors" onclick="jarvisToggleKeyVisibility()" type="button" title="Afficher / masquer">
+<span class="material-symbols-outlined text-base" id="own-api-key-icon">visibility</span>
+</button>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant/60">Récupérez-la sur <a class="underline hover:text-on-surface" href="https://aistudio.google.com/apikey" rel="noopener" target="_blank">aistudio.google.com/apikey</a>. Conservée uniquement dans ce navigateur.</p>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface-variant" for="own-model">Modèle</label>
+<select class="w-full bg-surface/50 border border-outline-variant/50 rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface focus:outline-none input-glow transition-all" id="own-model">
+<option value="gemini-flash-latest">Gemini Flash (dernier)</option>
+<option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+<option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+<option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+</select>
+<p class="font-body-sm text-[11px] text-on-surface-variant/60">Flash est le plus rapide et le moins cher ; Pro produit un code plus soigné mais plus lentement.</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm mt-md pt-sm border-t border-outline-variant/30">
+<span class="font-body-sm text-body-sm text-on-surface-variant/70" id="own-api-key-status">Aucune clé enregistrée — le designer interne de Jarvis est utilisé.</span>
+<button class="shrink-0 bg-surface-container-highest text-on-surface py-2 px-md rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors border border-outline-variant/30" onclick="jarvisSaveOwnKey()" type="button">Enregistrer</button>
+</div>
+</section>
+<!-- Section Facturation -->
+<section class="glass-panel rounded-2xl p-md" id="billing">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Abonnement & Facturation</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gérez votre abonnement et vos méthodes de paiement.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<!-- Carte du forfait actuel. Contenu rempli par parametres.js depuis
+     GET /api/account — c'était jusqu'ici « Constructeur Pro » et « 49 $ / mois »
+     en dur, identique pour tout le monde quel que soit le forfait ou le pays
+     réellement souscrits. -->
+<div class="p-sm rounded-xl border border-outline-variant/30 bg-surface/50 flex flex-col relative overflow-hidden">
+<div class="relative z-10 flex-1 flex flex-col">
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-1">Forfait actuel</div>
+<div class="font-headline-md text-headline-md text-on-surface mb-1" id="billing-plan-name">…</div>
+<div class="font-body-md text-body-md text-on-surface-variant mb-sm" id="billing-plan-price">…</div>
+<div class="space-y-1.5 mb-sm flex-1" id="billing-plan-highlights"></div>
+<div class="space-y-2 mb-sm pt-2 border-t border-outline-variant/15" id="billing-usage"></div>
+<button class="w-full bg-surface-container-highest border border-outline-variant/30 text-on-surface py-2 rounded-lg font-label-md text-label-md hover:bg-surface-bright transition-colors">Gérer le forfait</button>
+</div>
+</div>
+<!-- Carte des moyens de paiement. La plateforme facture par mobile money, pas par
+     carte enregistrée : la précédente maquette montrait une carte Visa •••• 4242
+     qui n'appartenait à personne. On affiche à la place les moyens réellement
+     disponibles pour le pays du compte (GET /api/account/payment-options), sans
+     bouton « mettre à jour » — il n'y a rien de stocké à mettre à jour. -->
+<div class="p-sm rounded-xl border border-outline-variant/30 bg-surface/50 flex flex-col">
+<div class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-sm">Moyens de paiement</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80 mb-sm" id="billing-payment-intro">…</p>
+<div class="flex flex-wrap gap-1.5" id="billing-payment-methods"></div>
+</div>
+</div>
+</section>
+<!-- Section Notifications -->
+<section class="glass-panel rounded-2xl p-md" id="notifications">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Notifications</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Choisissez ce dont Jarvis vous informe.</p>
+</div>
+<div class="flex flex-col divide-y divide-outline-variant/15">
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Génération terminée</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Un e-mail quand vos 6 agents ont fini de construire une landing page.</div>
+</div>
+<div class="pref-switch on" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Échec ou avertissement d'un agent</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Soyez alerté si l'agent Qualité & Sécurité signale un blocage.</div>
+</div>
+<div class="pref-switch on" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Résumé hebdomadaire</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Un récapitulatif de vos projets et de votre consommation.</div>
+</div>
+<div class="pref-switch" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+<div class="flex items-center justify-between gap-md py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Nouveautés produit</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Annonces de fonctionnalités et bonnes pratiques.</div>
+</div>
+<div class="pref-switch" onclick="this.classList.toggle('on')" role="switch" tabindex="0"></div>
+</div>
+</div>
+</section>
+<!-- Section Zone dangereuse -->
+<section class="glass-panel rounded-2xl p-md border border-error/30" id="danger">
+<div class="mb-sm">
+<h2 class="font-headline-md text-headline-md text-error mb-0.5">Zone dangereuse</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Ces actions sont définitives et ne peuvent pas être annulées.</p>
+</div>
+<div class="flex flex-col divide-y divide-outline-variant/15">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Supprimer tous les projets</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Efface définitivement vos landing pages générées.</div>
+</div>
+<button class="shrink-0 bg-transparent border border-error/40 text-error py-2 px-md rounded-lg font-label-md text-label-md hover:bg-error-container/20 transition-colors">Supprimer les projets</button>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-sm py-sm">
+<div>
+<div class="font-label-md text-label-md text-on-surface">Supprimer le compte</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant/70">Supprime votre compte, vos projets et vos clés API.</div>
+</div>
+<button class="shrink-0 bg-error text-on-error py-2 px-md rounded-lg font-label-md text-label-md font-semibold hover:opacity-90 transition-opacity">Supprimer mon compte</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<script>
+  function jarvisPickSegment(btn) {
+    const group = btn.closest('.segment-group');
+    group.querySelectorAll('.segment-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  // --- Agent codeur : clé API + modèle apportés par l'utilisateur ------------
+  // Purement front : conservé dans localStorage pour survivre au rechargement,
+  // mais rien n'est envoyé au backend — la génération continue d'utiliser la
+  // configuration serveur tant que ce n'est pas branché.
+  function jarvisToggleKeyVisibility() {
+    const input = document.getElementById('own-api-key');
+    const icon = document.getElementById('own-api-key-icon');
+    if (!input || !icon) return;
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    icon.textContent = show ? 'visibility_off' : 'visibility';
+  }
+
+  function jarvisRefreshOwnKeyStatus() {
+    const status = document.getElementById('own-api-key-status');
+    if (!status) return;
+    const key = localStorage.getItem('jarvisOwnGeminiKey');
+    const model = localStorage.getItem('jarvisOwnGeminiModel') || 'gemini-flash-latest';
+    status.textContent = key
+      ? `Clé enregistrée · modèle : ${model}`
+      : 'Aucune clé enregistrée — le designer interne de Jarvis est utilisé.';
+  }
+
+  function jarvisSaveOwnKey() {
+    const keyInput = document.getElementById('own-api-key');
+    const modelSelect = document.getElementById('own-model');
+    if (!keyInput || !modelSelect) return;
+    const key = keyInput.value.trim();
+    if (key) localStorage.setItem('jarvisOwnGeminiKey', key);
+    else localStorage.removeItem('jarvisOwnGeminiKey');
+    localStorage.setItem('jarvisOwnGeminiModel', modelSelect.value);
+    jarvisRefreshOwnKeyStatus();
+  }
+
+  (function () {
+    const keyInput = document.getElementById('own-api-key');
+    const modelSelect = document.getElementById('own-model');
+    const savedKey = localStorage.getItem('jarvisOwnGeminiKey');
+    const savedModel = localStorage.getItem('jarvisOwnGeminiModel');
+    if (keyInput && savedKey) keyInput.value = savedKey;
+    if (modelSelect && savedModel) modelSelect.value = savedModel;
+    jarvisRefreshOwnKeyStatus();
+  })();
+
+  // --- Sélecteur d'hébergeur -------------------------------------------------
+  // Présentation uniquement : le déploiement reste piloté par le backend, qui publie
+  // sur le VPS de la plateforme. Sélectionner un autre fournisseur ne change donc rien
+  // à la mise en ligne — d'où le palier payant, qui garde l'option hors d'atteinte
+  // tant que la bascule n'est pas réellement implémentée.
+  function jarvisDismissUpsell() {
+    document.getElementById('hosting-upsell').classList.add('hidden');
+  }
+
+  (function () {
+    const cards = document.querySelectorAll('#hosting-options .hosting-card');
+    const upsell = document.getElementById('hosting-upsell');
+    const upsellText = document.getElementById('hosting-upsell-text');
+    if (!cards.length || !upsell) return;
+
+    cards.forEach(function (card) {
+      card.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        if (card.dataset.plan === 'paid') {
+          // La sélection ne bouge pas : promettre visuellement un changement qui
+          // n'aura pas lieu est pire que de ne rien proposer.
+          upsellText.textContent =
+            'Déployez vos sites sur ' + card.dataset.provider +
+            ' avec vos propres domaines. Wayhost reste actif en attendant.';
+          upsell.classList.remove('hidden');
+          upsell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          return;
+        }
+
+        cards.forEach(function (c) { c.classList.remove('selected'); });
+        card.classList.add('selected');
+        upsell.classList.add('hidden');
+      });
+    });
+  })();
+</script>
+</body></html>

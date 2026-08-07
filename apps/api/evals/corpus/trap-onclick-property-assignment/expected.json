@@ -1,0 +1,8 @@
+{
+  "description": "Affectation légitime d'une fonction à .onclick en JS (pas un handler inline).",
+  "vulnerable": false,
+  "must_detect": [],
+  "must_not_detect": [
+    "html.inline_event_handler"
+  ]
+}

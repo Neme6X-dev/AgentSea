@@ -1,0 +1,8 @@
+{
+  "description": "iframe pointant vers un domaine externe non maîtrisé.",
+  "vulnerable": true,
+  "must_detect": [
+    "html.iframe_external"
+  ],
+  "must_not_detect": []
+}

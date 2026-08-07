@@ -1,0 +1,8 @@
+{
+  "description": "Script chargé depuis un CDN externe (rompt l'autonomie du site).",
+  "vulnerable": true,
+  "must_detect": [
+    "html.external_script"
+  ],
+  "must_not_detect": []
+}

@@ -1,0 +1,3 @@
+spec,run,ok,error,slug,version,latency_code_s,latency_review_s,html_bytes,css_bytes,js_bytes,issues,sections_expected,sections_missing,palette_misses,invented_contact,sast_critical,sast_high,score,verdict
+freelance,1,False,"HTTPStatusError: Server error '500 Internal Server Error' for url 'http://127.0.0.1:8010/api/agents/review'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",eval-freelance-nadia-berrada-1,1,70.78937357201357,0.0,3270,8110,1746,,4,0,0,False,0,0,0,

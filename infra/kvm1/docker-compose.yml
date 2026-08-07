@@ -1,0 +1,157 @@
+# Wayhost KVM1 — API Jarvis + worker + Postgres + front + Caddy
+# Memory-aware: Postgres ~512m, app ~1g, worker ~1g, front + Caddy ~64m each sur un VPS 4 Go.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    mem_limit: ${POSTGRES_MEM_LIMIT:-512m}
+    cpus: ${POSTGRES_CPUS:-0.30}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-jarvis}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-jarvis}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jarvis} -d ${POSTGRES_DB:-jarvis}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Front (nginx). Construit sur le VPS en DEPLOY_MODE=local, tiré du registre sinon.
+  web:
+    image: ${FRONTEND_IMAGE:?Set FRONTEND_IMAGE}:${FRONTEND_TAG:-latest}
+    restart: unless-stopped
+    mem_limit: ${FRONTEND_MEM_LIMIT:-64m}
+    cpus: ${FRONTEND_CPUS:-0.15}
+    expose:
+      - "80"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  edge:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    mem_limit: ${CADDY_MEM_LIMIT:-64m}
+    cpus: ${CADDY_CPUS:-0.15}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN}
+      APP_PORT: ${APP_PORT:-8080}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Sites générés, servis en statique par l'edge (lecture seule) : ils restent
+      # disponibles même quand le conteneur applicatif redémarre.
+      - ./sites:/srv/sites:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+      web:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  app:
+    image: ${CI_REGISTRY_IMAGE}:${APP_TAG}
+    restart: unless-stopped
+    mem_limit: ${APP_MEM_LIMIT:-1024m}
+    cpus: ${APP_CPUS:-0.50}
+    expose:
+      - "${APP_PORT:-8080}"
+    env_file:
+      - .env
+    environment:
+      APP_PORT: ${APP_PORT:-8080}
+      # DATABASE_URL comes only from .env (env_file) — never compose user:password@ URLs in git.
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://45.93.21.45}
+    volumes:
+      - ./data:/app/data
+      - ./sites:/app/sites
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://127.0.0.1:${APP_PORT:-8080}/healthz || exit 1",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 40s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Exécutant de la file de travaux.
+  #
+  # Sans ce service, une production en `JOB_MODE=queue` — le mode recommandé, et le
+  # défaut du code — accepte les demandes de génération, les empile dans la table
+  # `jobs`… et personne ne les dépile. Rien ne tombe en panne : l'API répond 202, le
+  # healthcheck reste vert, et les sessions restent « en cours » indéfiniment. Le
+  # symptôme n'apparaît que côté client.
+  #
+  # Même image que `app`, autre commande : les deux exécutent le même code d'agents.
+  worker:
+    image: ${CI_REGISTRY_IMAGE}:${APP_TAG}
+    restart: unless-stopped
+    command: ["python", "-m", "app.jobs.worker"]
+    mem_limit: ${WORKER_MEM_LIMIT:-1024m}
+    cpus: ${WORKER_CPUS:-0.50}
+    env_file:
+      - .env
+    environment:
+      # Le worker ne sert aucune requête HTTP : il n'expose pas de port et n'a pas de
+      # healthcheck (rien à interroger). Sa vivacité se lit dans ses journaux.
+      JOB_MODE: queue
+    volumes:
+      # Mêmes volumes que `app` : le worker écrit les fichiers des sites générés, que
+      # l'API et l'edge servent ensuite. Des montages différents publieraient des sites
+      # que personne ne sert.
+      - ./data:/app/data
+      - ./sites:/app/sites
+    depends_on:
+      db:
+        condition: service_healthy
+    # `SIGTERM` fait cesser la prise de nouveaux travaux et laisse les générations en
+    # cours se terminer. Une génération dure jusqu'à 180 s ; couper à 10 s (le défaut
+    # de Docker) gaspillerait des appels au modèle déjà facturés et laisserait des
+    # sessions à mi-chemin.
+    stop_grace_period: 200s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

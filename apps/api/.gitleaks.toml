@@ -1,0 +1,28 @@
+# Configuration gitleaks.
+#
+# On étend le jeu de règles par défaut : l'objectif reste de bloquer tout secret réel.
+# La seule tolérance concerne les *fixtures* de sécurité — le corpus d'évaluation de la
+# détection et les tests du SAST contiennent volontairement des clés d'API factices,
+# puisque c'est précisément ce qu'ils doivent apprendre à repérer. Sans cette allowlist,
+# le job gitleaks échoue sur nos propres cas de test et bloque tout le pipeline.
+#
+# L'allowlist est délibérément restreinte à ces chemins : partout ailleurs, une clé
+# ressemblant à un secret reste une erreur bloquante.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Fausses clés des fixtures de test de détection de secrets"
+paths = [
+  '''evals/corpus/.*''',
+  '''tests/test_sast\.py''',
+  '''app/devsecops/sast\.py''',   # motifs de détection, pas des secrets
+]
+# Secrets accidentally committed then removed from the working tree (rotated).
+# Keep this list short; do not add new real secrets here.
+commits = [
+  '''d4cf7b28caa4d906bb9b2bb816901afacfffb7a8''',
+  # Old bootstrap with real JWT/INTERNAL keys — removed from tree; rotate if still valid.
+  '''b29e70aaeae1150bd0636b62016bdaf066d24014''',
+]

@@ -1,0 +1,67 @@
+erDiagram
+    SERVICE ||--o{ PIPELINE_RUN : triggers
+    SERVICE ||--o{ ARTIFACT : produces
+    PIPELINE_RUN ||--o{ SECURITY_FINDING : yields
+    PIPELINE_RUN ||--o{ SCAN_REPORT : retains
+    ARTIFACT ||--o{ RELEASE : deploys
+    RELEASE ||--o{ TRAFFIC_SLICE : exposes
+    SECURITY_FINDING }o--|| DEFECTDOJO_PRODUCT : tracked_in
+    SERVICE }o--|| CI_TEMPLATE_SET : includes
+    RELEASE }o--|| ENVIRONMENT : targets
+
+    SERVICE {
+        string name
+        string repo_url
+        string docker_image_base
+        string defectdojo_product_id
+    }
+    PIPELINE_RUN {
+        string id
+        string branch
+        string commit_sha
+        string status
+        datetime started_at
+    }
+    SECURITY_FINDING {
+        string id
+        string control_type
+        string severity
+        string status
+        boolean blocks_deploy
+    }
+    SCAN_REPORT {
+        string id
+        string tool
+        string artifact_uri
+        datetime retained_until
+    }
+    ARTIFACT {
+        string digest
+        string tag_sha
+        string sbom_uri
+        boolean signed
+    }
+    RELEASE {
+        string id
+        string strategy
+        string version
+        string health
+    }
+    TRAFFIC_SLICE {
+        int percent
+        string cohort
+        string revision
+    }
+    ENVIRONMENT {
+        string name
+        string cluster
+        string namespace
+    }
+    CI_TEMPLATE_SET {
+        string ref
+        string files
+    }
+    DEFECTDOJO_PRODUCT {
+        string id
+        string name
+    }

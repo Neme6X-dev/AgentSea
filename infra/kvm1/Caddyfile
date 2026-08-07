@@ -1,0 +1,54 @@
+{$DOMAIN} {
+	encode gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	# Sites générés — volume partagé (lecture seule).
+	handle_path /sites/* {
+		root * /srv/sites
+		file_server
+
+		header {
+			Cache-Control "public, max-age=300"
+			# frame-ancestors 'self' (pas 'none') : l'éditeur affiche l'aperçu des sites
+			# générés dans une iframe, et la page Projets fait de même pour les vignettes —
+			# les deux servis depuis {$DOMAIN}. 'none' bloquait ce cadrage au même titre
+			# qu'un cadrage tiers malveillant ; 'self' garde la protection anti-clickjacking
+			# tout en autorisant l'app à afficher son propre contenu.
+			Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'none'; object-src 'none'"
+			X-Frame-Options SAMEORIGIN
+		}
+	}
+
+	# API + health → backend
+	handle /api* {
+		reverse_proxy app:{$APP_PORT} {
+			health_uri /healthz
+			health_interval 10s
+			health_timeout 3s
+		}
+	}
+
+	handle /healthz {
+		reverse_proxy app:{$APP_PORT}
+	}
+
+	handle /readyz {
+		reverse_proxy app:{$APP_PORT}
+	}
+
+	# Frontend SPA/MPA — nginx container (`web`) from the ITNET registry
+	handle {
+		reverse_proxy web:80
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

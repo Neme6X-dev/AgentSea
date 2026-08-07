@@ -1,0 +1,196 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link rel="stylesheet" href="/src/styles/tailwind.css">
+<title>Jarvis — Ressources</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        /* Carte agent : statique, s'ouvre dans une fenêtre de configuration */
+        .agent-card { transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease; }
+
+        .agent-card:hover { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.02); transform: translateY(-2px); box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5); }
+        .agent-card:active { transform: scale(0.99); }
+        .agent-desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Segmented control (niveau de raisonnement) */
+
+        input[type="range"] { accent-color: #b3aeff; }
+
+        /* Modal de configuration */
+        #agent-modal-backdrop { background: rgba(6, 7, 10, 0.6); backdrop-filter: blur(4px); }
+        .modal-panel { transition: opacity 180ms cubic-bezier(0.23,1,0.32,1), transform 180ms cubic-bezier(0.23,1,0.32,1); }
+
+        /* Mini-maquettes de templates : rendu CSS pur (pas de capture d'écran réelle),
+           pour donner une idée fidèle de chaque template plutôt qu'une photo générique. */
+        .tpl-card { transition: border-color 150ms ease, transform 150ms ease; }
+        .tpl-card:hover { border-color: rgba(255,255,255,0.22); transform: translateY(-2px); }
+        .tpl-nav { position: absolute; top: 0; left: 0; right: 0; height: 20%; display: flex; align-items: center; gap: 6px; padding: 0 8%; }
+        .tpl-dot { width: 6px; height: 6px; border-radius: 999px; flex-shrink: 0; }
+        .tpl-bar { height: 5px; border-radius: 999px; display: block; }
+        .tpl-hero { position: absolute; inset: 0; padding-top: 30%; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .tpl-cta { width: 22%; height: 14px; border-radius: 6px; margin-top: 4px; }
+    
+    </style>
+    <script>
+        if (localStorage.getItem('jarvisNavCollapsed') === '1') {
+            document.documentElement.classList.add('nav-collapsed');
+        }
+    </script>
+<script type="module" src="/src/pages/ressources.js"></script>
+</head>
+<body class="workspace-bg text-on-background font-body-md antialiased min-h-screen overflow-x-hidden">
+
+<!-- Fond assombri -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<img alt="Arrière-plan" class="absolute inset-0 w-full h-full object-cover opacity-30" src="/assets/screen.png">
+<div class="absolute inset-0 workspace-scrim"></div>
+</div>
+
+<!-- Barre de navigation latérale -->
+<!-- Nav, barre supérieure mobile et voile du tiroir : montés par
+     src/lib/app-shell.js. -->
+
+<main class="app-main flex-1 min-w-0 relative z-10 p-md md:p-lg">
+<!-- `max-w-container-max mx-auto` séparé de `.app-main` : voir le correctif équivalent
+     sur agents.html (la page débordait à droite sous 1536 px sans cette séparation). -->
+<div class="max-w-container-max mx-auto w-full">
+
+<header class="mb-lg animate-fade-in">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-1">Ressources</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">Guides, exemples et bonnes pratiques pour tirer le meilleur des 6 agents Jarvis.</p>
+</header>
+
+<!-- Guides -->
+<section class="mb-xl animate-fade-in delay-100">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Guides</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<a href="#" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors flex flex-col"><div class="flex items-center gap-2 mb-2"><span class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">draw</span></span><span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider">Prompt</span></div><div class="font-headline-md text-headline-md text-on-surface mb-0.5">Bien rédiger un prompt de génération</div><p class="font-body-sm text-body-sm text-on-surface-variant/80 flex-1">La structure objectif + audience + ton + sections qui produit les meilleurs résultats, avec des exemples avant/après.</p><span class="mt-sm pt-sm border-t border-outline-variant/10 flex items-center gap-1.5 text-on-surface-variant text-label-md font-label-md">Lire le guide <span class="material-symbols-outlined text-lg">arrow_forward</span></span></a>
+<a href="#" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors flex flex-col"><div class="flex items-center gap-2 mb-2"><span class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">smart_toy</span></span><span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider">Agents</span></div><div class="font-headline-md text-headline-md text-on-surface mb-0.5">Comprendre le rôle des 6 agents</div><p class="font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Ce que fait chaque agent, dans quel ordre, et comment ajuster son modèle et ses instructions pour orienter le résultat.</p><span class="mt-sm pt-sm border-t border-outline-variant/10 flex items-center gap-1.5 text-on-surface-variant text-label-md font-label-md">Lire le guide <span class="material-symbols-outlined text-lg">arrow_forward</span></span></a>
+<a href="#" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors flex flex-col"><div class="flex items-center gap-2 mb-2"><span class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">ad</span></span><span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider">Conversion</span></div><div class="font-headline-md text-headline-md text-on-surface mb-0.5">Anatomie d'une landing page qui convertit</div><p class="font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Héro, preuve sociale, bénéfices, CTA : les sections essentielles et l'ordre qui maximise la conversion.</p><span class="mt-sm pt-sm border-t border-outline-variant/10 flex items-center gap-1.5 text-on-surface-variant text-label-md font-label-md">Lire le guide <span class="material-symbols-outlined text-lg">arrow_forward</span></span></a>
+<a href="#" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors flex flex-col"><div class="flex items-center gap-2 mb-2"><span class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0"><span class="material-symbols-outlined text-[18px] text-on-surface-variant">rocket_launch</span></span><span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider">Publication</span></div><div class="font-headline-md text-headline-md text-on-surface mb-0.5">Publier et itérer avec Wayhost</div><p class="font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Connecter Wayhost, déployer en un clic, puis retoucher via le chat de l'éditeur sans repartir de zéro.</p><span class="mt-sm pt-sm border-t border-outline-variant/10 flex items-center gap-1.5 text-on-surface-variant text-label-md font-label-md">Lire le guide <span class="material-symbols-outlined text-lg">arrow_forward</span></span></a>
+</div>
+</section>
+
+<!-- Templates -->
+<section class="mb-xl animate-fade-in delay-150">
+<div class="flex items-end justify-between mb-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Templates disponibles</h2>
+<span class="font-label-md text-[11px] text-on-surface-variant/60">Catalogue utilisé par les agents Design &amp; Codeur</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+
+<!-- restaurant-chaleureux-02 -->
+<a href="editeur.html" class="tpl-card glass-panel rounded-xl border border-outline-variant/15 overflow-hidden flex flex-col">
+<div class="aspect-video relative overflow-hidden" style="background: linear-gradient(160deg, #2a1608, #170b03);">
+<div class="tpl-nav" style="background: rgba(0,0,0,0.22);"><span class="tpl-dot" style="background:#f2c185"></span><span class="tpl-bar" style="width:34%; background:rgba(255,255,255,0.4)"></span><span class="tpl-bar ml-auto" style="width:14%; background:rgba(255,255,255,0.22)"></span><span class="tpl-bar" style="width:14%; background:rgba(255,255,255,0.22)"></span></div>
+<div class="tpl-hero"><span class="tpl-bar" style="width:62%; height:8px; background:#f2c185"></span><span class="tpl-bar" style="width:42%; background:rgba(255,255,255,0.32)"></span><span class="tpl-cta" style="background:#d97a2e"></span></div>
+</div>
+<div class="p-sm flex items-center justify-between gap-2">
+<div><div class="font-label-md text-label-md text-on-surface">Restaurant chaleureux</div><div class="text-[10px] text-on-surface-variant/55">4 pages · restauration</div></div>
+<span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider shrink-0">Chaleureux</span>
+</div>
+</a>
+
+<!-- hotel-luxe-01 -->
+<a href="editeur.html" class="tpl-card glass-panel rounded-xl border border-outline-variant/15 overflow-hidden flex flex-col">
+<div class="aspect-video relative overflow-hidden" style="background: linear-gradient(160deg, #1c1a16, #0c0b09);">
+<div class="tpl-nav" style="background: rgba(0,0,0,0.25);"><span class="tpl-dot" style="background:#d4af6a"></span><span class="tpl-bar" style="width:30%; background:rgba(255,255,255,0.4)"></span><span class="tpl-bar ml-auto" style="width:14%; background:rgba(255,255,255,0.2)"></span><span class="tpl-bar" style="width:14%; background:rgba(255,255,255,0.2)"></span></div>
+<div class="tpl-hero"><span class="tpl-bar" style="width:56%; height:8px; background:#d4af6a"></span><span class="tpl-bar" style="width:38%; background:rgba(255,255,255,0.3)"></span><span class="tpl-cta" style="background:transparent; border:1px solid #d4af6a"></span></div>
+</div>
+<div class="p-sm flex items-center justify-between gap-2">
+<div><div class="font-label-md text-label-md text-on-surface">Hôtel de luxe</div><div class="text-[10px] text-on-surface-variant/55">hôtellerie &amp; restauration</div></div>
+<span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider shrink-0">Élégant</span>
+</div>
+</a>
+
+<!-- cabinet-corporate-01 -->
+<a href="editeur.html" class="tpl-card glass-panel rounded-xl border border-outline-variant/15 overflow-hidden flex flex-col">
+<div class="aspect-video relative overflow-hidden" style="background: linear-gradient(160deg, #0f1f33, #081221);">
+<div class="tpl-nav" style="background: rgba(0,0,0,0.2);"><span class="tpl-dot" style="background:#7fb3ff"></span><span class="tpl-bar" style="width:28%; background:rgba(255,255,255,0.4)"></span><span class="tpl-bar ml-auto" style="width:14%; background:rgba(255,255,255,0.22)"></span><span class="tpl-bar" style="width:14%; background:rgba(255,255,255,0.22)"></span></div>
+<div class="tpl-hero"><span class="tpl-bar" style="width:58%; height:8px; background:#eaf1ff"></span><span class="tpl-bar" style="width:44%; background:rgba(255,255,255,0.3)"></span><span class="tpl-cta" style="background:#3f7fd6"></span></div>
+</div>
+<div class="p-sm flex items-center justify-between gap-2">
+<div><div class="font-label-md text-label-md text-on-surface">Cabinet corporate</div><div class="text-[10px] text-on-surface-variant/55">conseil &amp; juridique</div></div>
+<span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider shrink-0">Corporate</span>
+</div>
+</a>
+
+<!-- cabinet-professionnel-02 -->
+<a href="editeur.html" class="tpl-card glass-panel rounded-xl border border-outline-variant/15 overflow-hidden flex flex-col">
+<div class="aspect-video relative overflow-hidden" style="background: linear-gradient(160deg, #0c211e, #071411);">
+<div class="tpl-nav" style="background: rgba(0,0,0,0.2);"><span class="tpl-dot" style="background:#5fd6bc"></span><span class="tpl-bar" style="width:30%; background:rgba(255,255,255,0.4)"></span><span class="tpl-bar ml-auto" style="width:14%; background:rgba(255,255,255,0.22)"></span><span class="tpl-bar" style="width:14%; background:rgba(255,255,255,0.22)"></span></div>
+<div class="tpl-hero"><span class="tpl-bar" style="width:60%; height:8px; background:#5fd6bc"></span><span class="tpl-bar" style="width:40%; background:rgba(255,255,255,0.3)"></span><span class="tpl-cta" style="background:#1f8f78"></span></div>
+</div>
+<div class="p-sm flex items-center justify-between gap-2">
+<div><div class="font-label-md text-label-md text-on-surface">Cabinet professionnel</div><div class="text-[10px] text-on-surface-variant/55">services professionnels</div></div>
+<span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider shrink-0">Sobre</span>
+</div>
+</a>
+
+<!-- boutique-colore-02 -->
+<a href="editeur.html" class="tpl-card glass-panel rounded-xl border border-outline-variant/15 overflow-hidden flex flex-col">
+<div class="aspect-video relative overflow-hidden" style="background: linear-gradient(135deg, #ec4899, #f59e0b 55%, #22c55e);">
+<div class="tpl-nav" style="background: rgba(0,0,0,0.18);"><span class="tpl-dot" style="background:#fff"></span><span class="tpl-bar" style="width:32%; background:rgba(255,255,255,0.55)"></span><span class="tpl-bar ml-auto" style="width:14%; background:rgba(255,255,255,0.3)"></span><span class="tpl-bar" style="width:14%; background:rgba(255,255,255,0.3)"></span></div>
+<div class="tpl-hero"><span class="tpl-bar" style="width:58%; height:8px; background:#fff"></span><span class="tpl-bar" style="width:40%; background:rgba(255,255,255,0.55)"></span><span class="tpl-cta" style="background:#111827"></span></div>
+</div>
+<div class="p-sm flex items-center justify-between gap-2">
+<div><div class="font-label-md text-label-md text-on-surface">Boutique colorée</div><div class="text-[10px] text-on-surface-variant/55">e-commerce</div></div>
+<span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider shrink-0">Coloré</span>
+</div>
+</a>
+
+</div>
+</section>
+
+<!-- Bonnes pratiques -->
+<section class="mb-xl animate-fade-in delay-200">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Bonnes pratiques d'une landing page</h2>
+<div class="glass-panel rounded-2xl p-md max-w-3xl">
+<ul class="flex flex-col divide-y divide-outline-variant/15">
+<li class="py-sm flex gap-sm"><span class="material-symbols-outlined text-on-surface mt-0.5 text-lg">check_circle</span><div><div class="font-label-md text-label-md text-on-surface">Un seul objectif par page</div><div class="font-body-sm text-body-sm text-on-surface-variant/75">Une landing page = une action attendue. Un CTA principal clair, répété, sans distractions concurrentes.</div></div></li>
+<li class="py-sm flex gap-sm"><span class="material-symbols-outlined text-on-surface mt-0.5 text-lg">check_circle</span><div><div class="font-label-md text-label-md text-on-surface">Un héro qui pose la promesse en 5 secondes</div><div class="font-body-sm text-body-sm text-on-surface-variant/75">Titre orienté bénéfice, sous-titre explicite, visuel cohérent : le visiteur doit comprendre l'offre immédiatement.</div></div></li>
+<li class="py-sm flex gap-sm"><span class="material-symbols-outlined text-on-surface mt-0.5 text-lg">check_circle</span><div><div class="font-label-md text-label-md text-on-surface">De la preuve sociale</div><div class="font-body-sm text-body-sm text-on-surface-variant/75">Témoignages, logos, chiffres clés : rassurez avant de demander l'action.</div></div></li>
+<li class="py-sm flex gap-sm"><span class="material-symbols-outlined text-on-surface mt-0.5 text-lg">check_circle</span><div><div class="font-label-md text-label-md text-on-surface">Un contenu scannable</div><div class="font-body-sm text-body-sm text-on-surface-variant/75">Sections courtes, sous-titres, listes. On lit en diagonale avant de lire en détail.</div></div></li>
+<li class="py-sm flex gap-sm"><span class="material-symbols-outlined text-on-surface mt-0.5 text-lg">check_circle</span><div><div class="font-label-md text-label-md text-on-surface">Performance et accessibilité</div><div class="font-body-sm text-body-sm text-on-surface-variant/75">Contrastes suffisants, images optimisées, structure sémantique : l'agent Qualité & Sécurité les vérifie avant mise en ligne.</div></div></li>
+</ul>
+</div>
+</section>
+
+<!-- Nouveautés -->
+<section class="mb-xl animate-fade-in delay-250">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Journal des nouveautés</h2>
+<div class="glass-panel rounded-2xl p-md max-w-3xl flex flex-col gap-md">
+<div class="flex flex-col sm:flex-row gap-sm"><div class="sm:w-32 shrink-0"><div class="font-label-md text-label-md text-on-surface">v2.0</div><div class="font-body-sm text-body-sm text-on-surface-variant/60">Juin 2026</div></div><ul class="flex-1 flex flex-col gap-1 font-body-sm text-body-sm text-on-surface-variant/85"><li class="flex gap-2"><span class="material-symbols-outlined text-on-surface-variant/60 text-sm mt-0.5">arrow_right</span><span>Scène 3D des agents pilotée par l'avancement réel du pipeline.</span></li><li class="flex gap-2"><span class="material-symbols-outlined text-on-surface-variant/60 text-sm mt-0.5">arrow_right</span><span>Configuration par agent : modèle, raisonnement, créativité, mémoire.</span></li></ul></div>
+<div class="flex flex-col sm:flex-row gap-sm"><div class="sm:w-32 shrink-0"><div class="font-label-md text-label-md text-on-surface">v1.6</div><div class="font-body-sm text-body-sm text-on-surface-variant/60">Avril 2026</div></div><ul class="flex-1 flex flex-col gap-1 font-body-sm text-body-sm text-on-surface-variant/85"><li class="flex gap-2"><span class="material-symbols-outlined text-on-surface-variant/60 text-sm mt-0.5">arrow_right</span><span>Déploiement Wayhost en un clic depuis l'éditeur.</span></li><li class="flex gap-2"><span class="material-symbols-outlined text-on-surface-variant/60 text-sm mt-0.5">arrow_right</span><span>Aperçu et code côte à côte dans l'éditeur.</span></li></ul></div>
+<div class="flex flex-col sm:flex-row gap-sm"><div class="sm:w-32 shrink-0"><div class="font-label-md text-label-md text-on-surface">v1.4</div><div class="font-body-sm text-body-sm text-on-surface-variant/60">Février 2026</div></div><ul class="flex-1 flex flex-col gap-1 font-body-sm text-body-sm text-on-surface-variant/85"><li class="flex gap-2"><span class="material-symbols-outlined text-on-surface-variant/60 text-sm mt-0.5">arrow_right</span><span>Localisation du contenu par langue et région.</span></li><li class="flex gap-2"><span class="material-symbols-outlined text-on-surface-variant/60 text-sm mt-0.5">arrow_right</span><span>Améliorations SEO automatiques de l'agent Contenu.</span></li></ul></div>
+</div>
+</section>
+
+<!-- Liens utiles -->
+<section class="mb-lg animate-fade-in delay-300">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Liens utiles</h2>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl">
+<a href="aide.html" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">help</span>
+<span class="font-label-md text-label-md text-on-surface">Centre d'aide</span>
+</a>
+<a href="agents.html" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">smart_toy</span>
+<span class="font-label-md text-label-md text-on-surface">Configurer les agents</span>
+</a>
+<a href="parametres.html#billing" class="glass-panel rounded-xl border border-outline-variant/15 p-md hover:border-outline-variant/30 transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant">credit_card</span>
+<span class="font-label-md text-label-md text-on-surface">Forfait & facturation</span>
+</a>
+</div>
+</section>
+
+</div>
+
+</main>
+
+<script>
+</script>
+
+</body></html>

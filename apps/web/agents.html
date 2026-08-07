@@ -1,0 +1,374 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link rel="stylesheet" href="/src/styles/tailwind.css">
+<title>Jarvis — Agents</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        /* Carte agent : statique, s'ouvre dans une fenêtre de configuration */
+        .agent-card { transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease; }
+
+        .agent-card:hover { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.02); transform: translateY(-2px); box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5); }
+        .agent-card:active { transform: scale(0.99); }
+        .agent-desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* Segmented control (niveau de raisonnement) */
+
+        input[type="range"] { accent-color: #b3aeff; }
+
+        /* Modal de configuration */
+        #agent-modal-backdrop { background: rgba(6, 7, 10, 0.6); backdrop-filter: blur(4px); }
+        .modal-panel { transition: opacity 180ms cubic-bezier(0.23,1,0.32,1), transform 180ms cubic-bezier(0.23,1,0.32,1); }
+    
+    </style>
+    <script>
+        if (localStorage.getItem('jarvisNavCollapsed') === '1') {
+            document.documentElement.classList.add('nav-collapsed');
+        }
+    </script>
+<script type="module" src="/src/pages/agents.js"></script>
+</head>
+<body class="workspace-bg text-on-background font-body-md antialiased min-h-screen overflow-x-hidden">
+
+<!-- Fond assombri -->
+<div class="fixed inset-0 z-0 pointer-events-none">
+<img alt="Arrière-plan" class="absolute inset-0 w-full h-full object-cover opacity-30" src="/assets/screen.png">
+<div class="absolute inset-0 workspace-scrim"></div>
+</div>
+
+<!-- Barre de navigation latérale -->
+<!-- Nav, barre supérieure mobile et voile du tiroir : montés par
+     src/lib/app-shell.js. -->
+
+<!-- Contenu principal -->
+<main class="app-main flex-1 min-w-0 relative z-10 p-md md:p-lg">
+<!-- `max-w-container-max mx-auto` vit sur ce conteneur interne, pas sur `.app-main` :
+     posé directement sur `.app-main`, `mx-auto` centre le contenu sur la largeur totale
+     de l'écran plutôt que sur l'espace disponible à droite de la barre latérale fixe —
+     `margin-left` (qui réserve cette place) et `margin-right: auto` (mx-auto) tirent alors
+     dans des directions différentes, et sous 1536 px (256 + 1280) la page déborde
+     purement et simplement à droite du conteneur. Séparer les deux préoccupations (le
+     décalage de la barre ici, le centrage du contenu dans le conteneur interne) fait que
+     chacune se calcule sur la bonne base. -->
+<div class="max-w-container-max mx-auto w-full">
+
+<header class="mb-lg animate-fade-in">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-1">Agents</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">Configurez le modèle, le niveau de raisonnement et la mémoire de chaque agent du pipeline de génération.</p>
+</header>
+
+<!-- Flux de traitement -->
+<div class="glass-panel rounded-xl px-md py-sm mb-lg overflow-x-auto animate-fade-in delay-100">
+<div class="flex items-center gap-1.5 min-w-max">
+<span class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant/50 mr-1 shrink-0">Flux</span>
+<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-high/70 border border-outline-variant/15 shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">hub</span>
+<span class="font-label-md text-[11px] text-on-surface">Orchestration</span>
+</span>
+<span class="material-symbols-outlined text-outline-variant text-sm shrink-0">arrow_forward</span>
+<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-high/70 border border-outline-variant/15 shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">palette</span>
+<span class="font-label-md text-[11px] text-on-surface">Conception & Design</span>
+</span>
+<span class="material-symbols-outlined text-outline-variant text-sm shrink-0">arrow_forward</span>
+<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-high/70 border border-outline-variant/15 shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">edit_note</span>
+<span class="font-label-md text-[11px] text-on-surface">Contenu</span>
+</span>
+<span class="material-symbols-outlined text-outline-variant text-sm shrink-0">arrow_forward</span>
+<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-high/70 border border-outline-variant/15 shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">construction</span>
+<span class="font-label-md text-[11px] text-on-surface">Gestion & Build</span>
+</span>
+<span class="material-symbols-outlined text-outline-variant text-sm shrink-0">arrow_forward</span>
+<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-high/70 border border-outline-variant/15 shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">verified_user</span>
+<span class="font-label-md text-[11px] text-on-surface">Qualité & Sécurité</span>
+</span>
+<span class="material-symbols-outlined text-outline-variant text-sm shrink-0">arrow_forward</span>
+<span class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-high/70 border border-outline-variant/15 shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">rocket_launch</span>
+<span class="font-label-md text-[11px] text-on-surface">Déploiement</span>
+</span>
+</div>
+</div>
+
+<!-- Scène 3D : l'atelier des agents. Montée par src/pages/agents.js, qui dégrade
+     silencieusement en cachant le bloc si WebGL est indisponible. -->
+<div class="glass-panel rounded-xl border border-outline-variant/15 overflow-hidden mb-lg animate-fade-in delay-100 hidden" id="agents-scene-block">
+<div class="relative w-full h-[300px] sm:h-[380px]" id="agents-scene-viewport">
+<div class="absolute inset-0 flex items-center justify-center gap-2 text-on-surface-variant/70" id="agents-scene-loading">
+<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+<span class="font-body-sm text-body-sm">Chargement de l'atelier…</span>
+</div>
+</div>
+</div>
+
+<!-- Grille des agents -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-xl">
+
+<div class="agent-card glass-panel rounded-xl border border-outline-variant/15 p-md flex flex-col cursor-pointer animate-fade-in delay-150" onclick="jarvisOpenAgentModal('orchestration')">
+<div class="flex items-start justify-between mb-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">hub</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Orchestration</h2>
+<span class="self-start text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider mb-1.5">Workflow</span>
+<p class="agent-desc font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Lit et optimise le prompt, produit une spec structurée, route les tâches vers les autres agents.</p>
+<div class="flex items-center gap-1.5 mt-sm pt-sm border-t border-outline-variant/10 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span class="font-label-md text-label-md">Configurer</span>
+</div>
+</div>
+
+<div class="agent-card glass-panel rounded-xl border border-outline-variant/15 p-md flex flex-col cursor-pointer animate-fade-in delay-200" onclick="jarvisOpenAgentModal('design')">
+<div class="flex items-start justify-between mb-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">palette</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Conception & Design</h2>
+<span class="self-start text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider mb-1.5">Agent IA</span>
+<p class="agent-desc font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Choisit le template, la structure et la charte graphique du site.</p>
+<div class="flex items-center gap-1.5 mt-sm pt-sm border-t border-outline-variant/10 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span class="font-label-md text-label-md">Configurer</span>
+</div>
+</div>
+
+<div class="agent-card glass-panel rounded-xl border border-outline-variant/15 p-md flex flex-col cursor-pointer animate-fade-in delay-250" onclick="jarvisOpenAgentModal('content')">
+<div class="flex items-start justify-between mb-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">edit_note</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Contenu</h2>
+<span class="self-start text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider mb-1.5">Agent IA</span>
+<p class="agent-desc font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Rédige les textes, le SEO, les CTA et adapte le contenu par langue/région.</p>
+<div class="flex items-center gap-1.5 mt-sm pt-sm border-t border-outline-variant/10 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span class="font-label-md text-label-md">Configurer</span>
+</div>
+</div>
+
+<div class="agent-card glass-panel rounded-xl border border-outline-variant/15 p-md flex flex-col cursor-pointer animate-fade-in delay-300" onclick="jarvisOpenAgentModal('build')">
+<div class="flex items-start justify-between mb-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">construction</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Gestion & Build</h2>
+<span class="self-start text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider mb-1.5">Agent IA</span>
+<p class="agent-desc font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Organise le travail en étapes et écrit le code du site.</p>
+<div class="flex items-center gap-1.5 mt-sm pt-sm border-t border-outline-variant/10 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span class="font-label-md text-label-md">Configurer</span>
+</div>
+</div>
+
+<div class="agent-card glass-panel rounded-xl border border-outline-variant/15 p-md flex flex-col cursor-pointer animate-fade-in delay-350" onclick="jarvisOpenAgentModal('quality')">
+<div class="flex items-start justify-between mb-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">verified_user</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Qualité & Sécurité</h2>
+<span class="self-start text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider mb-1.5">Agent IA</span>
+<p class="agent-desc font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Valide le rendu, la sécurité et l'accessibilité avant mise en ligne.</p>
+<div class="flex items-center gap-1.5 mt-sm pt-sm border-t border-outline-variant/10 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span class="font-label-md text-label-md">Configurer</span>
+</div>
+</div>
+
+<div class="agent-card glass-panel rounded-xl border border-outline-variant/15 p-md flex flex-col cursor-pointer animate-fade-in delay-350" onclick="jarvisOpenAgentModal('deploy')">
+<div class="flex items-start justify-between mb-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">rocket_launch</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-0.5">Déploiement & Documentation</h2>
+<span class="self-start text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider mb-1.5">Workflow</span>
+<p class="agent-desc font-body-sm text-body-sm text-on-surface-variant/80 flex-1">Publie automatiquement sur Wayhost et rédige la documentation.</p>
+<div class="flex items-center gap-1.5 mt-sm pt-sm border-t border-outline-variant/10 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span class="font-label-md text-label-md">Configurer</span>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<!-- Modal de configuration (partagé, rempli dynamiquement) -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center p-md" id="agent-modal-backdrop" onclick="jarvisCloseAgentModalOnBackdrop(event)">
+<div class="modal-panel glass-panel rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto opacity-0 scale-95" id="agent-modal-panel">
+<div class="flex items-start gap-sm p-md border-b border-outline-variant/10">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center border border-outline-variant/20 shrink-0">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant" id="modal-icon">hub</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<h2 class="font-headline-md text-headline-md text-on-surface" id="modal-title">Orchestration</h2>
+<span class="text-[9px] font-label-md px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant/70 border border-outline-variant/20 uppercase tracking-wider" id="modal-badge">Workflow</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant/80 mt-0.5" id="modal-desc"></p>
+</div>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors shrink-0" onclick="jarvisCloseAgentModal()">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+
+<div class="p-md flex flex-col gap-md">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-[11px] text-on-surface-variant">Modèle IA</label>
+<select class="input-glow rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface w-full" id="modal-model"></select>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-[11px] text-on-surface-variant">Niveau de raisonnement</label>
+<div class="segment-group flex bg-surface-container-lowest rounded-lg p-0.5 border border-outline-variant/10" id="modal-reasoning"></div>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-[11px] text-on-surface-variant">Créativité</label>
+<span class="font-label-md text-[11px] text-on-surface-variant/70" id="modal-temp-val">0.3</span>
+</div>
+<input class="w-full" id="modal-temp" max="1" min="0" oninput="document.getElementById('modal-temp-val').textContent = this.value" step="0.1" type="range" value="0.3">
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-[11px] text-on-surface-variant">Mémoire</label>
+<div class="flex flex-wrap gap-1.5" id="modal-memory"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-[11px] text-on-surface-variant">Instructions personnalisées</label>
+<textarea class="input-glow rounded-lg px-sm py-2 font-body-md text-body-md text-on-surface w-full resize-none h-20" id="modal-instructions"></textarea>
+</div>
+</div>
+
+<div class="flex items-center justify-end gap-2 p-md border-t border-outline-variant/10">
+<button class="py-2 px-md rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="jarvisCloseAgentModal()">Annuler</button>
+<button class="bg-surface-container-highest text-on-surface py-2 px-md rounded-lg font-label-md text-label-md font-semibold hover:bg-surface-bright transition-colors border border-outline-variant/30" onclick="jarvisCloseAgentModal()">Enregistrer</button>
+</div>
+</div>
+</div>
+
+<script>
+  const JARVIS_AGENTS = {
+    orchestration: {
+      icon: 'hub', name: 'Orchestration', badge: 'Workflow',
+      desc: 'Lit et optimise le prompt, produit une spec structurée, route les tâches vers les autres agents.',
+      models: ['Claude Sonnet 5', 'Claude Opus 5', 'GPT-5.1', 'Gemini 3 Flash'],
+      reasoning: ['Faible', 'Moyen', 'Élevé', 'Max'], reasoningDefault: 1, temp: 0.3,
+      memory: ['Historique des runs', 'Schéma de spec JSON'],
+      placeholder: 'Ex. : privilégier un ton corporate sobre pour les prompts B2B…'
+    },
+    design: {
+      icon: 'palette', name: 'Conception & Design', badge: 'Agent IA',
+      desc: 'Choisit le template, la structure et la charte graphique du site.',
+      models: ['Gemini 3 Flash', 'Claude Sonnet 5', 'GPT-5.1'],
+      reasoning: ['Faible', 'Moyen', 'Élevé', 'Max'], reasoningDefault: 0, temp: 0.6,
+      memory: ['Bibliothèque de templates', 'Palettes & typographies éprouvées'],
+      placeholder: 'Ex. : privilégier des designs épurés, beaucoup d’espace blanc…'
+    },
+    content: {
+      icon: 'edit_note', name: 'Contenu', badge: 'Agent IA',
+      desc: 'Rédige les textes, le SEO, les CTA et adapte le contenu par langue/région.',
+      models: ['Claude Sonnet 5', 'GPT-5.1', 'Gemini 3 Flash'],
+      reasoning: ['Faible', 'Moyen', 'Élevé', 'Max'], reasoningDefault: 0, temp: 0.5,
+      memory: ['Bonnes pratiques SEO', 'Règles de localisation'],
+      placeholder: 'Ex. : toujours proposer un CTA principal et un CTA secondaire…'
+    },
+    build: {
+      icon: 'construction', name: 'Gestion & Build', badge: 'Agent IA',
+      desc: 'Organise le travail en étapes et écrit le code du site.',
+      models: ['Claude Opus 5', 'Claude Sonnet 5', 'GPT-5.1'],
+      reasoning: ['Faible', 'Moyen', 'Élevé', 'Max'], reasoningDefault: 2, temp: 0.2,
+      memory: ['Playbooks de build', 'Snippets & patterns validés'],
+      placeholder: 'Ex. : toujours découper le build en sections indépendantes…'
+    },
+    quality: {
+      icon: 'verified_user', name: 'Qualité & Sécurité', badge: 'Agent IA',
+      desc: 'Valide le rendu, la sécurité et l’accessibilité avant mise en ligne.',
+      models: ['Claude Sonnet 5', 'GPT-5.1', 'Gemini 3 Flash'],
+      reasoning: ['Faible', 'Moyen', 'Élevé', 'Max'], reasoningDefault: 2, temp: 0.1,
+      memory: ['Checklist OWASP', 'Règles WCAG'],
+      placeholder: 'Ex. : niveau WCAG AA minimum, contrôle strict des contrastes…'
+    },
+    deploy: {
+      icon: 'rocket_launch', name: 'Déploiement & Documentation', badge: 'Workflow',
+      desc: 'Publie automatiquement sur Wayhost et rédige la documentation.',
+      models: ['Gemini 3 Flash', 'Claude Sonnet 5', 'GPT-5.1'],
+      reasoning: ['Faible', 'Moyen', 'Élevé', 'Max'], reasoningDefault: 0, temp: 0.2,
+      memory: ['Config API Wayhost', 'Gabarits de rapport'],
+      placeholder: 'Ex. : toujours vérifier la propagation DNS avant de conclure le déploiement…'
+    }
+  };
+
+  function jarvisOpenAgentModal(id) {
+    const a = JARVIS_AGENTS[id];
+    if (!a) return;
+    document.getElementById('modal-icon').textContent = a.icon;
+    document.getElementById('modal-title').textContent = a.name;
+    document.getElementById('modal-badge').textContent = a.badge;
+    document.getElementById('modal-desc').textContent = a.desc;
+    document.getElementById('modal-model').innerHTML = a.models.map(function (m) { return '<option>' + m + '</option>'; }).join('');
+    document.getElementById('modal-reasoning').innerHTML = a.reasoning.map(function (r, i) {
+      const active = i === a.reasoningDefault;
+      return '<button type="button" class="segment-btn flex-1 py-1.5 rounded-md text-[11px] font-label-md ' +
+        (active ? 'bg-surface-container-high text-on-surface' : 'text-on-surface-variant') +
+        '" onclick="jarvisSegment(this)">' + r + '</button>';
+    }).join('');
+    document.getElementById('modal-temp').value = a.temp;
+    document.getElementById('modal-temp-val').textContent = a.temp;
+    document.getElementById('modal-memory').innerHTML = a.memory.map(function (m) {
+      return '<span class="px-2 py-1 rounded-md bg-surface-container-lowest border border-outline-variant/15 font-label-md text-[10.5px] text-on-surface-variant">' + m + '</span>';
+    }).join('');
+    const instructions = document.getElementById('modal-instructions');
+    instructions.placeholder = a.placeholder;
+    instructions.value = '';
+
+    const backdrop = document.getElementById('agent-modal-backdrop');
+    const panel = document.getElementById('agent-modal-panel');
+    backdrop.classList.remove('hidden');
+    backdrop.classList.add('flex');
+    requestAnimationFrame(function () {
+      panel.classList.remove('opacity-0', 'scale-95');
+    });
+  }
+
+  function jarvisCloseAgentModal() {
+    const backdrop = document.getElementById('agent-modal-backdrop');
+    const panel = document.getElementById('agent-modal-panel');
+    panel.classList.add('opacity-0', 'scale-95');
+    setTimeout(function () {
+      backdrop.classList.add('hidden');
+      backdrop.classList.remove('flex');
+    }, 160);
+  }
+
+  function jarvisCloseAgentModalOnBackdrop(e) {
+    if (e.target.id === 'agent-modal-backdrop') jarvisCloseAgentModal();
+  }
+
+  function jarvisSegment(btn) {
+    const group = btn.closest('.segment-group');
+    group.querySelectorAll('button').forEach(function (b) {
+      b.classList.remove('bg-surface-container-high', 'text-on-surface');
+      b.classList.add('text-on-surface-variant');
+    });
+    btn.classList.remove('text-on-surface-variant');
+    btn.classList.add('bg-surface-container-high', 'text-on-surface');
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') jarvisCloseAgentModal();
+  });
+</script>
+
+</body></html>

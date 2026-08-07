@@ -1,0 +1,347 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Polices chargées via <link> dans chaque page (Google Fonts). Les familles du
+   thème s'y réfèrent par leur nom : Manrope pour tout le dashboard, JetBrains
+   Mono pour les extraits de code de la page Paramètres. */
+
+/* ==========================================================================
+   Habillage applicatif partagé
+   --------------------------------------------------------------------------
+   Ces règles vivaient recopiées dans le <style> de chacune des six pages
+   produit. Elles y étaient déjà légèrement divergentes ; elles le seraient
+   devenues franchement à la première évolution. Elles sont ici, une fois.
+
+   Le point structurant est le comportement de la navigation selon la largeur :
+
+   - **Sous 768 px**, il n'y a pas de barre latérale. Un rail de 64 px
+     permanent prend 18 % de la largeur d'un téléphone de 360 px, pour
+     n'afficher que des icônes sans libellé. La nav devient un tiroir
+     hors-écran, ouvert depuis la barre supérieure, et le contenu occupe
+     toute la largeur.
+   - **À partir de 768 px**, la barre latérale reprend son comportement
+     d'origine : dépliée à 256 px, repliable à 64 px, choix mémorisé.
+
+   Le même contrat vaut pour le back-office (`src/lib/admin-shell.js`) : un
+   utilisateur qui passe du produit à l'administration ne réapprend pas où
+   se trouve la navigation.
+   ========================================================================== */
+
+@layer components {
+  /* --- Barre latérale / tiroir ------------------------------------------ */
+
+  .app-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 16rem;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: rgba(20, 21, 28, 0.92);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    box-shadow: 1px 0 0 rgba(255, 255, 255, 0.06), 8px 0 30px -10px rgba(0, 0, 0, 0.6);
+    /* Hors-écran par défaut : le mobile est le cas de base, le bureau est
+       l'exception traitée plus bas. */
+    transform: translateX(-100%);
+    transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1),
+                width 220ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  html.nav-open .app-nav {
+    transform: translateX(0);
+  }
+
+  /* Contenu défilant de la barre (entrées + pied de compte). `overflow-y` vit ici et
+     non sur `.app-nav` : donner `overflow-y` à un axe sans fixer explicitement l'autre
+     force `overflow-x` à devenir `auto` lui aussi (règle CSS standard — un axe ne peut
+     pas rester `visible` si l'autre ne l'est plus). Sur `.app-nav`, ça rognait le bouton
+     de repli, positionné à cheval sur son bord droit (`-right-3`) : la moitié qui dépasse
+     disparaissait. En confinant le défilement à ce conteneur interne, `.app-nav` retrouve
+     un `overflow` normal et laisse le bouton déborder comme prévu. */
+  .app-nav-scroll {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Voile du tiroir. Cliquable pour refermer — le geste attendu de tout
+     tiroir, et le seul disponible au pouce sur un grand écran de téléphone. */
+  .app-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(6, 7, 10, 0.6);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+  }
+
+  html.nav-open .app-scrim {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* --- Barre supérieure mobile ------------------------------------------ */
+
+  .app-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+    background: rgba(17, 19, 25, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* --- Zone principale --------------------------------------------------- */
+
+  /* `html .app-main` et non `.app-main` : Aide, Agents, Paramètres et Ressources
+     posent `mx-auto` sur ce même élément pour centrer leur contenu (max-w-container-max).
+     `.mx-auto` vit dans `@layer utilities`, chargé après `@layer components` — à
+     spécificité égale (une classe), il gagnait et écrasait ce `margin-left`, qui est
+     pourtant ce qui réserve la place de la barre latérale fixe. Le contenu se
+     recentrait alors sur la largeur totale de l'écran, en partie sous la barre.
+     Un ancêtre `html` de plus dans le sélecteur suffit à regagner la priorité sans
+     `!important`. */
+  html .app-main {
+    margin-left: 0;
+    /* Laisse passer la barre supérieure, qui est en position fixe. */
+    padding-top: 3.5rem;
+    transition: margin-left 220ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  /* --- Au-delà de 768 px : barre latérale classique ---------------------- */
+
+  @media (min-width: 768px) {
+    .app-nav {
+      transform: none;
+      background: rgba(20, 21, 28, 0.55);
+    }
+
+    .app-scrim,
+    .app-topbar {
+      display: none;
+    }
+
+    html .app-main {
+      margin-left: 16rem;
+      padding-top: 0;
+    }
+
+    html.nav-collapsed .app-nav {
+      width: 4rem;
+    }
+
+    html.nav-collapsed .app-main {
+      margin-left: 4rem;
+    }
+
+    html.nav-collapsed .nav-label {
+      display: none;
+    }
+
+    html.nav-collapsed .nav-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Variante « rail » de l'éditeur : la barre y reste étroite en permanence.
+       L'éditeur partage sa largeur entre la conversation et l'aperçu du site ;
+       256 px de navigation prendraient sur les deux, alors qu'on n'y navigue
+       pratiquement pas — on y travaille. Sous 768 px, la variante n'existe pas :
+       c'est le même tiroir que partout ailleurs, libellés compris. */
+    .app-nav--rail {
+      width: 3.5rem;
+    }
+
+    .app-nav--rail .nav-label,
+    .app-nav--rail #nav-collapse-toggle {
+      display: none;
+    }
+
+    .app-nav--rail .nav-item,
+    .app-nav--rail a {
+      justify-content: center;
+    }
+
+    html .app-main--rail {
+      margin-left: 3.5rem;
+    }
+  }
+
+  /* --- Éditeur : bascule conversation / aperçu sous 768 px -----------------
+     Les deux panneaux se partageaient la hauteur, moitié-moitié. Sur un écran
+     de 640 px, cela donne 320 px chacun : la zone de saisie et l'en-tête en
+     consomment déjà la moitié côté conversation, et un aperçu de site haut de
+     320 px ne montre rien d'exploitable. Un seul panneau à la fois, plein
+     écran, et une bascule pour passer de l'un à l'autre. */
+  @media (max-width: 767px) {
+    html.editor-view-chat #editor-preview,
+    html.editor-view-preview #editor-chat {
+      display: none;
+    }
+
+    #editor-chat,
+    #editor-preview {
+      height: 100%;
+    }
+  }
+
+  .editor-switch-btn[aria-selected='true'] {
+    background: theme('colors.surface-container-highest');
+    color: theme('colors.on-surface');
+    font-weight: 600;
+  }
+
+  .nav-item {
+    min-height: 44px; /* cible tactile confortable, y compris au pouce */
+  }
+
+  .nav-toggle-icon {
+    transition: transform 200ms ease-out;
+  }
+
+  .logo-mark {
+    filter: brightness(0) invert(1);
+  }
+
+  /* --- Surfaces et champs partagés --------------------------------------- */
+
+  .glass-panel {
+    background: rgba(24, 25, 32, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .workspace-bg {
+    background: radial-gradient(ellipse 120% 60% at 50% -10%, rgba(83, 79, 192, 0.16), transparent 60%), #0a0b0f;
+  }
+
+  .workspace-scrim {
+    background: linear-gradient(180deg, rgba(10, 11, 15, 0.75), rgba(10, 11, 15, 0.92));
+  }
+
+  .input-glow {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .input-glow:focus {
+    outline: none;
+    border-color: #7c76e0;
+    box-shadow: 0 0 0 3px rgba(124, 118, 224, 0.18);
+  }
+
+  /* Contrôle segmenté (ex. sélecteur de thème de Paramètres). Seule la couleur de
+     fond de l'état actif était définie (dans le <style> local de la page) ; sans
+     dimension propre à chaque bouton, les trois libellés s'affichaient collés les
+     uns aux autres, sans espacement ni distinction visuelle entre eux. */
+  .segment-btn {
+    flex: 1;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    text-align: center;
+    color: rgba(200, 196, 213, 0.75);
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  .segment-btn:hover:not(.active) {
+    color: #e2e2eb;
+  }
+
+  /* --- Animations d'entrée ------------------------------------------------ */
+
+  .animate-fade-in {
+    animation: jarvisFadeIn 0.5s ease-out forwards;
+    opacity: 0;
+  }
+
+  .delay-100 { animation-delay: 0.05s; }
+  .delay-150 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.15s; }
+  .delay-250 { animation-delay: 0.2s; }
+  .delay-300 { animation-delay: 0.25s; }
+  .delay-350 { animation-delay: 0.3s; }
+
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: skewX(-20deg);
+    animation: jarvisShimmer 3s infinite;
+  }
+
+  /* Réservé aux lecteurs d'écran : légendes des tables équivalentes qui
+     doublent chaque graphique du back-office. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@keyframes jarvisFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes jarvisShimmer {
+  100% { left: 200%; }
+}
+
+/* Une animation d'entrée sur chaque bloc devient une gêne pour qui a réglé son
+   système sur « moins d'animations » — et pour qui souffre de vertiges, une
+   vraie nuisance. On coupe le mouvement sans jamais couper le contenu :
+   `opacity: 1` est indispensable, faute de quoi les éléments animés resteraient
+   invisibles. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+
+  .shimmer::after {
+    animation: none;
+  }
+
+  .app-nav,
+  .app-main,
+  .app-scrim,
+  .nav-toggle-icon {
+    transition-duration: 1ms;
+  }
+}

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+
+# Node
+node_modules/
+.vite/
+dist/
+
+# Secrets et données locales — jamais versionnés
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Données d'exécution : les sites générés appartiennent aux clients, pas au dépôt
+apps/api/data/
+apps/api/sites/
+!apps/api/sites/.gitkeep
+
+# Divers
+*.log
+.DS_Store

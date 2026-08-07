@@ -1,0 +1,20 @@
+{
+  "description": "Site propre de référence : aucune détection de sécurité attendue.",
+  "vulnerable": false,
+  "must_detect": [],
+  "must_not_detect": [
+    "js.eval",
+    "js.inner_html",
+    "js.document_write",
+    "html.inline_event_handler",
+    "html.javascript_url",
+    "html.external_script",
+    "html.external_resource",
+    "html.insecure_http_link",
+    "html.missing_doctype",
+    "html.missing_charset",
+    "html.missing_viewport",
+    "html.missing_lang",
+    "html.img_no_alt"
+  ]
+}

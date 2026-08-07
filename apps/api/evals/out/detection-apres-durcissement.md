@@ -1,0 +1,34 @@
+# Détection des vulnérabilités — apres-durcissement
+
+Corpus : **16 cas**, dont 16 sans erreur.
+
+| Métrique | Valeur |
+| --- | --- |
+| Rappel | **1.00** |
+| Précision | **1.00** |
+| F1 | **1.00** |
+| Vrais positifs | 11 |
+| Faux négatifs (vulnérabilités ratées) | 0 |
+| Faux positifs (pièges déclenchés) | 0 |
+| Règles hors annotation (extras) | 1 |
+
+## Détail par cas
+
+| Cas | État | Ratés | Faux positifs | Extras |
+| --- | --- | --- | --- | --- |
+| `clean-baseline` | ✅ | — | — | — |
+| `trap-eval-word-in-text` | ✅ | — | — | — |
+| `trap-inline-svg-data-uri` | ✅ | — | — | — |
+| `trap-javascript-word-in-text` | ✅ | — | — | — |
+| `trap-onclick-property-assignment` | ✅ | — | — | — |
+| `vuln-html-cdn-script` | ✅ | — | — | — |
+| `vuln-html-data-html-uri` | ✅ | — | — | — |
+| `vuln-html-form-external-action` | ✅ | — | — | html.insecure_http_link |
+| `vuln-html-iframe-external` | ✅ | — | — | — |
+| `vuln-html-inline-onclick` | ✅ | — | — | — |
+| `vuln-html-javascript-url` | ✅ | — | — | — |
+| `vuln-html-target-blank` | ✅ | — | — | — |
+| `vuln-js-eval-external` | ✅ | — | — | — |
+| `vuln-js-eval-inline` | ✅ | — | — | — |
+| `vuln-js-innerhtml` | ✅ | — | — | — |
+| `vuln-secret-google-key` | ✅ | — | — | — |

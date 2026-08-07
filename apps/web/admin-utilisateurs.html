@@ -1,0 +1,43 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<!-- Le back-office n'a rien à faire dans un index de moteur de recherche. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Administration — Utilisateurs</title>
+<link rel="stylesheet" href="/src/styles/tailwind.css">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Variables consommées par la bibliothèque de graphiques. Elles sont déclarées ici
+     plutôt qu'en dur dans le JS pour que la palette reste modifiable en un point —
+     et parce que le validateur de couleurs lit ces mêmes valeurs. */
+  :root {
+    --surface-chart: #1e1f26;
+    --text-primary: #e2e2eb;
+    --text-muted: #918f9e;
+    --chart-1: #3987e5; --chart-2: #d95926; --chart-3: #199e70; --chart-4: #c98500;
+    --chart-5: #d55181; --chart-6: #008300; --chart-7: #9085e9; --chart-8: #e66767;
+    --status-good: #0ca30c; --status-warning: #fab219;
+    --status-serious: #ec835a; --status-critical: #d03b3b;
+  }
+  /* Contenu réservé aux lecteurs d'écran : sert aux légendes des tables équivalentes,
+     qui doublent chaque graphique pour que nulle valeur ne soit accessible par la
+     seule infobulle. */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+</style>
+<script type="module" src="/src/pages/admin-utilisateurs.js"></script>
+</head>
+<!-- L'ossature (navigation, en-tête, filtre de période) est montée par
+     `src/lib/admin-shell.js`. Recopier ce markup sur sept pages garantirait qu'elles
+     divergent dès la première évolution de la navigation. -->
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<noscript>
+  <p style="padding:2rem;font-family:system-ui">
+    L'administration nécessite JavaScript. Le produit lui-même, et les sites publiés,
+    fonctionnent sans.
+  </p>
+</noscript>
+</body></html>

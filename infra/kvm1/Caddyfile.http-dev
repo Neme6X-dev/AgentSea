@@ -1,0 +1,31 @@
+# HTTP seul, tant qu'il n'y a pas de domaine ni de TLS.
+# cp Caddyfile.http-dev Caddyfile && DOMAIN=:80 dans .env
+
+:80 {
+	encode gzip
+
+	handle_path /sites/* {
+		root * /srv/sites
+		file_server
+	}
+
+	handle /api* {
+		reverse_proxy app:{$APP_PORT} {
+			health_uri /healthz
+			health_interval 10s
+			health_timeout 3s
+		}
+	}
+
+	handle /healthz {
+		reverse_proxy app:{$APP_PORT}
+	}
+
+	handle /readyz {
+		reverse_proxy app:{$APP_PORT}
+	}
+
+	handle {
+		reverse_proxy web:80
+	}
+}

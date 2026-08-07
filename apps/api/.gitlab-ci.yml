@@ -1,0 +1,452 @@
+# Flo backend — full DevSecOps pipeline (Wayhost KVM1)
+# J2 / ITNET: secrets → SAST → SCA → deploy → DAST
+#
+# GitLab → Settings → CI/CD → Variables:
+#   WAYHOST_HOST              (Protected) — e.g. 45.93.21.45
+#   WAYHOST_SSH_PRIVATE_KEY   (Protected, NOT Masked — keys have newlines)
+#     Prefer Type=File, or use WAYHOST_SSH_PRIVATE_KEY_B64 (base64 of the PEM, Masked OK)
+#   WAYHOST_SSH_PRIVATE_KEY_B64 (optional Masked) — base64 -w0 < ~/.ssh/wayhost_deploy
+#   Deploy SSH user on VPS: emmy (do not create a deploy user)
+#   DOMAIN                    (Protected) — e.g. e-segmentation-victory.sacha-epitnet.tech
+#   DAST_TARGET_URL           (optional) — default https://e-segmentation-victory.sacha-epitnet.tech
+#   Deploy uses a GitLab Runner ON the VPS (tag: wayhost-kvm1) — no SSH from CI.
+#   WAYHOST_HOST / WAYHOST_SSH_* are no longer required for deploy.
+#   DISCORD_WEBHOOK           (optional, Masked) — failure alerts
+#   SEMGREP_RULES             (optional) — default p/ci
+#   DEFECTDOJO_URL            (optional) — e.g. http://host:8080  (remote, NOT KVM1)
+#   DEFECTDOJO_API_TOKEN      (optional, Masked)
+#   DEFECTDOJO_PRODUCT_NAME   (optional) — default backend-jarvis
+#   DEFECTDOJO_ENGAGEMENT_NAME (optional) — default ci-<branch>
+
+stages:
+  - test
+  - security
+  - build
+  - policy
+  - findings
+  - deploy
+  - dast
+  - notify
+
+variables:
+  DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  DOCKER_IMAGE_LATEST: "$CI_REGISTRY_IMAGE:latest"
+  FF_USE_FASTZIP: "true"
+  SECRET_DETECTION_ENABLED: "true"
+  # Old-style hackathon path: build the image on the VPS (no registry login/push).
+  # IMPORTANT: if ENABLE_CONTAINER_REGISTRY=true exists in GitLab CI/CD Variables,
+  # it OVERRIDES this file — set that variable to false or delete it.
+  ENABLE_CONTAINER_REGISTRY: "false"
+  CI_REGISTRY_IMAGE: "backend-jarvis"
+  CS_SEVERITY_THRESHOLD: "HIGH"
+  CS_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  # DAST v6: use ONLY DAST_TARGET_URL (do not also set DAST_WEBSITE)
+  DAST_TARGET_URL: "https://e-segmentation-victory.sacha-epitnet.tech"
+  DAST_FULL_SCAN_ENABLED: "false"
+
+default:
+  interruptible: true
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+include:
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/Container-Scanning.gitlab-ci.yml
+  - template: Security/DAST.gitlab-ci.yml
+
+# =============================================================================
+# TEST
+# =============================================================================
+
+unit_tests:
+  stage: test
+  image: python:3.12-slim
+  services:
+    - name: postgres:16-alpine
+      alias: postgres
+  variables:
+    POSTGRES_USER: flo
+    POSTGRES_PASSWORD: flo
+    POSTGRES_DB: sites_test
+    POSTGRES_HOST_AUTH_METHOD: trust
+    # No user:password@ in git — trust auth for the CI Postgres service
+    TEST_DATABASE_URL: "postgresql://flo@postgres:5432/sites_test"
+    DATABASE_URL: "postgresql://flo@postgres:5432/sites_test"
+    GEMINI_MOCK: "true"
+    JWT_SECRET: "ci-test-secret-not-for-production"
+    INTERNAL_API_KEY: "ci-test-internal-key"
+  cache:
+    key: pip-${CI_COMMIT_REF_SLUG}
+    paths:
+      - .cache/pip
+  before_script:
+    - |
+      python - <<'PY'
+      import socket, time, sys
+      for i in range(40):
+          try:
+              socket.create_connection(("postgres", 5432), 2).close()
+              print("Postgres is up")
+              sys.exit(0)
+          except OSError:
+              time.sleep(1)
+      print("Postgres did not become ready", file=sys.stderr)
+      sys.exit(1)
+      PY
+    - pip install -r requirements-dev.txt
+  script:
+    - pytest -q --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+    expire_in: 1 week
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+# =============================================================================
+# SECURITY — secrets, SAST (analyse statique), SCA
+# =============================================================================
+
+secret_detection:
+  stage: security
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+# Extra secrets engine (ITNET: Gitleaks)
+gitleaks:
+  stage: security
+  image:
+    name: zricethezav/gitleaks:v8.21.2
+    entrypoint: [""]
+  script:
+    - gitleaks detect --source . --config .gitleaks.toml --verbose --redact --report-path gitleaks-report.json --report-format json --exit-code 1
+  artifacts:
+    when: always
+    paths:
+      - gitleaks-report.json
+    expire_in: 2 weeks
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+# Config-only stubs from GitLab templates — SAST (analyse statique)
+# Set stage/vars here, NEVER rules (rules would run the stub and fail).
+sast:
+  stage: security
+  allow_failure: false
+
+semgrep-sast:
+  stage: security
+  allow_failure: false
+
+bandit-sast:
+  stage: security
+  allow_failure: true
+
+# Extra SAST engine (ITNET workshop / J2)
+semgrep:
+  stage: security
+  image: returntocorp/semgrep:1.97.0
+  script:
+    - semgrep scan --config "${SEMGREP_RULES:-p/ci}" --json --output semgrep-report.json --error --metrics=off .
+  artifacts:
+    when: always
+    paths:
+      - semgrep-report.json
+    expire_in: 2 weeks
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+dependency_scanning:
+  stage: security
+  allow_failure: false
+
+gemnasium-python-dependency_scanning:
+  stage: security
+  allow_failure: false
+
+# =============================================================================
+# BUILD — image + SBOM + container scan (only when registry is enabled)
+# =============================================================================
+
+# Build/push without Docker-in-Docker (Mac runners often lack privileged dind).
+# Kaniko builds inside the job container and pushes straight to the registry.
+build_image:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.2-debug
+    entrypoint: [""]
+  needs:
+    - job: unit_tests
+    - job: secret_detection
+      optional: true
+    - job: gitleaks
+    - job: semgrep-sast
+      optional: true
+    - job: semgrep
+      optional: true
+  script:
+    - |
+      set -euo pipefail
+      if [ -z "${CI_REGISTRY:-}" ] || [ -z "${CI_REGISTRY_USER:-}" ] || [ -z "${CI_REGISTRY_PASSWORD:-}" ]; then
+        echo "Missing CI_REGISTRY / CI_REGISTRY_USER / CI_REGISTRY_PASSWORD" >&2
+        exit 1
+      fi
+      mkdir -p /kaniko/.docker
+      AUTH="$(printf '%s:%s' "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" | base64 | tr -d '\n')"
+      printf '{"auths":{"%s":{"auth":"%s"}}}\n' "$CI_REGISTRY" "$AUTH" > /kaniko/.docker/config.json
+      /kaniko/executor \
+        --context "$CI_PROJECT_DIR" \
+        --dockerfile "$CI_PROJECT_DIR/Dockerfile" \
+        --destination "$DOCKER_IMAGE" \
+        --destination "$DOCKER_IMAGE_LATEST" \
+        --snapshot-mode=redo \
+        --use-new-run
+  rules:
+    # Disabled for hackathon local-build path. Re-enable only with a working registry.
+    - when: never
+
+sbom_trivy:
+  stage: build
+  image:
+    name: aquasec/trivy:0.58.1
+    entrypoint: [""]
+  needs:
+    - job: build_image
+  variables:
+    TRIVY_USERNAME: "$CI_REGISTRY_USER"
+    TRIVY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+  script:
+    - trivy image --format cyclonedx --output sbom.cdx.json "$DOCKER_IMAGE"
+    - trivy image --exit-code 1 --severity CRITICAL "$DOCKER_IMAGE"
+  artifacts:
+    paths:
+      - sbom.cdx.json
+    expire_in: 90 days
+  rules:
+    - when: never
+
+# Template job — disable while registry is off (would fail pull/scan)
+container_scanning:
+  stage: build
+  needs:
+    - job: build_image
+  rules:
+    - when: never
+
+# =============================================================================
+# POLICY — IaC / compose (ITNET: infrastructure verify)
+# =============================================================================
+
+checkov_iac:
+  stage: policy
+  image:
+    name: bridgecrew/checkov:3.2.335
+    entrypoint: [""]
+  script:
+    - mkdir -p /tmp/ckv
+    - checkov -f Dockerfile -f deploy/kvm1/docker-compose.yml -o json --output-file-path /tmp/ckv --soft-fail || true
+    - |
+      if [ -f /tmp/ckv/results_json.json ]; then
+        cp /tmp/ckv/results_json.json checkov-report.json
+      else
+        echo '{}' > checkov-report.json
+      fi
+    - checkov -f Dockerfile --framework dockerfile --compact
+    - checkov -f deploy/kvm1/docker-compose.yml --compact --quiet
+  artifacts:
+    when: always
+    paths:
+      - checkov-report.json
+    expire_in: 2 weeks
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+      exists:
+        - Dockerfile
+        - deploy/kvm1/docker-compose.yml
+
+# =============================================================================
+# FINDINGS — push scan reports to remote DefectDojo (optional)
+# =============================================================================
+
+defectdojo_import:
+  stage: findings
+  image: python:3.12-slim
+  needs:
+    - job: gitleaks
+      artifacts: true
+      optional: true
+    - job: semgrep
+      artifacts: true
+      optional: true
+    - job: secret_detection
+      artifacts: true
+      optional: true
+    - job: semgrep-sast
+      artifacts: true
+      optional: true
+    - job: checkov_iac
+      artifacts: true
+      optional: true
+  before_script:
+    - pip install --quiet requests
+  script:
+    - |
+      echo "DEFECTDOJO_URL set? $([ -n "${DEFECTDOJO_URL:-}" ] && echo yes || echo no)"
+      echo "DEFECTDOJO_API_TOKEN set? $([ -n "${DEFECTDOJO_API_TOKEN:-}" ] && echo yes || echo no)"
+      if [ -z "${DEFECTDOJO_URL:-}" ] || [ -z "${DEFECTDOJO_API_TOKEN:-}" ]; then
+        echo "Missing DefectDojo CI variables — job succeeds without import."
+        echo "Set DEFECTDOJO_URL and DEFECTDOJO_API_TOKEN (Protect OFF) then re-run."
+        exit 0
+      fi
+    - sh ci/defectdojo_import.sh
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+# =============================================================================
+# DEPLOY — Wayhost KVM1 local (NO SSH)
+# Runs on a GitLab Runner installed ON the VPS (shell executor).
+# Register the runner with tag: wayhost-kvm1
+# =============================================================================
+
+deploy_wayhost:
+  stage: deploy
+  tags:
+    - wayhost-kvm1
+  resource_group: wayhost-kvm1
+  needs:
+    - job: unit_tests
+    - job: gitleaks
+    - job: build_image
+      optional: true
+    - job: sbom_trivy
+      optional: true
+    - job: container_scanning
+      optional: true
+  script:
+    - |
+      set -euo pipefail
+      APP_DIR="${WAYHOST_APP_DIR:-/opt/app}"
+      SRC_DIR="${WAYHOST_SRC_DIR:-/opt/src/backend-jarvis}"
+      if [ -z "${DOMAIN:-}" ]; then
+        echo "Set DOMAIN in CI/CD variables (ex: e-segmentation-victory.sacha-epitnet.tech)."
+        exit 1
+      fi
+      export PUBLIC_BASE_URL="${PUBLIC_BASE_URL:-https://${DOMAIN}}"
+      echo "Local deploy on VPS (no SSH): DOMAIN=${DOMAIN} PUBLIC_BASE_URL=${PUBLIC_BASE_URL}"
+      echo "CI checkout: ${CI_PROJECT_DIR}"
+      mkdir -p "$SRC_DIR" "$APP_DIR"
+      rsync -a --delete \
+        --exclude '.git/' \
+        --exclude '.cache/' \
+        --exclude '__pycache__/' \
+        --exclude '.venv/' \
+        --exclude 'tests/' \
+        --exclude 'docs/' \
+        "${CI_PROJECT_DIR}/" "${SRC_DIR}/"
+      # Refresh deploy templates; do not wipe live TLS Caddyfile if it already exists
+      # with a working cert — only copy ACME template when missing.
+      cp -f "${CI_PROJECT_DIR}/deploy/kvm1/docker-compose.yml" "${APP_DIR}/"
+      cp -f "${CI_PROJECT_DIR}/deploy/kvm1/deploy.sh" "${APP_DIR}/"
+      cp -f "${CI_PROJECT_DIR}/deploy/kvm1/Caddyfile.http-dev" "${APP_DIR}/"
+      cp -f "${CI_PROJECT_DIR}/deploy/kvm1/Caddyfile.tls-internal" "${APP_DIR}/" 2>/dev/null || true
+      if [ ! -f "${APP_DIR}/Caddyfile" ]; then
+        cp -f "${CI_PROJECT_DIR}/deploy/kvm1/Caddyfile" "${APP_DIR}/Caddyfile"
+      fi
+      chmod +x "${APP_DIR}/deploy.sh"
+      cd "$APP_DIR"
+      touch .env
+      grep -q '^APP_TAG=' .env || echo "APP_TAG=${CI_COMMIT_SHORT_SHA}" >> .env
+      sed -i "s|^APP_TAG=.*|APP_TAG=${CI_COMMIT_SHORT_SHA}|" .env
+      grep -q '^SRC_DIR=' .env || echo "SRC_DIR=${SRC_DIR}" >> .env
+      sed -i "s|^SRC_DIR=.*|SRC_DIR=${SRC_DIR}|" .env
+      grep -q '^APP_PORT=' .env || echo 'APP_PORT=8080' >> .env
+      sed -i 's|^APP_PORT=.*|APP_PORT=8080|' .env
+      grep -q '^DOMAIN=' .env || echo "DOMAIN=${DOMAIN}" >> .env
+      sed -i "s|^DOMAIN=.*|DOMAIN=${DOMAIN}|" .env
+      grep -q '^PUBLIC_BASE_URL=' .env || echo "PUBLIC_BASE_URL=${PUBLIC_BASE_URL}" >> .env
+      sed -i "s|^PUBLIC_BASE_URL=.*|PUBLIC_BASE_URL=${PUBLIC_BASE_URL}|" .env
+      if ! grep -q '^DEPLOY_MODE=' .env; then
+        echo 'DEPLOY_MODE=local' >> .env
+      fi
+      if ! grep -q '^FRONTEND_IMAGE=' .env; then
+        echo 'FRONTEND_IMAGE=registry.itnet-technologies.fr/segmentationvictory/frontend-jarvis' >> .env
+      fi
+      if ! grep -q '^FRONTEND_TAG=' .env; then
+        echo 'FRONTEND_TAG=latest' >> .env
+      fi
+      # VPS shell runner builds the app locally — no registry push required from CI.
+      grep -q '^DEPLOY_MODE=' .env || echo 'DEPLOY_MODE=local' >> .env
+      sed -i 's|^DEPLOY_MODE=.*|DEPLOY_MODE=local|' .env
+      grep -q '^CI_REGISTRY_IMAGE=' .env || echo 'CI_REGISTRY_IMAGE=backend-jarvis' >> .env
+      sed -i 's|^CI_REGISTRY_IMAGE=.*|CI_REGISTRY_IMAGE=backend-jarvis|' .env
+      ./deploy.sh
+  environment:
+    name: production
+    url: ${DAST_TARGET_URL:-https://e-segmentation-victory.sacha-epitnet.tech}
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+      exists:
+        - Dockerfile
+    - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "deploy"
+      exists:
+        - Dockerfile
+      when: manual
+
+# =============================================================================
+# DAST (analyse dynamique) — after deploy
+# =============================================================================
+
+dast:
+  stage: dast
+  needs:
+    - job: deploy_wayhost
+      optional: true
+  variables:
+    DAST_TARGET_URL: "https://e-segmentation-victory.sacha-epitnet.tech"
+    DAST_FULL_SCAN_ENABLED: "false"
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "dev"
+      when: manual
+      allow_failure: true
+    - when: never
+
+# =============================================================================
+# NOTIFY — Discord on failure (optional)
+# =============================================================================
+
+notify_discord_failure:
+  stage: notify
+  image: curlimages/curl:8.11.1
+  when: on_failure
+  script:
+    - |
+      if [ -z "${DISCORD_WEBHOOK:-}" ]; then
+        echo "DISCORD_WEBHOOK not set — skip"
+        exit 0
+      fi
+      curl -sS -H "Content-Type: application/json" \
+        -d "{\"content\":\"Pipeline failed: ${CI_PROJECT_PATH} @ ${CI_COMMIT_SHORT_SHA} — ${CI_PIPELINE_URL}\"}" \
+        "$DISCORD_WEBHOOK"
+  rules:
+    - if: $CI_COMMIT_BRANCH && $DISCORD_WEBHOOK
+    - when: never

@@ -1,0 +1,8 @@
+{
+  "description": "Clé API Google en dur dans le JS livré au navigateur.",
+  "vulnerable": true,
+  "must_detect": [
+    "secret.google_api_key"
+  ],
+  "must_not_detect": []
+}

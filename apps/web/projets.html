@@ -1,0 +1,61 @@
+<!DOCTYPE html><html class="dark" lang="fr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link rel="stylesheet" href="/src/styles/tailwind.css">
+<title>Jarvis AI - Tableau de bord des projets</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        if (localStorage.getItem('jarvisNavCollapsed') === '1') {
+            document.documentElement.classList.add('nav-collapsed');
+        }
+    </script>
+<script type="module" src="/src/pages/projets.js"></script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen overflow-x-hidden">
+<!-- Barre de navigation latérale -->
+<!-- Nav, barre supérieure mobile et voile du tiroir : montés par
+     src/lib/app-shell.js. -->
+<!-- Zone de contenu principale -->
+<main class="app-main flex-1 min-w-0 relative min-h-screen">
+<!-- Fond d'en-tête subtil -->
+<div class="absolute top-0 left-0 w-full h-[280px] bg-[url('/assets/screen.png')] bg-cover bg-center opacity-15 pointer-events-none" style="mask-image: linear-gradient(rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);"></div>
+<div class="p-md md:p-lg max-w-container-max mx-auto w-full relative z-10">
+<!-- Barre supérieure / En-tête -->
+<header class="flex flex-col md:flex-row md:items-center justify-between mb-md gap-sm">
+<div>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-0.5">Vos projets</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Gérez et construisez vos applications.</p>
+</div>
+<div class="flex items-center gap-sm">
+<!-- Champ de recherche -->
+<div class="relative w-full md:w-56">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-base">search</span>
+<input class="w-full bg-surface-container border border-outline-variant/30 rounded-full py-1.5 pl-8 pr-sm text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-body-sm text-body-sm outline-none" placeholder="Rechercher des projets..." type="text">
+</div>
+<!-- Bouton de filtre -->
+<button class="w-8 h-8 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors shrink-0">
+<span class="material-symbols-outlined text-lg">tune</span>
+</button>
+</div>
+</header>
+<!-- Grille des projets -->
+<div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
+<!-- Carte Créer nouveau (fantôme) -->
+<button class="bg-surface-container border border-outline-variant/30 hover:border-outline-variant hover:bg-surface-container-high rounded-xl flex flex-col items-center justify-center aspect-[4/3] group border-dashed transition-all duration-300" onclick="window.location.href='index.html'">
+<div class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center mb-1.5 group-hover:bg-primary-container/30 group-hover:scale-105 transition-all duration-300">
+<span class="material-symbols-outlined text-base text-primary">add</span>
+</div>
+<h3 class="font-label-md text-label-md text-primary font-bold">Créer une application</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5 text-center px-3">Partez de zéro ou utilisez l'IA.</p>
+</button>
+<!-- Cartes de projets : injectées par src/pages/projets.js -->
+<div class="contents" id="projects-list"></div>
+</div>
+</div>
+</main>
+<script>
+</script>
+</body></html>

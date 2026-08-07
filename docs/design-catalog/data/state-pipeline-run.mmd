@@ -1,0 +1,17 @@
+stateDiagram-v2
+    [*] --> Queued: MR/push
+    Queued --> Analyzing: secrets+SAST+SCA
+    Analyzing --> Blocked: critical finding
+    Analyzing --> Building: gates soft-pass
+    Building --> ScanningImage: image built
+    ScanningImage --> Blocked: critical CVE/policy
+    ScanningImage --> Deploying: image ok
+    Deploying --> DastRunning: synced to env
+    DastRunning --> Blocked: critical DAST
+    DastRunning --> Succeeded: no critical
+    Blocked --> Queued: remediation commit
+    Succeeded --> [*]
+    note right of Blocked
+      Alert Discord + DefectDojo
+      Artifacts retained as evidence
+    end note

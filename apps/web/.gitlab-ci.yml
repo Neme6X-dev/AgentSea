@@ -1,0 +1,247 @@
+# Frontend-Jarvis — DevSecOps pipeline aligned with J2 qualification
+# secrets → SAST → SCA → build → deploy → DAST
+#
+# GitLab → Settings → CI/CD → Variables:
+#   WAYHOST_HOST              (Protected) — e.g. 45.93.21.45
+#   WAYHOST_SSH_PRIVATE_KEY   (Protected) — same key as backend (emmy@VPS)
+#   WAYHOST_SSH_PRIVATE_KEY_B64 (optional Masked)
+#   DAST_TARGET_URL           (optional) — default https://e-segmentation-victory.sacha-epitnet.tech
+#   VITE_API_BASE_URL         (optional) — public API origin, no trailing slash
+#   CI_REGISTRY_IMAGE         — registry.itnet-technologies.fr/segmentationvictory/frontend-jarvis
+#   Deploy uses a GitLab Runner ON the VPS (tag: wayhost-kvm1) — no SSH from CI.
+
+stages:
+  - test
+  - security
+  - build
+  - deploy
+  - dast
+
+variables:
+  FF_USE_FASTZIP: "true"
+  SECRET_DETECTION_ENABLED: "true"
+  NODE_VERSION: "22"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  DOCKER_IMAGE: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+  DOCKER_IMAGE_LATEST: "$CI_REGISTRY_IMAGE:latest"
+  ENABLE_CONTAINER_REGISTRY: "false"
+  # DAST v6: use ONLY DAST_TARGET_URL (do not also set DAST_WEBSITE)
+  DAST_TARGET_URL: "https://e-segmentation-victory.sacha-epitnet.tech"
+  DAST_FULL_SCAN_ENABLED: "false"
+
+default:
+  interruptible: true
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+include:
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Security/DAST.gitlab-ci.yml
+
+# =============================================================================
+# TEST / BUILD
+# =============================================================================
+
+unit_build:
+  stage: test
+  image: node:${NODE_VERSION}-bookworm
+  cache:
+    key: npm-${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  variables:
+    # Empty = same-origin /api via Caddy; override in CI vars if needed.
+    VITE_API_BASE_URL: "${VITE_API_BASE_URL}"
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# =============================================================================
+# SECURITY — secrets, SAST (analyse statique), SCA
+# =============================================================================
+
+gitleaks:
+  stage: security
+  image:
+    name: zricethezav/gitleaks:v8.21.2
+    entrypoint: [""]
+  script:
+    - gitleaks detect --source . --verbose --redact --report-path gitleaks-report.json --report-format json --exit-code 1
+  artifacts:
+    when: always
+    paths:
+      - gitleaks-report.json
+    expire_in: 90 days
+  allow_failure: false
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# Extra Semgrep SAST (do not name this semgrep-sast — that name belongs to the SAST template)
+semgrep:
+  stage: security
+  image: returntocorp/semgrep:1.97.0
+  script:
+    - semgrep scan --config "${SEMGREP_RULES:-p/ci}" --json --output semgrep-report.json --error --metrics=off . || true
+    - test -f semgrep-report.json
+  artifacts:
+    when: always
+    paths:
+      - semgrep-report.json
+    expire_in: 90 days
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+# GitLab template stubs — SAST (analyse statique): stage only, NEVER rules
+secret_detection:
+  stage: security
+  allow_failure: false
+sast:
+  stage: security
+  allow_failure: false
+semgrep-sast:
+  stage: security
+  allow_failure: true
+nodejs-scan-sast:
+  stage: security
+  allow_failure: true
+dependency_scanning:
+  stage: security
+  allow_failure: true
+
+# =============================================================================
+# BUILD — image to ITNET registry (optional; usually push from Mac like backend)
+# =============================================================================
+
+build_image:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:v1.23.2-debug
+    entrypoint: [""]
+  needs:
+    - job: unit_build
+    - job: gitleaks
+  script:
+    - |
+      set -euo pipefail
+      if [ -z "${CI_REGISTRY:-}" ] || [ -z "${CI_REGISTRY_USER:-}" ] || [ -z "${CI_REGISTRY_PASSWORD:-}" ]; then
+        echo "Missing CI_REGISTRY / CI_REGISTRY_USER / CI_REGISTRY_PASSWORD" >&2
+        exit 1
+      fi
+      if [ -z "${CI_REGISTRY_IMAGE:-}" ]; then
+        echo "Set CI_REGISTRY_IMAGE=registry.itnet-technologies.fr/segmentationvictory/frontend-jarvis" >&2
+        exit 1
+      fi
+      mkdir -p /kaniko/.docker
+      AUTH="$(printf '%s:%s' "$CI_REGISTRY_USER" "$CI_REGISTRY_PASSWORD" | base64 | tr -d '\n')"
+      printf '{"auths":{"%s":{"auth":"%s"}}}\n' "$CI_REGISTRY" "$AUTH" > /kaniko/.docker/config.json
+      /kaniko/executor \
+        --context "$CI_PROJECT_DIR" \
+        --dockerfile "$CI_PROJECT_DIR/Dockerfile" \
+        --destination "$DOCKER_IMAGE" \
+        --destination "$DOCKER_IMAGE_LATEST" \
+        --build-arg "VITE_API_BASE_URL=${VITE_API_BASE_URL:-}" \
+        --snapshot-mode=redo \
+        --use-new-run
+  rules:
+    # Push from Mac for now (same as backend). Enable when registry CI vars work.
+    - when: never
+
+frontend_artifact:
+  stage: build
+  image: alpine:3.20
+  needs:
+    - job: unit_build
+    - job: gitleaks
+  script:
+    - test -d dist
+    - echo "Frontend dist ready ($(du -sh dist | cut -f1))"
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "dev"
+      when: manual
+
+# =============================================================================
+# DEPLOY — Wayhost KVM1 local (NO SSH)
+# Runs on a GitLab Runner installed ON the VPS (shell executor).
+# Register the runner with tag: wayhost-kvm1
+# =============================================================================
+
+deploy_wayhost:
+  stage: deploy
+  tags:
+    - wayhost-kvm1
+  resource_group: wayhost-kvm1
+  needs:
+    - job: frontend_artifact
+      optional: true
+    - job: build_image
+      optional: true
+    - job: gitleaks
+  script:
+    - |
+      set -euo pipefail
+      APP_DIR="${WAYHOST_APP_DIR:-/opt/app}"
+      FRONT_IMAGE="${CI_REGISTRY_IMAGE:-registry.itnet-technologies.fr/segmentationvictory/frontend-jarvis}"
+      TAG="${CI_COMMIT_SHORT_SHA}"
+      echo "Local frontend deploy on VPS (no SSH): ${FRONT_IMAGE}:${TAG}"
+      mkdir -p "$APP_DIR"
+      # Build the nginx image on the VPS from this job's checkout (no registry push required).
+      docker build --platform linux/amd64 \
+        --build-arg "VITE_API_BASE_URL=${VITE_API_BASE_URL:-}" \
+        -t "${FRONT_IMAGE}:${TAG}" \
+        -t "${FRONT_IMAGE}:latest" \
+        "${CI_PROJECT_DIR}"
+      cd "$APP_DIR"
+      touch .env
+      grep -q '^FRONTEND_IMAGE=' .env || echo "FRONTEND_IMAGE=${FRONT_IMAGE}" >> .env
+      sed -i "s|^FRONTEND_IMAGE=.*|FRONTEND_IMAGE=${FRONT_IMAGE}|" .env
+      grep -q '^FRONTEND_TAG=' .env || echo "FRONTEND_TAG=${TAG}" >> .env
+      sed -i "s|^FRONTEND_TAG=.*|FRONTEND_TAG=${TAG}|" .env
+      docker compose up -d --no-deps --force-recreate web
+      docker compose up -d --no-deps edge
+      echo "Frontend image live: ${FRONT_IMAGE}:${TAG}"
+  environment:
+    name: production
+    url: ${DAST_TARGET_URL:-https://e-segmentation-victory.sacha-epitnet.tech}
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "dev"
+      when: manual
+
+# =============================================================================
+# DAST (analyse dynamique) — after deploy
+# =============================================================================
+
+dast:
+  stage: dast
+  needs:
+    - job: deploy_wayhost
+      optional: true
+  variables:
+    DAST_TARGET_URL: "https://e-segmentation-victory.sacha-epitnet.tech"
+    DAST_FULL_SCAN_ENABLED: "false"
+  allow_failure: true
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "dev"
+      when: manual
+    - when: never

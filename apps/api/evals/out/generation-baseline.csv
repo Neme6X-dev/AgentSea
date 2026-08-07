@@ -1,0 +1,16 @@
+spec,run,ok,error,slug,version,latency_code_s,latency_review_s,html_bytes,css_bytes,js_bytes,issues,sections_expected,sections_missing,palette_misses,invented_contact,sast_critical,sast_high,score,verdict,review_error
+restaurant,1,True,,eval-restaurant-chez-amara,1,54.967729109019274,59.218490422994364,3115,6425,1272,,4,0,0,False,0,2,65,warn,
+avocat,1,False,"HTTPStatusError: Server error '500 Internal Server Error' for url 'http://127.0.0.1:8010/api/agents/code'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",eval-avocat-cabinet-falcon,0,0.0,0.0,0,0,0,,5,0,0,False,0,0,0,,
+freelance,1,True,,eval-freelance-nadia-berrada-2,1,31.559805641998537,0.0,2681,5901,1489,,4,0,0,False,0,0,0,erreur,"HTTPStatusError: Server error '500 Internal Server Error' for url 'http://127.0.0.1:8010/api/agents/review'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+association,1,True,,eval-association-les-jardins,1,43.00192707500537,33.78649872701499,2958,6791,1814,,4,0,0,False,0,0,94,pass,
+boutique,1,True,,eval-boutique-papeterie-lune,1,51.99333362400648,81.08484709099866,3010,7084,2104,,4,0,0,False,1,0,50,fail,
+restaurant,2,True,,eval-restaurant-chez-amara-1,1,39.5526277369936,19.976138105004793,2732,4857,1852,,4,0,0,False,0,0,97,pass,
+avocat,2,True,,eval-avocat-cabinet-falcon-1,1,25.858521791000385,181.0112332039862,3545,5482,1614,,5,0,0,False,0,0,0,fail,
+freelance,2,False,"HTTPStatusError: Server error '500 Internal Server Error' for url 'http://127.0.0.1:8010/api/agents/code'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",eval-freelance-nadia-berrada-3,0,0.0,0.0,0,0,0,,4,0,0,False,0,0,0,,
+association,2,False,"HTTPStatusError: Server error '500 Internal Server Error' for url 'http://127.0.0.1:8010/api/agents/code'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",eval-association-les-jardins-1,0,0.0,0.0,0,0,0,,4,0,0,False,0,0,0,,
+boutique,2,False,"HTTPStatusError: Server error '500 Internal Server Error' for url 'http://127.0.0.1:8010/api/agents/code'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500",eval-boutique-papeterie-lune-1,0,0.0,0.0,0,0,0,,4,0,0,False,0,0,0,,

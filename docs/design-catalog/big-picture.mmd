@@ -1,0 +1,71 @@
+%% EventStorming — DevSecOps delivery lifecycle
+%% Orange=event Blue=command Yellow=actor Purple=system Green=aggregate Red=hotspot
+flowchart TB
+    classDef event fill:#ff9800,stroke:#e65100,color:#000
+    classDef command fill:#2196f3,stroke:#0d47a1,color:#fff
+    classDef actor fill:#ffeb3b,stroke:#f57f17,color:#000
+    classDef system fill:#9c27b0,stroke:#4a148c,color:#fff
+    classDef aggregate fill:#4caf50,stroke:#1b5e20,color:#fff
+    classDef hotspot fill:#f44336,stroke:#b71c1c,color:#fff
+
+    Dev[Developer]:::actor
+    Sec[Security Champion]:::actor
+    SRE[Platform SRE]:::actor
+    User[End User]:::actor
+
+    Push[Push / Open MR]:::command
+    Gate[Evaluate Security Gates]:::command
+    BuildImg[Build & Sign Image]:::command
+    DeployCanary[Deploy Canary Slice]:::command
+    Promote[Promote / Shift Traffic]:::command
+    Rollback[Rollback Traffic]:::command
+    Remediate[Remediate Finding]:::command
+
+    CodeCommitted[Code Committed]:::event
+    SecretsFound[Secrets Detected]:::event
+    VulnCritical[Critical Vuln Found]:::event
+    GatesPassed[All Gates Passed]:::event
+    ImagePublished[Image Published]:::event
+    CanaryLive[Canary Serving Cohort]:::event
+    HealthDegraded[Health Degraded]:::event
+    ReleaseStable[Release Stable 100%]:::event
+    FindingTracked[Finding Tracked in DefectDojo]:::event
+
+    Pipeline[GitLab CI + ci-templates]:::system
+    Registry[GitLab Container Registry]:::system
+    Deploy[Deploy SSH / compose]:::system
+    Wayhost[Wayhost VPS / Hosting]:::system
+    Dojo[DefectDojo]:::system
+    Obs[Prometheus / Wayhost metrics]:::system
+    Discord[Discord Webhooks]:::system
+
+    Release[Release]:::aggregate
+    Finding[SecurityFinding]:::aggregate
+    Artifact[ContainerArtifact]:::aggregate
+
+    Hot1["? Hosting Cloud vs VPS default"]:::hotspot
+    Hot2["? Severity policy: block vs warn"]:::hotspot
+
+    Dev --> Push --> CodeCommitted
+    CodeCommitted --> Gate
+    Gate --> Pipeline
+    Pipeline --> SecretsFound
+    Pipeline --> VulnCritical
+    Pipeline --> GatesPassed
+    SecretsFound --> Finding
+    VulnCritical --> Finding
+    Finding --> FindingTracked --> Dojo
+    FindingTracked --> Discord
+    FindingTracked --> Remediate --> Push
+    GatesPassed --> BuildImg --> ImagePublished --> Artifact --> Registry
+    ImagePublished --> DeployCanary --> Deploy --> Wayhost
+    DeployCanary --> CanaryLive
+    CanaryLive --> User
+    CanaryLive --> Obs
+    Obs --> HealthDegraded
+    HealthDegraded --> Rollback --> Release
+    CanaryLive --> Promote --> ReleaseStable --> Release
+    Sec --> Gate
+    SRE --> DeployCanary
+    Release -.question.- Hot1
+    Finding -.question.- Hot2

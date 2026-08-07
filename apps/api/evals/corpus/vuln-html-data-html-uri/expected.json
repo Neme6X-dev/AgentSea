@@ -1,0 +1,8 @@
+{
+  "description": "Lien vers une URI data:text/html (contourne l'origine).",
+  "vulnerable": true,
+  "must_detect": [
+    "html.data_html_uri"
+  ],
+  "must_not_detect": []
+}

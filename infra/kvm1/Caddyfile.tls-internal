@@ -1,0 +1,60 @@
+# HTTPS without Let's Encrypt (local CA).
+# Use when ACME cannot reach this VPS from the public internet
+# (firewall / Wayhost blocking inbound 80+443 from LE validators).
+#
+# Browsers will warn until you trust Caddy's local root CA, or until
+# inbound 80+443 are open and you switch back to ./Caddyfile (ACME).
+#
+#   cp Caddyfile.tls-internal Caddyfile
+#   docker compose up -d --force-recreate edge
+#   curl -k -fsS https://$DOMAIN/healthz
+
+{$DOMAIN} {
+	tls internal
+
+	encode gzip
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+
+	handle_path /sites/* {
+		root * /srv/sites
+		file_server
+
+		header {
+			Cache-Control "public, max-age=300"
+			# frame-ancestors 'self' : voir Caddyfile (production) pour le détail — l'app
+			# affiche elle-même les sites générés en iframe (aperçu éditeur, vignettes).
+			Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; form-action 'self'; frame-ancestors 'self'; base-uri 'none'; object-src 'none'"
+			X-Frame-Options SAMEORIGIN
+		}
+	}
+
+	handle /api* {
+		reverse_proxy app:{$APP_PORT} {
+			health_uri /healthz
+			health_interval 10s
+			health_timeout 3s
+		}
+	}
+
+	handle /healthz {
+		reverse_proxy app:{$APP_PORT}
+	}
+
+	handle /readyz {
+		reverse_proxy app:{$APP_PORT}
+	}
+
+	handle {
+		reverse_proxy web:80
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boulangerie Marceau</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">Boulangerie Marceau</a>
+    <nav aria-label="principal">
+      <a href="#apropos">À propos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <section id="top" class="hero">
+      <h1>Boulangerie Marceau</h1>
+      <p class="tagline">Votre partenaire de confiance</p>
+    </section>
+    <section id="apropos">
+      <h2>À propos</h2>
+      <p>Une équipe à votre écoute depuis 2010.</p>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Écrivez-nous pour un devis.</p>
+    </section>
+  </main>
+  <footer><p>&copy; Boulangerie Marceau</p></footer>
+  <script>
+    var conf = "{\"theme\":\"clair\"}";
+    var parsed = eval("(" + conf + ")");
+    document.body.dataset.theme = parsed.theme;
+  </script>
+</body>
+</html>
